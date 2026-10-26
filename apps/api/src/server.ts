@@ -22,7 +22,8 @@ const server = Fastify({
 });
 
 server.register(cors, {
-  origin: '*', // For dev only
+  origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',').map((o) => o.trim()) : true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 });
 
 server.register(jwt, {

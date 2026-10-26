@@ -1,111 +1,129 @@
-# Guida al Deployment su AWS EC2 (Milestone M5)
+# Guida al Deployment a Budget 0 € (Zero Cost Architecture)
 
-Questa guida illustra come effettuare il deploy di VolleyStack su una singola istanza AWS EC2 usando `docker-compose`.
+VolleyStack è progettato per funzionare a **0 € di costo fisso e variabile**, sfruttando i migliori Free Tier "Always Free" del settore cloud.
 
-## 1. Provisioning dell'Istanza EC2
+---
 
-1. Accedi alla console AWS.
-2. Crea una nuova istanza EC2 (**Ubuntu 22.04 o 24.04 LTS**).
-3. Scegli un'istanza adeguata per la fase Beta (es. `t3.micro` o `t3.small` per restare nel Free Tier o a basso costo).
-4. Configura il **Security Group** per consentire il traffico in ingresso sulle porte:
-   - `22` (SSH) - Preferibilmente solo dal tuo IP.
-   - `80` (HTTP) - Ovunque (0.0.0.0/0).
-   - `443` (HTTPS) - Ovunque (0.0.0.0/0).
-5. Scarica la chiave SSH `.pem` per accedere all'istanza.
+## 🏛️ L'Architettura Consigliata: "Zero Server, Zero Costi"
 
-## 2. Configurazione del Server (SSH)
+| Componente | Provider | Piano / Free Tier | Costo Mensile | Vantaggi |
+| :--- | :--- | :--- | :--- | :--- |
+| **Database PostgreSQL** | **Neon** | Free Tier (EU Frankfurt) | **0 €** | 0.5 GB di storage, scale-to-zero, branching, backup e pooler integrato. |
+| **Backend API (Fastify)** | **Google Cloud Run** *(oppure Render)* | Always Free (2M req/mese) | **0 €** | Scala a 0 quando l'app non è usata: zero consumo di risorse = zero addebito. |
+| **Frontend Web (React/Vite)** | **Cloudflare Pages** *(oppure Vercel)* | Free Tier | **0 €** | CDN globale, SSL HTTPS automatico, deploy continuo da GitHub ad ogni commit. |
+| **Intelligenza Artificiale** | **Google AI Studio (Gemini)** | Free Tier (`gemini-1.5-flash`) | **0 €** | 15 req/min e 1.500 req/giorno gratis (ideale per paste e annunci). |
 
-Collegati alla macchina EC2:
+---
+
+## 1. Database: Neon PostgreSQL (Già Configurato e Migrato ✅)
+
+Il tuo database è già attivo su Neon nel progetto `still-haze-33820233`:
+- **Branch**: `production`
+- **Regione**: `eu-central-1` (Francoforte)
+- **Tabelle create**: 15 tabelle del modello relazionale (Users, Teams, Events, Fines, Payments, Roles, etc.)
+- **Dati iniziali**: Inseriti con successo tramite `pnpm run db:seed` (Utente Coach demo: `coach@volleystack.it`, Password: `Password123!`).
+
+### Variabili d'ambiente Database
+Nel tuo file `.env` e nel server di produzione:
 ```bash
-ssh -i "tua-chiave.pem" ubuntu@<IP_PUBBLICO_EC2>
+# Connessione con pooler (porta 6543) per le richieste dell'API:
+DATABASE_URL="postgresql://neondb_owner:npg_5Jz2SXhrBupk@ep-flat-cake-bave4n5y-pooler.c-8.eu-central-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
+
+# Connessione diretta (porta 5432) per migrazioni Prisma:
+DATABASE_URL_UNPOOLED="postgresql://neondb_owner:npg_5Jz2SXhrBupk@ep-flat-cake-bave4n5y.c-8.eu-central-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
 ```
 
-Installa Docker e Docker Compose:
+---
+
+## 2. Frontend Web: Deploy su Cloudflare Pages o Vercel (0 €)
+
+### Opzione A: Cloudflare Pages (Consigliata)
+1. Vai su [dash.cloudflare.com](https://dash.cloudflare.com/) → **Workers & Pages** → **Create application** → **Pages** → **Connect to Git**.
+2. Seleziona il repository GitHub `webrain25/volleystack`.
+3. Configura le impostazioni di Build:
+   - **Framework preset**: `Vite`
+   - **Root directory**: `apps/web`
+   - **Build command**: `pnpm build`
+   - **Build output directory**: `dist`
+4. Nella sezione **Environment variables**, aggiungi:
+   - `VITE_API_URL`: L'URL del tuo backend (es. `https://volleystack-api-xxxx-ew.a.run.app` o il tuo dominio).
+5. Clicca **Save and Deploy**. 
+   *(Il file `apps/web/public/_redirects` incluso nel repository gestisce automaticamente il routing SPA senza errori 404 sui refresh).*
+
+### Opzione B: Vercel
+1. Vai su [vercel.com](https://vercel.com/) → **Add New Project** → Importa `webrain25/volleystack`.
+2. Imposta:
+   - **Root Directory**: `apps/web`
+   - **Framework Preset**: `Vite`
+   - **Environment Variables**: `VITE_API_URL` con l'indirizzo del backend.
+3. Clicca **Deploy**. *(Il file `apps/web/vercel.json` gestisce automaticamente i rewrite).*
+
+---
+
+## 3. Backend API: Deploy su Google Cloud Run (0 €)
+
+Google Cloud Run consente di eseguire container Docker pagando **solo per i millisecondi in cui il server elabora una richiesta**. Se non ci sono richieste, le istanze scalano a zero e il costo è esattamente **0,00 €**.
+
+### Passo 1: Autenticazione Google Cloud
+Assicurati di avere la CLI `gcloud` installata sul tuo computer (oppure usa la Cloud Shell sul browser):
 ```bash
-# Aggiorna i pacchetti
-sudo apt-get update
-sudo apt-get upgrade -y
-
-# Installa Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-
-# Aggiungi il tuo utente al gruppo docker
-sudo usermod -aG docker ubuntu
-```
-*(Chiudi la connessione SSH e rientra affinché i permessi abbiano effetto).*
-
-## 3. Preparazione del Progetto
-
-1. Clona il repository del progetto (o usa scp per trasferire i file).
-```bash
-git clone <URL_DEL_TUO_REPO> VolleyStack
-cd VolleyStack
-```
-
-2. Configura le variabili d'ambiente di produzione:
-```bash
-cp .env.example .env
-nano .env
-```
-Assicurati di impostare:
-- `JWT_SECRET`: usa una stringa crittografata forte e unica.
-- `POSTGRES_PASSWORD`: password complessa per il DB.
-
-3. Configura il dominio nel `Caddyfile`:
-Apri il file `Caddyfile` e sostituisci `localhost` con il tuo dominio pubblico (es. `app.volleystack.it`) e inserisci il tuo indirizzo email in cima al file. Questo permetterà a Caddy di negoziare automaticamente i certificati SSL con Let's Encrypt.
-
-## 4. Avvio dell'Infrastruttura
-
-Avvia i container in background:
-```bash
-docker compose -f docker-compose.prod.yml up -d --build
-```
-Al primo avvio, Docker compilerà le immagini per l'API (eseguendo `prisma generate`) e per il frontend Web (eseguendo `npm run build`).
-
-Puoi controllare i log con:
-```bash
-docker compose -f docker-compose.prod.yml logs -f
+gcloud auth login
+gcloud config set project IL_TUO_PROJECT_ID_GCP
 ```
 
-## 5. Migrazione del Database
-
-Al primo avvio, il database sarà vuoto. Devi lanciare le migrazioni Prisma tramite il container dell'API:
+### Passo 2: Build e Deploy dell'API
+Dalla cartella principale del progetto:
 ```bash
-docker compose -f docker-compose.prod.yml exec api npx prisma db push
+gcloud run deploy volleystack-api \
+  --source . \
+  --region europe-west1 \
+  --platform managed \
+  --allow-unauthenticated \
+  --set-env-vars NODE_ENV=production,PORT=8080 \
+  --set-env-vars DATABASE_URL="postgresql://neondb_owner:npg_5Jz2SXhrBupk@ep-flat-cake-bave4n5y-pooler.c-8.eu-central-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require" \
+  --set-env-vars DATABASE_URL_UNPOOLED="postgresql://neondb_owner:npg_5Jz2SXhrBupk@ep-flat-cake-bave4n5y.c-8.eu-central-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require" \
+  --set-env-vars JWT_SECRET="un_segreto_molto_lungo_e_sicuro_12345" \
+  --set-env-vars GEMINI_API_KEY="tua_chiave_google_ai_studio" \
+  --min-instances 0 \
+  --max-instances 2
 ```
-*(Usa `db push` per il beta o `migrate deploy` se stai usando i file di migrazione SQL).*
+> [!TIP]
+> Il parametro `--min-instances 0` è ciò che garantisce che il servizio scali a zero quando non riceve traffico, azzerando completamente i costi.
 
-## 6. Backup e Monitoring
+Al termine del comando, Google ti restituirà un URL pubblico HTTPS come `https://volleystack-api-xxxx.a.run.app`. Inserisci questo URL come `VITE_API_URL` nel Frontend!
 
-1. Rendi eseguibile lo script di backup:
-```bash
-chmod +x scripts/backup.sh
-```
+---
 
-2. Configura un Cronjob per il backup notturno:
-```bash
-crontab -e
-```
-Aggiungi in fondo al file:
-```text
-0 3 * * * /home/ubuntu/VolleyStack/scripts/backup.sh >> /home/ubuntu/backup.log 2>&1
-```
+## 4. Deploy Alternativo con Docker (Su VM Always Free)
 
-3. (Consigliato) Configura un **AWS Billing Alarm** in CloudWatch per ricevere un'email se la spesa stimata del mese supera $5, coerentemente con il *Cost Philosophy* del Master Plan.
-Puoi usare lo script fornito:
-```bash
-chmod +x scripts/setup_cost_alert.sh
-./scripts/setup_cost_alert.sh tua-email@example.com 5.0
-```
-(Assicurati di aver configurato `aws-cli` sull'istanza o di eseguirlo dal tuo computer locale con le credenziali corrette).
+Se preferisci mantenere tutto in un unico server Linux (es. istanza **Oracle Cloud Always Free** o **GCP Compute Engine e2-micro**):
 
-4. Configura il Monitoring:
-Rendi eseguibile lo script di monitoring:
+1. Clona il repo sul server:
+   ```bash
+   git clone https://github.com/webrain25/volleystack.git
+   cd volleystack
+   cp .env.example .env
+   nano .env  # Inserisci le tue stringhe Neon e il JWT_SECRET
+   ```
+2. Modifica il dominio nel `Caddyfile` se hai un dominio personalizzato (es. `app.volleystack.it`).
+3. Avvia lo stack:
+   ```bash
+   docker compose -f docker-compose.prod.yml up -d --build
+   ```
+> [!NOTE]
+> Poiché il database è ospitato su Neon in cloud, il container PostgreSQL locale è stato rimosso da `docker-compose.prod.yml`. Il consumo di RAM sul server scende a meno di **150 MB**, rendendo il sistema fluido e stabile anche sulle macchine virtuali gratuite più piccole.
+
+---
+
+## 5. Manutenzione e Comandi Utili
+
 ```bash
-chmod +x scripts/monitoring.sh
-```
-Puoi eseguirlo manualmente per controllare lo stato dell'istanza o aggiungerlo a cron per salvare l'output periodicamente.
-```bash
-./scripts/monitoring.sh
+# Eseguire il seed iniziale o ripristinare i dati di default su Neon:
+pnpm run db:seed
+
+# Verificare lo stato o sincronizzare modifiche allo schema Prisma:
+pnpm prisma db push
+
+# Aprire l'interfaccia visuale Prisma Studio per navigare i dati di Neon:
+pnpm prisma studio
 ```

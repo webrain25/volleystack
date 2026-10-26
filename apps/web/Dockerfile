@@ -4,20 +4,20 @@ WORKDIR /app
 # Install pnpm
 RUN npm install -g pnpm
 
-# Copy workspace configuration
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+# Copy workspace configuration and tsconfig base
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
 COPY apps/web/package.json apps/web/
 COPY packages/ packages/
 
 # Install dependencies
-RUN pnpm install --filter web...
+RUN pnpm install --filter @volleystack/web...
 
 # Copy source
 COPY apps/web/ apps/web/
 
 # Build
 ENV VITE_API_URL=/api
-RUN pnpm --filter web run build
+RUN pnpm --filter @volleystack/web run build
 
 # Production image uses Caddy to serve static files
 FROM caddy:2.7-alpine AS runner

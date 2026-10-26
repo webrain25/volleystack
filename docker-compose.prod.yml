@@ -1,18 +1,6 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:15-alpine
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      POSTGRES_DB: ${POSTGRES_DB:-volleystack}
-    volumes:
-      - postgres_data_prod:/var/lib/postgresql/data
-    networks:
-      - volleystack_net
-
   api:
     build:
       context: .
@@ -20,10 +8,13 @@ services:
     restart: always
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-volleystack}?schema=public
+      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL_UNPOOLED=${DATABASE_URL_UNPOOLED}
       - JWT_SECRET=${JWT_SECRET:-super-secret-key-change-me-in-production}
-    depends_on:
-      - db
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - PORT=3000
+    expose:
+      - "3000"
     networks:
       - volleystack_net
 
@@ -48,6 +39,5 @@ networks:
   volleystack_net:
 
 volumes:
-  postgres_data_prod:
   caddy_data:
   caddy_config:
