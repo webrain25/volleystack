@@ -14,27 +14,28 @@
   --color-text-secondary: var(--vs-text-secondary);
   --color-text-tertiary: var(--vs-text-tertiary);
 
-  --color-brand-blue: #1683FF;
-  --color-brand-blue-bright: #2D9CFF;
-  --color-brand-orange: #FF861C;
+  --color-brand-blue: #0066FF;
+  --color-brand-blue-bright: #2563EB;
+  --color-brand-orange: #FF7A00;
 
-  --color-success: #35C77B;
-  --color-danger: #FF5964;
-  --color-warning: #F1B649;
+  --color-success: #10B981;
+  --color-danger: #EF4444;
+  --color-warning: #F59E0B;
+  --color-pastry: #EC4899;
 
   /* Custom Font */
-  --font-sans: "Geist", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 @layer base {
   :root {
     color-scheme: light;
-    --vs-bg-primary: #F4F7FA;
+    --vs-bg-primary: #F8FAFC;
     --vs-bg-secondary: #FFFFFF;
     --vs-surface: #FFFFFF;
-    --vs-surface-hover: #E9EEF5;
-    --vs-border: rgba(0, 0, 0, 0.08);
-    --vs-border-strong: rgba(0, 0, 0, 0.15);
+    --vs-surface-hover: #F1F5F9;
+    --vs-border: rgba(15, 23, 42, 0.08);
+    --vs-border-strong: rgba(15, 23, 42, 0.16);
     --vs-text-primary: #0F172A;
     --vs-text-secondary: #475569;
     --vs-text-tertiary: #64748B;
@@ -42,15 +43,15 @@
   
   .dark {
     color-scheme: dark;
-    --vs-bg-primary: #060A11;
-    --vs-bg-secondary: #0A1019;
-    --vs-surface: #0E1622;
-    --vs-surface-hover: #131E2C;
+    --vs-bg-primary: #070A10;
+    --vs-bg-secondary: #0D131F;
+    --vs-surface: #111A29;
+    --vs-surface-hover: #172338;
     --vs-border: rgba(255, 255, 255, 0.08);
-    --vs-border-strong: rgba(255, 255, 255, 0.14);
-    --vs-text-primary: #F5F7FA;
-    --vs-text-secondary: #8E9AAD;
-    --vs-text-tertiary: #596577;
+    --vs-border-strong: rgba(255, 255, 255, 0.16);
+    --vs-text-primary: #F8FAFC;
+    --vs-text-secondary: #94A3B8;
+    --vs-text-tertiary: #64748B;
   }
   
   body {
