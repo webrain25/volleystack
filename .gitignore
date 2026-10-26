@@ -29,3 +29,4 @@ coverage/
 
 # Docker volumes
 postgres_data/
+.neon

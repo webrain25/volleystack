@@ -17,11 +17,13 @@
     "@volleystack/shared": "workspace:*",
     "axios": "^1.20.0",
     "framer-motion": "^13.4.1",
+    "lucide-react": "^1.61.0",
     "papaparse": "^5.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-easy-crop": "^6.2.3",
     "react-hook-form": "^7.88.0",
+    "react-router-dom": "^7.18.4",
     "zod": "^4.6.5",
     "zustand": "^5.0.15"
   },
