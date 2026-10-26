@@ -15,7 +15,8 @@ import {
   AlertCircle, 
   ChevronRight,
   Users,
-  Sparkles
+  Sparkles,
+  Zap
 } from 'lucide-react';
 import { api } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
@@ -78,6 +79,8 @@ export default function Dashboard() {
   const attendingCount = nextEvent?.rsvps?.filter((r: any) => r.status === 'ATTENDING').length || 0;
   const absentCount = nextEvent?.rsvps?.filter((r: any) => r.status === 'ABSENT').length || 0;
   const maybeCount = nextEvent?.rsvps?.filter((r: any) => r.status === 'MAYBE').length || 0;
+  const totalRsvps = attendingCount + absentCount + maybeCount;
+  const quorumPercent = totalRsvps > 0 ? Math.round((attendingCount / totalRsvps) * 100) : 0;
 
   // Formatted date string for today
   const todayFormatted = new Intl.DateTimeFormat('it-IT', { 
@@ -93,7 +96,8 @@ export default function Dashboard() {
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
     const diffDays = Math.floor(diffHours / 24);
     if (diffDays > 0) return `Tra ${diffDays} ${diffDays === 1 ? 'giorno' : 'giorni'}`;
-    return `Tra ${diffHours} ${diffHours === 1 ? 'ora' : 'ore'}`;
+    const remHours = diffHours % 24;
+    return `Tra ${remHours}h`;
   };
 
   const containerVariants: Variants = {
@@ -120,24 +124,29 @@ export default function Dashboard() {
       animate="show" 
       className="space-y-6 md:space-y-8 max-w-5xl mx-auto"
     >
-      {/* 1. Header con Profilo Squadra & Data Odierna */}
+      {/* 1. Header: Profilo Squadra & Data Odierna (Option B Obsidian & Volt) */}
       <motion.div variants={itemVariants} className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-border">
         <div>
-          <div className="flex items-center gap-2 mb-1.5">
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-brand-blue/10 text-brand-blue border border-brand-blue/20">
-              {membership.team?.name || 'Volley Club'}
+          <div className="flex items-center gap-2 mb-2">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-[#00F59B]/10 text-[#00F59B] border border-[#00F59B]/30 shadow-[0_0_12px_rgba(0,245,155,0.2)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00F59B] animate-pulse"></span>
+              <span>{membership.team?.name || 'Volley Club'}</span>
             </span>
             {membership.roles?.[0]?.role && (
-              <span className="text-[11px] font-bold text-text-tertiary uppercase">
+              <span className="text-[11px] font-mono font-bold text-text-tertiary uppercase tracking-wider">
                 {membership.roles[0].role.replace('_', ' ')}
               </span>
             )}
           </div>
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-text-primary">
+          <h1 className="text-2xl md:text-3xl font-black tracking-tight text-text-primary">
             Bentornato, {user?.name?.split(' ')[0] || 'Atleta'}
           </h1>
-          <p className="text-xs md:text-sm text-text-tertiary capitalize mt-0.5">
-            {todayFormatted}
+          <p className="text-xs md:text-sm text-text-tertiary capitalize mt-0.5 flex items-center gap-2">
+            <span>{todayFormatted}</span>
+            <span>·</span>
+            <span className="text-[#00F59B] font-semibold flex items-center gap-1">
+              <Zap className="w-3 h-3 text-[#00F59B]" /> Spogliatoio Attivo
+            </span>
           </p>
         </div>
 
@@ -160,56 +169,59 @@ export default function Dashboard() {
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.96 }}
-            className="relative overflow-hidden rounded-2xl p-4 md:p-5 bg-gradient-to-r from-pink-600 via-rose-500 to-pink-600 text-white shadow-[0_8px_25px_rgba(236,72,153,0.25)] border border-white/20"
+            className="relative overflow-hidden rounded-2xl p-4 md:p-5 bg-gradient-to-r from-[#170E1A] via-[#220F24] to-[#170E1A] text-white border border-[#FF4D94]/30 shadow-[0_4px_24px_rgba(255,77,148,0.2)]"
           >
             <div className="flex items-center justify-between gap-4 relative z-10">
               <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 shadow-inner">
-                  <Croissant className="h-5 w-5 md:h-6 md:md-6 text-white" />
+                <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-[#FF4D94]/20 border border-[#FF4D94]/40 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(255,77,148,0.25)]">
+                  <Croissant className="h-5 w-5 md:h-6 md:md-6 text-[#FF4D94]" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-black uppercase tracking-wider bg-white/25 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-black uppercase tracking-wider bg-[#FF4D94]/25 text-[#FF4D94] border border-[#FF4D94]/40 px-2 py-0.5 rounded-full">
                       Debito Spogliatoio
                     </span>
                     {pasteReminder.deadline && (
-                      <span className="text-[11px] text-white/90">
+                      <span className="text-[11px] text-text-secondary">
                         Entro il {new Date(pasteReminder.deadline).toLocaleDateString('it-IT')}
                       </span>
                     )}
                   </div>
-                  <h3 className="font-bold text-sm md:text-base mt-0.5">
+                  <h3 className="font-bold text-sm md:text-base text-[#F8FAFC] mt-0.5">
                     Tocca a te portare le paste al prossimo allenamento!
                   </h3>
-                  <p className="text-white/80 text-xs mt-0.5 line-clamp-1">
+                  <p className="text-text-secondary text-xs mt-0.5 line-clamp-1">
                     Motivazione: <span className="font-semibold text-white italic">"{pasteReminder.reason}"</span>
                   </p>
                 </div>
               </div>
               <Link 
                 to="/pastes" 
-                className="shrink-0 bg-white text-pink-600 hover:bg-white/95 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-150 active:scale-95 shadow-md flex items-center gap-1.5"
+                className="shrink-0 bg-[#FF4D94] hover:bg-[#FF3385] text-white px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-150 active:scale-95 shadow-[0_0_15px_rgba(255,77,148,0.35)] flex items-center gap-1.5"
               >
                 <span>Dettagli</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
             {/* Ambient subtle glow */}
-            <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-[#FF4D94]/10 rounded-full blur-2xl pointer-events-none"></div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* 3. Event Hero Card (Prossimo Evento in Primo Piano) */}
-      <motion.div variants={itemVariants} className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden border border-border bg-surface shadow-md">
-        {/* Subtle Ambient Light Banner */}
-        <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-brand-blue/5 blur-3xl pointer-events-none -mr-20 -mt-20"></div>
+      {/* 3. Event Hero Card (Prossimo Evento - Telemetry Obsidian & Volt Card) */}
+      <motion.div 
+        variants={itemVariants} 
+        className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden border border-border bg-[#0F1726] shadow-xl"
+      >
+        {/* Ambient Top-Right Radial Volt Court Glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[radial-gradient(circle,rgba(0,245,155,0.09)_0%,transparent_70%)] pointer-events-none -mr-20 -mt-20"></div>
 
         <div className="p-5 md:p-8 relative z-10">
           {eventsLoading ? (
             <div className="py-14 flex flex-col items-center justify-center text-text-tertiary">
-              <Activity className="animate-spin h-7 w-7 text-brand-blue mb-3" />
-              <p className="text-xs font-medium">Caricamento programma gare e allenamenti...</p>
+              <Activity className="animate-spin h-7 w-7 text-[#00F59B] mb-3" />
+              <p className="text-xs font-medium">Caricamento programma gare e telemetria...</p>
             </div>
           ) : nextEvent ? (
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 md:gap-8">
@@ -217,39 +229,40 @@ export default function Dashboard() {
               {/* Colonna Sinistra: Dettagli Evento */}
               <div className="flex-1 space-y-4">
                 <div className="flex items-center gap-2.5">
-                  <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider border ${
+                  <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-black uppercase tracking-wider border ${
                     nextEvent.type === 'MATCH' 
-                      ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20' 
+                      ? 'bg-amber-500/15 text-amber-400 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.2)]' 
                       : nextEvent.type === 'TRAINING'
-                      ? 'bg-brand-blue/10 text-brand-blue border-brand-blue/20'
-                      : 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20'
+                      ? 'bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30 shadow-[0_0_10px_rgba(0,245,155,0.2)]'
+                      : 'bg-purple-500/15 text-purple-400 border-purple-500/30'
                   }`}>
-                    {nextEvent.type === 'MATCH' ? 'Partita Ufficiale' : nextEvent.type === 'TRAINING' ? 'Allenamento' : 'Ritrovo / Social'}
+                    <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
+                    <span>{nextEvent.type === 'MATCH' ? 'Partita Ufficiale' : nextEvent.type === 'TRAINING' ? 'Allenamento' : 'Ritrovo / Social'}</span>
                   </span>
 
-                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-text-tertiary bg-surface-hover px-2 py-0.5 rounded-md border border-border">
-                    <Clock className="w-3 h-3 text-text-tertiary" />
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-text-primary bg-[#070B12]/80 px-2.5 py-1 rounded-md border border-white/10 shadow-inner">
+                    <Clock className="w-3 h-3 text-[#00F59B]" />
                     <span>{getEventTimeLeft(nextEvent.date)}</span>
                   </span>
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-text-primary leading-tight">
+                  <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#F8FAFC] leading-tight">
                     {nextEvent.title}
                   </h2>
                   
                   <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs md:text-sm text-text-secondary mt-2.5">
                     <div className="flex items-center gap-1.5 font-medium text-text-primary">
-                      <CalendarIcon className="w-4 h-4 text-brand-blue" />
+                      <CalendarIcon className="w-4 h-4 text-[#00F59B]" />
                       <span className="capitalize">
                         {new Date(nextEvent.date).toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short' })}
                       </span>
                       <span>·</span>
-                      <span>{new Date(nextEvent.date).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })}</span>
+                      <span className="font-mono">{new Date(nextEvent.date).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
 
                     {nextEvent.location && (
-                      <div className="flex items-center gap-1 text-text-secondary hover:text-brand-blue transition-colors">
+                      <div className="flex items-center gap-1 text-text-secondary hover:text-[#00F59B] transition-colors">
                         <MapPin className="w-4 h-4 text-danger shrink-0" />
                         <a 
                           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(nextEvent.location)}`} 
@@ -264,22 +277,22 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                {/* RSVP Control Bar */}
+                {/* RSVP Control Bar - Option B Dominant Volt CTA */}
                 <div className="pt-2">
-                  <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-wider mb-2">
+                  <p className="text-[11px] font-black text-text-tertiary uppercase tracking-wider mb-2">
                     La tua presenza:
                   </p>
                   <div className="flex items-center gap-2.5 max-w-md">
-                    {/* Bottone Ci Sono */}
+                    {/* Bottone Ci Sono (Electric Volt Dominant) */}
                     <button 
                       onClick={() => rsvp.mutate({ eventId: nextEvent.id, status: 'ATTENDING' })}
-                      className={`flex-1 min-h-[44px] px-4 py-2.5 rounded-xl text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-all duration-150 active:scale-95 border ${
+                      className={`flex-1 min-h-[44px] px-4 py-2.5 rounded-xl text-xs md:text-sm font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-200 active:scale-95 border ${
                         myRsvpStatus === 'ATTENDING'
-                          ? 'bg-emerald-500 text-white border-emerald-600 shadow-sm'
-                          : 'bg-surface hover:bg-emerald-500/10 text-text-primary border-border hover:border-emerald-500/40'
+                          ? 'bg-[#00F59B] hover:bg-[#22FFAB] text-[#070B12] border-[#00F59B] shadow-[0_0_25px_rgba(0,245,155,0.45)]'
+                          : 'bg-surface hover:bg-[#00F59B]/15 text-[#F8FAFC] border-white/10 hover:border-[#00F59B]/50 hover:text-[#00F59B]'
                       }`}
                     >
-                      <Check className={`h-4 w-4 ${myRsvpStatus === 'ATTENDING' ? 'text-white' : 'text-emerald-500'}`} />
+                      <Check className={`h-4 w-4 stroke-[3px] ${myRsvpStatus === 'ATTENDING' ? 'text-[#070B12]' : 'text-[#00F59B]'}`} />
                       <span>Ci sono</span>
                     </button>
 
@@ -287,13 +300,13 @@ export default function Dashboard() {
                     <button 
                       onClick={() => rsvp.mutate({ eventId: nextEvent.id, status: 'ABSENT' })}
                       title="Segna Assenza"
-                      className={`h-[44px] px-3.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-150 active:scale-95 border ${
+                      className={`h-[44px] px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all duration-150 active:scale-95 border ${
                         myRsvpStatus === 'ABSENT'
-                          ? 'bg-danger text-white border-danger shadow-sm'
-                          : 'bg-surface hover:bg-danger/10 text-text-secondary hover:text-danger border-border hover:border-danger/30'
+                          ? 'bg-danger text-white border-danger shadow-[0_0_15px_rgba(239,68,68,0.35)]'
+                          : 'bg-surface hover:bg-danger/10 text-text-secondary hover:text-danger border-white/10 hover:border-danger/30'
                       }`}
                     >
-                      <X className="h-4 w-4" />
+                      <X className="h-4 w-4 stroke-[2.5px]" />
                       <span className="hidden sm:inline">Assente</span>
                     </button>
 
@@ -301,57 +314,58 @@ export default function Dashboard() {
                     <button 
                       onClick={() => rsvp.mutate({ eventId: nextEvent.id, status: 'MAYBE' })}
                       title="Segna In Dubbio"
-                      className={`h-[44px] px-3.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-150 active:scale-95 border ${
+                      className={`h-[44px] px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all duration-150 active:scale-95 border ${
                         myRsvpStatus === 'MAYBE'
-                          ? 'bg-amber-500 text-white border-amber-600 shadow-sm'
-                          : 'bg-surface hover:bg-amber-500/10 text-text-secondary hover:text-amber-500 border-border hover:border-amber-500/30'
+                          ? 'bg-amber-500 text-[#070B12] font-black border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.35)]'
+                          : 'bg-surface hover:bg-amber-500/10 text-text-secondary hover:text-amber-500 border-white/10 hover:border-amber-500/30'
                       }`}
                     >
-                      <HelpCircle className="h-4 w-4" />
+                      <HelpCircle className="h-4 w-4 stroke-[2.5px]" />
                       <span className="hidden sm:inline">In dubbio</span>
                     </button>
                   </div>
                 </div>
               </div>
 
-              {/* Colonna Destra: Roster Status Card */}
-              <div className="lg:w-72 bg-bg-primary/70 dark:bg-bg-primary/40 rounded-xl p-4 md:p-5 border border-border flex flex-col justify-between space-y-4">
-                <div className="flex items-center justify-between pb-2 border-b border-border">
-                  <span className="text-xs font-bold text-text-tertiary uppercase tracking-wider">Stato Convocazioni</span>
-                  <Link to={`/events`} className="text-[11px] font-semibold text-brand-blue hover:underline">
+              {/* Colonna Destra: Roster Status Card (Telemetry Box) */}
+              <div className="lg:w-72 bg-[#070B12]/90 rounded-2xl p-4 md:p-5 border border-white/10 flex flex-col justify-between space-y-4 shadow-inner">
+                <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                  <span className="text-[11px] font-black text-text-tertiary uppercase tracking-wider flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#00F59B]"></span>
+                    <span>Telemetria Roster</span>
+                  </span>
+                  <Link to={`/events`} className="text-[11px] font-bold text-[#00F59B] hover:underline">
                     Dettagli
                   </Link>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2 text-center">
-                  <div className="bg-surface rounded-lg p-2 border border-border">
-                    <p className="text-lg font-extrabold text-emerald-500 leading-none">{attendingCount}</p>
-                    <p className="text-[10px] font-semibold text-text-tertiary mt-1">Confermati</p>
+                  <div className="bg-[#0F1726] rounded-xl p-2.5 border border-white/5">
+                    <p className="text-xl font-black text-[#00F59B] font-mono leading-none">{attendingCount}</p>
+                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-1.5">Presenti</p>
                   </div>
-                  <div className="bg-surface rounded-lg p-2 border border-border">
-                    <p className="text-lg font-extrabold text-danger leading-none">{absentCount}</p>
-                    <p className="text-[10px] font-semibold text-text-tertiary mt-1">Assenti</p>
+                  <div className="bg-[#0F1726] rounded-xl p-2.5 border border-white/5">
+                    <p className="text-xl font-black text-danger font-mono leading-none">{absentCount}</p>
+                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-1.5">Assenti</p>
                   </div>
-                  <div className="bg-surface rounded-lg p-2 border border-border">
-                    <p className="text-lg font-extrabold text-amber-500 leading-none">{maybeCount}</p>
-                    <p className="text-[10px] font-semibold text-text-tertiary mt-1">In attesa</p>
+                  <div className="bg-[#0F1726] rounded-xl p-2.5 border border-white/5">
+                    <p className="text-xl font-black text-amber-400 font-mono leading-none">{maybeCount}</p>
+                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-1.5">In attesa</p>
                   </div>
                 </div>
 
-                {/* Progress bar visuale presenze */}
+                {/* Progress bar visuale presenze con Electric Volt glow */}
                 <div>
-                  <div className="flex justify-between text-[11px] font-medium text-text-tertiary mb-1">
+                  <div className="flex justify-between text-[11px] font-mono font-medium text-text-tertiary mb-1.5">
                     <span>Quorum convocati</span>
-                    <span className="font-bold text-text-primary">
-                      {Math.round((attendingCount / Math.max(attendingCount + absentCount + maybeCount, 1)) * 100)}%
+                    <span className="font-black text-[#00F59B] font-mono">
+                      {quorumPercent}%
                     </span>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-surface-hover overflow-hidden border border-border">
+                  <div className="w-full h-2 rounded-full bg-[#162238] overflow-hidden border border-white/5 p-0.5">
                     <div 
-                      className="h-full bg-emerald-500 transition-all duration-300 rounded-full"
-                      style={{ 
-                        width: `${Math.min(100, (attendingCount / Math.max(attendingCount + absentCount + maybeCount, 1)) * 100)}%` 
-                      }}
+                      className="h-full bg-[#00F59B] transition-all duration-300 rounded-full shadow-[0_0_10px_rgba(0,245,155,0.7)]"
+                      style={{ width: `${quorumPercent}%` }}
                     />
                   </div>
                 </div>
@@ -369,7 +383,7 @@ export default function Dashboard() {
               </p>
               <Link 
                 to="/events" 
-                className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-blue text-white text-xs font-semibold hover:bg-brand-blue-bright transition-colors"
+                className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#00F59B] text-[#070B12] text-xs font-black uppercase tracking-wider hover:bg-[#22FFAB] transition-colors shadow-[0_0_15px_rgba(0,245,155,0.3)]"
               >
                 <span>Apri Calendario Completo</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -379,39 +393,39 @@ export default function Dashboard() {
         </div>
       </motion.div>
 
-      {/* 4. Row Widget Metriche (Responsive: 1 colonna su mobile, 3 su tablet/desktop) */}
+      {/* 4. Row Widget Metriche (Telemetry Style: Obsidian & Electric Volt) */}
       <motion.div variants={containerVariants} className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-5">
         
         {/* Widget 1: Tax & Cassa Multe */}
         <Link 
           to="/treasury" 
-          className="saas-card p-4 md:p-5 flex flex-col justify-between hover:bg-surface-hover hover:border-brand-blue/30 active:scale-[0.99] transition-all group shadow-sm"
+          className="saas-card bg-[#0F1726] p-4 md:p-5 flex flex-col justify-between hover:border-amber-500/40 active:scale-[0.99] transition-all group shadow-md"
         >
           <div className="flex justify-between items-start mb-3">
-            <div className="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500 border border-amber-500/20 group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 border border-amber-500/25 group-hover:scale-105 transition-transform shadow-[0_0_12px_rgba(245,158,11,0.15)]">
               <Euro className="h-5 w-5" />
             </div>
             {myFines.length > 0 ? (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-danger/10 text-danger border border-danger/20">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-danger/15 text-danger border border-danger/30 shadow-[0_0_8px_rgba(239,68,68,0.25)]">
                 <span className="w-1.5 h-1.5 rounded-full bg-danger animate-pulse"></span>
                 <span>Da saldare</span>
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
-                <Check className="w-3 h-3" />
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30 shadow-[0_0_8px_rgba(0,245,155,0.25)]">
+                <Check className="w-3 h-3 stroke-[3px]" />
                 <span>In regola</span>
               </span>
             )}
           </div>
 
           <div>
-            <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Cassa & Multe Personali</p>
-            <h3 className="text-xl md:text-2xl font-black text-text-primary tracking-tight mt-1 font-mono">
+            <p className="text-[11px] font-black text-text-tertiary uppercase tracking-wider">Cassa & Multe Personali</p>
+            <h3 className="text-xl md:text-2xl font-black text-[#F8FAFC] tracking-tight mt-1 font-mono">
               € {(totalFineAmount / 100).toFixed(2)}
             </h3>
             <p className="text-xs text-text-secondary mt-1 flex items-center justify-between">
               <span>{myFines.length === 0 ? 'Nessun debito aperto' : `${myFines.length} multe in attesa`}</span>
-              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 transition-transform" />
+              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 group-hover:text-[#00F59B] transition-all" />
             </p>
           </div>
         </Link>
@@ -419,58 +433,68 @@ export default function Dashboard() {
         {/* Widget 2: Debito Paste */}
         <Link 
           to="/pastes" 
-          className="saas-card p-4 md:p-5 flex flex-col justify-between hover:bg-surface-hover hover:border-pink-500/30 active:scale-[0.99] transition-all group shadow-sm relative overflow-hidden"
+          className="saas-card bg-[#0F1726] p-4 md:p-5 flex flex-col justify-between hover:border-[#FF4D94]/40 active:scale-[0.99] transition-all group shadow-md relative overflow-hidden"
         >
           <div className="flex justify-between items-start mb-3 relative z-10">
-            <div className="w-9 h-9 rounded-xl bg-pink-500/10 flex items-center justify-center text-pink-500 border border-pink-500/20 group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-[#FF4D94]/10 flex items-center justify-center text-[#FF4D94] border border-[#FF4D94]/25 group-hover:scale-105 transition-transform shadow-[0_0_12px_rgba(255,77,148,0.15)]">
               <Croissant className="h-5 w-5" />
             </div>
             {myPendingPastes.length > 0 ? (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-pink-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/20">
-                <span className="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse"></span>
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#FF4D94]/15 text-[#FF4D94] border border-[#FF4D94]/30 shadow-[0_0_8px_rgba(255,77,148,0.25)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D94] animate-pulse"></span>
                 <span>Da portare</span>
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-surface-hover text-text-tertiary border border-border">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#070B12] text-text-tertiary border border-white/5">
                 <span>Saldo zero</span>
               </span>
             )}
           </div>
 
           <div className="relative z-10">
-            <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Paste & Pasticcini</p>
-            <h3 className="text-xl md:text-2xl font-black text-text-primary tracking-tight mt-1">
+            <p className="text-[11px] font-black text-text-tertiary uppercase tracking-wider">Paste & Pasticcini</p>
+            <h3 className="text-xl md:text-2xl font-black text-[#F8FAFC] tracking-tight mt-1 font-mono">
               {myPendingPastes.length} {myPendingPastes.length === 1 ? 'vassoio' : 'vassoi'}
             </h3>
             <p className="text-xs text-text-secondary mt-1 flex items-center justify-between">
               <span>{myPendingPastes.length === 0 ? 'Spogliatoio a credito' : 'Porta la colazione!'}</span>
-              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 transition-transform" />
+              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 group-hover:text-[#FF4D94] transition-all" />
             </p>
           </div>
         </Link>
 
-        {/* Widget 3: Percentuale Presenze */}
+        {/* Widget 3: Percentuale Presenze (Athletic Telemetry Histogram Bar Look) */}
         <Link 
           to="/stats" 
-          className="saas-card p-4 md:p-5 flex flex-col justify-between hover:bg-surface-hover hover:border-brand-blue/30 active:scale-[0.99] transition-all group shadow-sm"
+          className="saas-card bg-[#0F1726] p-4 md:p-5 flex flex-col justify-between hover:border-[#00F59B]/40 active:scale-[0.99] transition-all group shadow-md"
         >
           <div className="flex justify-between items-start mb-3">
-            <div className="w-9 h-9 rounded-xl bg-brand-blue/10 flex items-center justify-center text-brand-blue border border-brand-blue/20 group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-[#00F59B]/10 flex items-center justify-center text-[#00F59B] border border-[#00F59B]/25 group-hover:scale-105 transition-transform shadow-[0_0_12px_rgba(0,245,155,0.15)]">
               <UserCheck className="h-5 w-5" />
             </div>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-brand-blue/10 text-brand-blue border border-brand-blue/20">
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30 shadow-[0_0_8px_rgba(0,245,155,0.2)]">
               <span>Stagione 25/26</span>
             </span>
           </div>
 
           <div>
-            <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Fedeltà Convocazioni</p>
-            <h3 className="text-xl md:text-2xl font-black text-text-primary tracking-tight mt-1 font-mono">
-              87%
-            </h3>
+            <p className="text-[11px] font-black text-text-tertiary uppercase tracking-wider">Fedeltà Convocazioni</p>
+            <div className="flex items-baseline justify-between mt-1">
+              <h3 className="text-xl md:text-2xl font-black text-[#F8FAFC] tracking-tight font-mono">
+                94%
+              </h3>
+              {/* Telemetry Micro-Frequency Bars */}
+              <div className="flex items-end gap-1 h-5 pb-0.5">
+                <span className="w-1.5 h-2 rounded-sm bg-[#00F59B]/40"></span>
+                <span className="w-1.5 h-3 rounded-sm bg-[#00F59B]/60"></span>
+                <span className="w-1.5 h-4.5 rounded-sm bg-[#00F59B] shadow-[0_0_6px_rgba(0,245,155,0.6)]"></span>
+                <span className="w-1.5 h-5 rounded-sm bg-[#00F59B] shadow-[0_0_8px_rgba(0,245,155,0.8)]"></span>
+                <span className="w-1.5 h-4 rounded-sm bg-[#00F59B] shadow-[0_0_6px_rgba(0,245,155,0.6)]"></span>
+              </div>
+            </div>
             <p className="text-xs text-text-secondary mt-1 flex items-center justify-between">
               <span>Trend presenze eccellente</span>
-              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 transition-transform" />
+              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 group-hover:text-[#00F59B] transition-all" />
             </p>
           </div>
         </Link>
@@ -483,59 +507,62 @@ export default function Dashboard() {
         {/* Feed Attività (Occupa 2 colonne su Desktop) */}
         <motion.div variants={itemVariants} className="lg:col-span-2 space-y-3.5">
           <div className="flex items-center justify-between px-1">
-            <h2 className="text-xs font-bold text-text-tertiary uppercase tracking-wider">
-              Attività Recente Spogliatoio
+            <h2 className="text-xs font-black text-text-tertiary uppercase tracking-wider flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00F59B]"></span>
+              <span>Attività Recente Spogliatoio</span>
             </h2>
-            <span className="text-[11px] text-text-tertiary">Live sync</span>
+            <span className="text-[11px] font-mono text-[#00F59B] flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00F59B] animate-ping"></span> Live sync
+            </span>
           </div>
 
-          <div className="saas-card divide-y divide-border overflow-hidden shadow-sm">
+          <div className="saas-card bg-[#0F1726] divide-y divide-white/5 overflow-hidden shadow-md">
             
-            <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-surface-hover/70 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 shrink-0">
-                <Check className="w-4 h-4" />
+            <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-[#162238]/60 transition-colors">
+              <div className="w-8 h-8 rounded-full bg-[#00F59B]/10 border border-[#00F59B]/25 flex items-center justify-center text-[#00F59B] shrink-0 shadow-[0_0_10px_rgba(0,245,155,0.15)]">
+                <Check className="w-4 h-4 stroke-[2.5px]" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs md:text-sm text-text-primary font-medium truncate">
-                  <span className="font-bold text-text-primary">Marco</span> ha confermato la presenza al prossimo allenamento
+                  <span className="font-bold text-[#F8FAFC]">Marco</span> ha confermato la presenza al prossimo allenamento
                 </p>
-                <p className="text-[11px] text-text-tertiary mt-0.5">2 ore fa</p>
+                <p className="text-[11px] font-mono text-text-tertiary mt-0.5">2 ore fa</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-surface-hover/70 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center text-brand-blue shrink-0">
+            <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-[#162238]/60 transition-colors">
+              <div className="w-8 h-8 rounded-full bg-brand-blue/15 border border-brand-blue/30 flex items-center justify-center text-brand-blue shrink-0 shadow-[0_0_10px_rgba(0,102,255,0.15)]">
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs md:text-sm text-text-primary font-medium truncate">
-                  Il Tesoriere ha registrato il saldo quota di <span className="font-bold text-text-primary">Luca</span>
+                  Il Tesoriere ha registrato il saldo quota di <span className="font-bold text-[#F8FAFC]">Luca</span>
                 </p>
-                <p className="text-[11px] text-text-tertiary mt-0.5">Ieri alle 19:40</p>
+                <p className="text-[11px] font-mono text-text-tertiary mt-0.5">Ieri alle 19:40</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-surface-hover/70 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-danger/10 border border-danger/20 flex items-center justify-center text-danger shrink-0">
+            <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-[#162238]/60 transition-colors">
+              <div className="w-8 h-8 rounded-full bg-danger/15 border border-danger/30 flex items-center justify-center text-danger shrink-0 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
                 <AlertCircle className="w-4 h-4" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs md:text-sm text-text-primary font-medium truncate">
-                  Nuova Tax assegnata a <span className="font-bold text-text-primary">Andrea</span> · Ritardo allenamento
+                  Nuova Tax assegnata a <span className="font-bold text-[#F8FAFC]">Andrea</span> · Ritardo allenamento
                 </p>
-                <p className="text-[11px] text-text-tertiary mt-0.5">2 giorni fa</p>
+                <p className="text-[11px] font-mono text-text-tertiary mt-0.5">2 giorni fa</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-surface-hover/70 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-500 shrink-0">
+            <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-[#162238]/60 transition-colors">
+              <div className="w-8 h-8 rounded-full bg-[#FF4D94]/15 border border-[#FF4D94]/30 flex items-center justify-center text-[#FF4D94] shrink-0 shadow-[0_0_10px_rgba(255,77,148,0.15)]">
                 <Croissant className="w-4 h-4" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs md:text-sm text-text-primary font-medium truncate">
-                  Debito Paste assegnato a <span className="font-bold text-text-primary">Lorenzo</span> · Battuta lisciata
+                  Debito Paste assegnato a <span className="font-bold text-[#F8FAFC]">Lorenzo</span> · Battuta lisciata
                 </p>
-                <p className="text-[11px] text-text-tertiary mt-0.5">3 giorni fa</p>
+                <p className="text-[11px] font-mono text-text-tertiary mt-0.5">3 giorni fa</p>
               </div>
             </div>
 
@@ -544,49 +571,49 @@ export default function Dashboard() {
 
         {/* Card Scorciatoie Squadra */}
         <motion.div variants={itemVariants} className="space-y-3.5">
-          <h2 className="text-xs font-bold text-text-tertiary uppercase tracking-wider px-1">
+          <h2 className="text-xs font-black text-text-tertiary uppercase tracking-wider px-1">
             Accesso Rapido
           </h2>
 
-          <div className="saas-card p-4 space-y-2.5 shadow-sm">
+          <div className="saas-card bg-[#0F1726] p-4 space-y-2.5 shadow-md border-white/10">
             <Link 
               to="/treasury" 
-              className="flex items-center justify-between p-3 rounded-xl hover:bg-surface-hover border border-transparent hover:border-border transition-all text-xs font-semibold text-text-primary"
+              className="flex items-center justify-between p-3 rounded-xl hover:bg-[#162238] border border-transparent hover:border-white/10 transition-all text-xs font-bold text-text-primary group"
             >
               <div className="flex items-center gap-2.5">
-                <Euro className="w-4 h-4 text-amber-500" />
+                <Euro className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" />
                 <span>Regolamento Multe</span>
               </div>
-              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary" />
+              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:text-[#00F59B] transition-colors" />
             </Link>
 
             <Link 
               to="/events" 
-              className="flex items-center justify-between p-3 rounded-xl hover:bg-surface-hover border border-transparent hover:border-border transition-all text-xs font-semibold text-text-primary"
+              className="flex items-center justify-between p-3 rounded-xl hover:bg-[#162238] border border-transparent hover:border-white/10 transition-all text-xs font-bold text-text-primary group"
             >
               <div className="flex items-center gap-2.5">
-                <CalendarIcon className="w-4 h-4 text-brand-blue" />
+                <CalendarIcon className="w-4 h-4 text-[#00F59B] group-hover:scale-110 transition-transform" />
                 <span>Calendario Convocazioni</span>
               </div>
-              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary" />
+              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:text-[#00F59B] transition-colors" />
             </Link>
 
             <Link 
               to="/pastes" 
-              className="flex items-center justify-between p-3 rounded-xl hover:bg-surface-hover border border-transparent hover:border-border transition-all text-xs font-semibold text-text-primary"
+              className="flex items-center justify-between p-3 rounded-xl hover:bg-[#162238] border border-transparent hover:border-white/10 transition-all text-xs font-bold text-text-primary group"
             >
               <div className="flex items-center gap-2.5">
-                <Croissant className="w-4 h-4 text-pink-500" />
+                <Croissant className="w-4 h-4 text-[#FF4D94] group-hover:scale-110 transition-transform" />
                 <span>Classifica Paste</span>
               </div>
-              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary" />
+              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:text-[#FF4D94] transition-colors" />
             </Link>
 
-            <div className="pt-2 border-t border-border">
-              <div className="p-3 rounded-xl bg-bg-primary border border-border flex items-start gap-2.5">
-                <Sparkles className="w-4 h-4 text-brand-blue shrink-0 mt-0.5" />
+            <div className="pt-2 border-t border-white/5">
+              <div className="p-3 rounded-xl bg-[#070B12] border border-white/5 flex items-start gap-2.5">
+                <Sparkles className="w-4 h-4 text-[#00F59B] shrink-0 mt-0.5" />
                 <p className="text-[11px] text-text-secondary leading-relaxed">
-                  <strong className="text-text-primary">Volley AI Coach:</strong> I suggerimenti automatici per annunci e motivazioni pre-partita sono attivi in tutte le sezioni.
+                  <strong className="text-[#F8FAFC]">Volley AI Coach:</strong> Assistente tattico e motivazionale attivo su tutte le convocazioni.
                 </p>
               </div>
             </div>

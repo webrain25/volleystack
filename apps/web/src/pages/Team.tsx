@@ -222,7 +222,7 @@ export default function Team() {
             </div>
           ) : (
             <div className="flex items-center gap-4 mt-1">
-              <p className="text-xl font-bold text-text-primary font-mono tracking-widest">{(membership.team as any)?.joinCode}</p>
+              <p className="text-xl font-black text-[#00F59B] font-mono tracking-widest drop-shadow-[0_0_8px_rgba(0,245,155,0.3)]">{(membership.team as any)?.joinCode}</p>
               <div className="flex space-x-1 ml-auto">
                 {isOwner && (
                   <button 
@@ -235,10 +235,10 @@ export default function Team() {
                 )}
                 <button 
                   onClick={copyToClipboard}
-                  className="p-2 rounded-lg hover:bg-surface border border-transparent hover:border-border text-text-tertiary hover:text-text-primary transition-colors"
+                  className="p-2 rounded-lg hover:bg-surface border border-transparent hover:border-border text-text-tertiary hover:text-[#00F59B] transition-colors"
                   title="Copia codice"
                 >
-                  {copied ? <CheckCircle2 className="h-4 w-4 text-success" /> : <CopyIcon className="h-4 w-4" />}
+                  {copied ? <CheckCircle2 className="h-4 w-4 text-[#00F59B]" /> : <CopyIcon className="h-4 w-4" />}
                 </button>
               </div>
             </div>
@@ -286,7 +286,7 @@ export default function Team() {
             <button 
               onClick={() => addGhostMember.mutate({ name: newMemberName, role: newMemberRole })}
               disabled={!newMemberName || addGhostMember.isPending}
-              className="saas-btn-primary py-2 w-full md:w-auto px-6"
+              className="saas-btn-volt py-2 w-full md:w-auto px-6"
             >
               Aggiungi
             </button>

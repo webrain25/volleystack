@@ -275,9 +275,9 @@ export default function Events() {
             </button>
             <button 
               onClick={() => setShowForm(true)}
-              className="saas-btn-primary flex items-center shrink-0"
+              className="saas-btn-volt flex items-center shrink-0"
             >
-              <Plus className="h-4 w-4 mr-1.5" />
+              <Plus className="h-4 w-4 mr-1.5 stroke-[3px]" />
               Nuovo
             </button>
           </>
@@ -566,20 +566,20 @@ export default function Events() {
             {events.map((event: any) => (
               <div key={event.id} className="p-5 hover:bg-surface dark:hover:bg-gray-900/30 transition-colors group flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                 <div className="flex items-start space-x-4">
-                   <div className={`mt-1 shrink-0 h-10 w-10 rounded-lg flex items-center justify-center border ${
-                      event.type === 'MATCH' ? 'bg-accent-50 border-accent-200 text-accent-600 ccent-500/10 dark:border-accent-500/20 dark:text-accent-500' : 
-                      event.type === 'SOCIAL' ? 'bg-success/10 border-emerald-200 text-success dark:bg-success/100/10 dark:border-emerald-500/20 ' : 
-                      'bg-brand-blue/10 border-primary-200 text-brand-blue dark:bg-brand-blue/100/10 dark:border-primary-500/20 dark:text-brand-blue-bright'
+                   <div className={`mt-1 shrink-0 h-10 w-10 rounded-xl flex items-center justify-center border ${
+                      event.type === 'MATCH' ? 'bg-amber-500/15 border-amber-500/30 text-amber-400' : 
+                      event.type === 'SOCIAL' ? 'bg-purple-500/15 border-purple-500/30 text-purple-400' : 
+                      'bg-[#00F59B]/15 border-[#00F59B]/30 text-[#00F59B]'
                    }`}>
                       <CalendarIcon className="h-5 w-5" />
                    </div>
                   <div>
                     <div className="flex items-center space-x-2 mb-1">
-                      <p className="font-bold text-text-primary ">{event.title}</p>
+                      <p className="font-bold text-text-primary">{event.title}</p>
                       <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider ${
-                        event.type === 'MATCH' ? 'bg-accent-100 text-accent-700 ccent-500/20 dark:text-accent-400' : 
-                        event.type === 'SOCIAL' ? 'bg-emerald-100 text-emerald-700 dark:bg-success/100/20 dark:text-emerald-400' : 
-                        'bg-primary-100 text-primary-700 dark:bg-brand-blue/100/20 '
+                        event.type === 'MATCH' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' : 
+                        event.type === 'SOCIAL' ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30' : 
+                        'bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30'
                       }`}>
                         {event.type}
                       </span>
@@ -591,9 +591,9 @@ export default function Events() {
                           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="flex items-center hover:text-brand-blue dark:hover:text-brand-blue-bright transition-colors hover:underline"
+                          className="flex items-center hover:text-[#00F59B] transition-colors hover:underline"
                         >
-                          <MapPin className="h-3.5 w-3.5 mr-1" /> {event.location}
+                          <MapPin className="h-3.5 w-3.5 mr-1 text-danger" /> {event.location}
                         </a>
                       )}
                     </div>
@@ -604,30 +604,30 @@ export default function Events() {
                   <div className="flex items-center space-x-2">
                     <button 
                       onClick={() => rsvp.mutate({ eventId: event.id, status: 'ATTENDING' })}
-                      className="saas-btn-secondary py-1.5 px-3 text-xs bg-transparent hover:bg-brand-blue/10 hover:text-brand-blue hover:border-primary-200 dark:hover:bg-brand-blue/100/10 dark:hover:text-primary-400 dark:hover:border-primary-500/30"
+                      className="saas-btn-secondary py-1.5 px-3 text-xs bg-transparent hover:bg-[#00F59B]/15 hover:text-[#00F59B] hover:border-[#00F59B]/40"
                     >
                       Presente
                     </button>
                     <button 
                       onClick={() => rsvp.mutate({ eventId: event.id, status: 'ABSENT' })}
-                      className="saas-btn-secondary py-1.5 px-3 text-xs bg-transparent hover:bg-accent-50 hover:text-accent-600 hover:border-accent-200 dark:hover:bg-accent-500/10 dark:hover:text-accent-400 dark:hover:border-accent-500/30"
+                      className="saas-btn-secondary py-1.5 px-3 text-xs bg-transparent hover:bg-danger/10 hover:text-danger hover:border-danger/30"
                     >
                       Assente
                     </button>
                   </div>
                   <button 
                     onClick={() => setAttendanceEventId(event.id)}
-                    className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center bg-surface-hover dark:bg-[#1a1a1a]"
+                    className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center hover:border-[#00F59B]/40 hover:text-[#00F59B]"
                   >
                     <ClipboardCheck className="h-3.5 w-3.5 mr-1" /> Appello
                   </button>
 
                   <button 
                     onClick={() => handleOpenCoachSpeech(event)}
-                    className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center bg-surface-hover dark:bg-[#1a1a1a] text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 border-purple-200/50 dark:border-purple-800/30"
+                    className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center text-purple-400 hover:text-purple-300 border-purple-500/30"
                     title="Discorso motivazionale Coach con Gemini AI"
                   >
-                    <Sparkles className="h-3.5 w-3.5 mr-1 text-purple-500" /> Coach AI
+                    <Sparkles className="h-3.5 w-3.5 mr-1 text-purple-400" /> Coach AI
                   </button>
 
                   {isAdmin && (

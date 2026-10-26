@@ -17,8 +17,11 @@
   --color-brand-blue: #0066FF;
   --color-brand-blue-bright: #2563EB;
   --color-brand-orange: #FF7A00;
+  --color-brand-volt: #00F59B;
+  --color-brand-volt-bright: #22FFAB;
+  --color-brand-volt-dark: #00C87E;
 
-  --color-success: #10B981;
+  --color-success: #00F59B;
   --color-danger: #EF4444;
   --color-warning: #F59E0B;
   --color-pastry: #EC4899;
@@ -43,19 +46,19 @@
   
   .dark {
     color-scheme: dark;
-    --vs-bg-primary: #070A10;
-    --vs-bg-secondary: #0D131F;
-    --vs-surface: #111A29;
-    --vs-surface-hover: #172338;
+    --vs-bg-primary: #070B12;
+    --vs-bg-secondary: #0B101B;
+    --vs-surface: #0F1726;
+    --vs-surface-hover: #162238;
     --vs-border: rgba(255, 255, 255, 0.08);
-    --vs-border-strong: rgba(255, 255, 255, 0.16);
+    --vs-border-strong: rgba(0, 245, 155, 0.35);
     --vs-text-primary: #F8FAFC;
     --vs-text-secondary: #94A3B8;
     --vs-text-tertiary: #64748B;
   }
   
   body {
-    @apply antialiased selection:bg-brand-blue/30 selection:text-white;
+    @apply antialiased selection:bg-[#00F59B]/30 selection:text-white;
     background-color: var(--vs-bg-primary);
     color: var(--color-text-primary);
     overflow-x: hidden;
@@ -85,7 +88,7 @@
     @apply transition-all duration-200;
   }
   .dark .saas-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
   }
   
   .saas-card-hover {
@@ -93,11 +96,19 @@
   }
   
   .saas-input {
-    @apply w-full bg-bg-secondary border border-border rounded-xl text-sm text-text-primary px-4 py-3 focus:outline-none focus:ring-1 focus:ring-brand-blue focus:border-brand-blue placeholder-text-tertiary transition-all;
+    @apply w-full bg-bg-secondary border border-border rounded-xl text-sm text-text-primary px-4 py-3 focus:outline-none focus:ring-1 focus:ring-[#00F59B] focus:border-[#00F59B] placeholder-text-tertiary transition-all;
   }
   
   .saas-btn-primary {
     @apply bg-brand-blue hover:bg-brand-blue-bright text-white text-sm font-semibold py-2.5 px-5 rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+
+  .saas-btn-volt {
+    @apply bg-[#00F59B] hover:bg-[#22FFAB] text-[#070B12] text-sm font-black tracking-wide py-2.5 px-5 rounded-xl transition-all duration-200 active:scale-95 shadow-[0_0_20px_rgba(0,245,155,0.35)] hover:shadow-[0_0_25px_rgba(0,245,155,0.55)] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .saas-badge-volt {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30 shadow-[0_0_10px_rgba(0,245,155,0.15)];
   }
   
   .saas-btn-secondary {
@@ -110,7 +121,7 @@
     -webkit-backdrop-filter: blur(18px);
   }
   .dark .glass-panel {
-    background: rgba(10, 16, 25, 0.72);
+    background: rgba(7, 11, 18, 0.85);
   }
 }
 
@@ -137,7 +148,7 @@
   animation: floatOrb 14s infinite alternate cubic-bezier(0.22, 1, 0.36, 1);
 }
 .dark .ambient-light-orb {
-  background: radial-gradient(circle, rgba(22, 131, 255, 0.08) 0%, rgba(22, 131, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(0, 245, 155, 0.08) 0%, rgba(22, 131, 255, 0.04) 45%, rgba(0, 245, 155, 0) 70%);
 }
 
 .ambient-court-lines {

@@ -73,7 +73,7 @@ export default function App() {
       <Link 
         to={to} 
         className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors duration-200 ${
-          active ? 'text-brand-blue' : 'text-text-tertiary hover:text-text-secondary'
+          active ? 'text-[#00F59B]' : 'text-text-tertiary hover:text-text-secondary'
         }`}
       >
         <div className="relative flex flex-col items-center justify-center">
@@ -81,11 +81,11 @@ export default function App() {
           {active && (
             <motion.div 
               layoutId="bottom-nav-indicator"
-              className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-brand-blue rounded-full shadow-[0_0_8px_rgba(22,131,255,0.8)]"
+              className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#00F59B] rounded-full shadow-[0_0_10px_rgba(0,245,155,0.9)]"
             />
           )}
         </div>
-        <span className="text-[10px] font-semibold tracking-wide">{label}</span>
+        <span className="text-[10px] font-bold tracking-wide">{label}</span>
       </Link>
     );
   };
@@ -113,28 +113,28 @@ export default function App() {
       {/* Desktop Top Navbar */}
       <nav className="hidden md:flex items-center justify-between h-16 w-full glass-panel border-b border-border sticky top-0 z-40 px-6 transition-all">
         <div className="flex items-center">
-          <div className="h-8 w-8 rounded-lg flex items-center justify-center mr-3 overflow-hidden">
+          <div className="h-8 w-8 rounded-lg flex items-center justify-center mr-3 overflow-hidden ring-1 ring-border">
             <img src="/logo.jpg" alt="VolleyStack Logo" className="w-full h-full object-cover" />
           </div>
-          <span className="font-bold text-lg tracking-tight text-text-primary mr-8">VolleyStack</span>
+          <span className="font-extrabold text-lg tracking-tight text-text-primary mr-8">VolleyStack</span>
           
           <div className="flex items-center space-x-1">
-            <Link to="/dashboard" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-medium transition-all ${isActive('/dashboard') && location.pathname === '/dashboard' ? 'bg-surface border border-border text-text-primary' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
+            <Link to="/dashboard" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/dashboard') && location.pathname === '/dashboard' ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
               <Home className="h-4 w-4 flex-shrink-0" /> <span>Home</span>
             </Link>
-            <Link to="/events" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-medium transition-all ${isActive('/events') ? 'bg-surface border border-border text-text-primary' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
+            <Link to="/events" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/events') ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
               <Calendar className="h-4 w-4 flex-shrink-0" /> <span>Calendario</span>
             </Link>
-            <Link to="/treasury" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-medium transition-all ${isActive('/treasury') ? 'bg-surface border border-border text-text-primary' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
+            <Link to="/treasury" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/treasury') ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
               <WalletCards className="h-4 w-4 flex-shrink-0" /> <span>Tax & Cassa</span>
             </Link>
-            <Link to="/team" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-medium transition-all ${isActive('/team') ? 'bg-surface border border-border text-text-primary' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
+            <Link to="/team" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/team') ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
               <Users className="h-4 w-4 flex-shrink-0" /> <span>Squadra</span>
             </Link>
-            <Link to="/pastes" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-medium transition-all ${isActive('/pastes') ? 'bg-surface border border-border text-text-primary' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
+            <Link to="/pastes" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/pastes') ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
               <Croissant className="h-4 w-4 flex-shrink-0" /> <span>Paste</span>
             </Link>
-            <Link to="/stats" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-medium transition-all ${isActive('/stats') ? 'bg-surface border border-border text-text-primary' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
+            <Link to="/stats" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/stats') ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
               <BarChart2 className="h-4 w-4 flex-shrink-0" /> <span>Statistiche</span>
             </Link>
           </div>
