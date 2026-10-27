@@ -92,6 +92,190 @@ export default async function eventRoutes(fastify: FastifyInstance) {
     return reply.status(201).send({ count: createdEvents.length });
   });
 
+  // --- FIPAV ONLINE / ITALVOLLEY INTEGRATION ---
+
+  // 1. Get Committees list
+  fastify.get('/fipav/committees', { onRequest: [fastify.authorize('EVENT_TRAINING_CREATE')] }, async (_request, reply) => {
+    try {
+      const res = await globalThis.fetch('https://public.fipavonline.it/data/committees.json');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json: any = await res.json();
+      const rawRegioni = json?.regioni || {};
+      const list: Array<{ id: string; name: string; region: string; isRegion: boolean }> = [];
+
+      for (const [regioneName, data] of Object.entries<any>(rawRegioni)) {
+        for (const comitato of data.comitati || []) {
+          list.push({
+            id: String(comitato.id),
+            name: comitato.nome,
+            region: regioneName,
+            isRegion: comitato.is_regione === '1'
+          });
+        }
+      }
+
+      // Prioritize Lazio / Roma at the top
+      list.sort((a, b) => {
+        if (a.id === '12060') return -1;
+        if (b.id === '12060') return 1;
+        if (a.id === '12000') return -1;
+        if (b.id === '12000') return 1;
+        if (a.region === 'Lazio' && b.region !== 'Lazio') return -1;
+        if (b.region === 'Lazio' && a.region !== 'Lazio') return 1;
+        return a.name.localeCompare(b.name);
+      });
+
+      return reply.send(list);
+    } catch (err: any) {
+      return reply.status(500).send({ error: 'Errore caricamento comitati FIPAV: ' + err.message });
+    }
+  });
+
+  // 2. Get Gironi for a committee
+  fastify.get('/fipav/committees/:committeeId/gironi', { onRequest: [fastify.authorize('EVENT_TRAINING_CREATE')] }, async (request, reply) => {
+    const paramsSchema = z.object({ teamId: z.string(), committeeId: z.string() });
+    const parsed = paramsSchema.safeParse(request.params);
+    if (!parsed.success) return reply.status(400).send({ error: 'Invalid param' });
+
+    try {
+      const { committeeId } = parsed.data;
+      const res = await globalThis.fetch(`https://data.fipavonline.it/api/v2/calendar/${encodeURIComponent(committeeId)}/0`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json: any = await res.json();
+      const gironiRaw = Array.isArray(json?.data) ? json.data : (json?.data?.gironi || []);
+      
+      const gironi = gironiRaw.map((g: any) => ({
+        id: String(g.id),
+        title: g.title,
+        championship: g.parent || g.title,
+        subTitle: g['sub-title'] || '',
+        shortTitle: g['title-short'] || ''
+      }));
+
+      return reply.send(gironi);
+    } catch (err: any) {
+      return reply.status(500).send({ error: 'Errore caricamento gironi: ' + err.message });
+    }
+  });
+
+  // 3. Get teams and match count for a girone
+  fastify.get('/fipav/gironi/:gironeId/teams', { onRequest: [fastify.authorize('EVENT_TRAINING_CREATE')] }, async (request, reply) => {
+    const paramsSchema = z.object({ teamId: z.string(), gironeId: z.string() });
+    const parsed = paramsSchema.safeParse(request.params);
+    if (!parsed.success) return reply.status(400).send({ error: 'Invalid param' });
+
+    try {
+      const { gironeId } = parsed.data;
+      const res = await globalThis.fetch(`https://data.fipavonline.it/api/v2/calendar/0/${encodeURIComponent(gironeId)}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json: any = await res.json();
+      const matches: any[] = json?.data?.matches || [];
+
+      const teamsMap = new Map<string, { name: string; matchCount: number; logo?: string }>();
+
+      for (const m of matches) {
+        const t1 = m.team1?.title;
+        const t2 = m.team2?.title;
+
+        if (t1) {
+          const cur = teamsMap.get(t1) || { name: t1, matchCount: 0, logo: m.team1?.logo };
+          cur.matchCount++;
+          teamsMap.set(t1, cur);
+        }
+        if (t2) {
+          const cur = teamsMap.get(t2) || { name: t2, matchCount: 0, logo: m.team2?.logo };
+          cur.matchCount++;
+          teamsMap.set(t2, cur);
+        }
+      }
+
+      return reply.send({
+        gironeTitle: json?.data?.title || '',
+        totalMatches: matches.length,
+        teams: Array.from(teamsMap.values()).sort((a, b) => a.name.localeCompare(b.name))
+      });
+    } catch (err: any) {
+      return reply.status(500).send({ error: 'Errore caricamento squadre girone: ' + err.message });
+    }
+  });
+
+  // 4. Import matches for selected team in a girone
+  fastify.post('/fipav/import', { onRequest: [fastify.authorize('EVENT_TRAINING_CREATE')] }, async (request, reply) => {
+    const paramsSchema = z.object({ teamId: z.string() });
+    const parsedParams = paramsSchema.safeParse(request.params);
+    if (!parsedParams.success) return reply.status(400).send({ error: 'Invalid param' });
+
+    const bodySchema = z.object({
+      gironeId: z.string().min(1),
+      teamName: z.string().min(1)
+    });
+    const parsedBody = bodySchema.safeParse(request.body);
+    if (!parsedBody.success) return reply.status(400).send({ error: 'Invalid input' });
+
+    const { teamId } = parsedParams.data;
+    const { gironeId, teamName } = parsedBody.data;
+    const teamNameLower = teamName.toLowerCase().trim();
+
+    try {
+      const res = await globalThis.fetch(`https://data.fipavonline.it/api/v2/calendar/0/${encodeURIComponent(gironeId)}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json: any = await res.json();
+      const matches: any[] = json?.data?.matches || [];
+
+      // Filter matches where selected team plays (home or away)
+      const teamMatches = matches.filter((m: any) => {
+        const t1 = (m.team1?.title || '').toLowerCase().trim();
+        const t2 = (m.team2?.title || '').toLowerCase().trim();
+        return t1 === teamNameLower || t2 === teamNameLower;
+      });
+
+      if (teamMatches.length === 0) {
+        return reply.status(404).send({ error: `Nessuna partita trovata per "${teamName}" in questo girone.` });
+      }
+
+      const eventsData = teamMatches.map((m: any) => {
+        const isHome = (m.team1?.title || '').toLowerCase().trim() === teamNameLower;
+        const opponent = isHome ? (m.team2?.title || 'Avversario') : (m.team1?.title || 'Avversario');
+        const dayLabel = m.day ? ` (${m.day})` : '';
+        const title = isHome ? `Partita vs ${opponent}${dayLabel}` : `Trasferta vs ${opponent}${dayLabel}`;
+
+        // Parse date
+        let matchDate: Date;
+        if (m.date && m.time) {
+          const [day, month, year] = m.date.split('/');
+          const cleanTime = m.time.replace('.', ':');
+          const [hour, min] = cleanTime.split(':');
+          matchDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), parseInt(hour) || 20, parseInt(min) || 30);
+        } else if (m.ts_gara) {
+          matchDate = new Date(parseInt(m.ts_gara) * 1000);
+        } else {
+          matchDate = new Date();
+        }
+
+        const location = m.stadium || (isHome ? 'Palestra di Casa' : 'Palazzetto Trasferta');
+
+        return {
+          teamId,
+          title,
+          type: EventType.MATCH,
+          date: matchDate,
+          location
+        };
+      });
+
+      const createdEvents = await prisma.$transaction(
+        eventsData.map(data => prisma.event.create({ data }))
+      );
+
+      return reply.status(201).send({
+        count: createdEvents.length,
+        events: createdEvents
+      });
+    } catch (err: any) {
+      return reply.status(500).send({ error: 'Errore durante importazione gare FIPAV: ' + err.message });
+    }
+  });
+
   // Import from FIPAV Scraper
   fastify.post('/import/scraper', { onRequest: [fastify.authorize('EVENT_TRAINING_CREATE')] }, async (request, reply) => {
     const paramsSchema = z.object({ teamId: z.string() });

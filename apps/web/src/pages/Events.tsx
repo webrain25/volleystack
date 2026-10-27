@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { CalendarIcon, Plus, MapPin, Clock, X, CheckSquare, Square, ClipboardCheck, Pencil, Sparkles, Loader2, Quote, Copy, Check } from 'lucide-react';
+import { CalendarIcon, Plus, MapPin, Clock, X, CheckSquare, Square, ClipboardCheck, Pencil, Sparkles, Loader2, Quote, Copy, Check, Trophy, Zap } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { LocationInput } from '../components/LocationInput';
 import { PageHeader } from '../components/PageHeader';
@@ -32,7 +32,10 @@ export default function Events() {
   const [showForm, setShowForm] = useState(false);
   const [editEventId, setEditEventId] = useState<string | null>(null);
   const [showImportForm, setShowImportForm] = useState(false);
-  const [importTab, setImportTab] = useState<'FIPAV' | 'CSV'>('FIPAV');
+  const [importTab, setImportTab] = useState<'FIPAV_FEED' | 'SEASON' | 'CSV'>('FIPAV_FEED');
+  const [fipavCommittee, setFipavCommittee] = useState('12060'); // Predefinito C.T. Roma
+  const [fipavGirone, setFipavGirone] = useState('');
+  const [fipavTeam, setFipavTeam] = useState('');
   const [attendanceEventId, setAttendanceEventId] = useState<string | null>(null);
   const [coachEvent, setCoachEvent] = useState<any | null>(null);
   const [coachSpeech, setCoachSpeech] = useState<string>('');
@@ -117,6 +120,39 @@ export default function Events() {
     },
     onError: () => {
       alert('Errore durante la generazione del calendario');
+    }
+  });
+
+  const { data: committees, isLoading: isLoadingCommittees } = useQuery({
+    queryKey: ['fipavCommittees', teamId],
+    queryFn: () => api.get(`/teams/${teamId}/events/fipav/committees`).then(res => res.data),
+    enabled: !!teamId && showImportForm,
+  });
+
+  const { data: gironi, isLoading: isLoadingGironi } = useQuery({
+    queryKey: ['fipavGironi', teamId, fipavCommittee],
+    queryFn: () => api.get(`/teams/${teamId}/events/fipav/committees/${fipavCommittee}/gironi`).then(res => res.data),
+    enabled: !!teamId && showImportForm && !!fipavCommittee,
+  });
+
+  const { data: teamsData, isLoading: isLoadingTeams } = useQuery({
+    queryKey: ['fipavTeams', teamId, fipavGirone],
+    queryFn: () => api.get(`/teams/${teamId}/events/fipav/gironi/${fipavGirone}/teams`).then(res => res.data),
+    enabled: !!teamId && showImportForm && !!fipavGirone,
+  });
+
+  const importFipavMutation = useMutation({
+    mutationFn: (payload: { gironeId: string; teamName: string }) =>
+      api.post(`/teams/${teamId}/events/fipav/import`, payload),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: ['events', teamId] });
+      setShowImportForm(false);
+      setFipavGirone('');
+      setFipavTeam('');
+      alert(`🎉 Sincronizzazione FIPAV completata! Importate ${res.data.count} partite nel calendario.`);
+    },
+    onError: (err: any) => {
+      alert('Errore importazione FIPAV: ' + (err.response?.data?.error || err.message));
     }
   });
 
@@ -285,24 +321,175 @@ export default function Events() {
       />
 
       {showImportForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 /60 backdrop-blur-sm animate-in fade-in">
-          <div className="saas-card w-full max-w-lg p-6 shadow-2xl relative animate-in slide-in-from-bottom-4">
-            <button onClick={() => setShowImportForm(false)} className="absolute top-4 right-4 text-text-tertiary hover:text-text-secondary dark:text-text-tertiary dark:hover:text-gray-200 transition-colors">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-in fade-in">
+          <div className="saas-card w-full max-w-xl p-6 shadow-2xl relative animate-in slide-in-from-bottom-4 border border-[#00F59B]/20">
+            <button onClick={() => setShowImportForm(false)} className="absolute top-4 right-4 text-text-tertiary hover:text-text-primary transition-colors">
               <X className="h-5 w-5" />
             </button>
-            <h2 className="text-xl font-bold mb-1 text-text-primary ">Importa Calendario</h2>
-            <p className="text-sm text-text-tertiary mb-4">Seleziona il metodo di importazione automatica.</p>
+            <h2 className="text-xl font-bold mb-1 text-text-primary flex items-center">
+              <Trophy className="h-5 w-5 mr-2 text-[#00F59B]" />
+              Importa Calendario
+            </h2>
+            <p className="text-sm text-text-tertiary mb-5">Sincronizza le partite FIPAV ufficiali o genera gli allenamenti stagionali.</p>
             
-            <div className="flex space-x-2 border-b border-border/50 dark:border-white/10 mb-6">
-              <button onClick={() => setImportTab('FIPAV')} className={`pb-2 px-1 text-sm font-semibold transition-colors ${importTab === 'FIPAV' ? 'text-brand-blue dark:text-brand-blue-bright border-b-2 border-brand-blue dark:border-brand-blue-bright' : 'text-text-tertiary hover:text-text-primary'}`}>
-                Generatore Stagione (Allenamenti)
+            <div className="flex flex-wrap gap-2 border-b border-border mb-6">
+              <button 
+                onClick={() => setImportTab('FIPAV_FEED')} 
+                className={`pb-2.5 px-3 text-sm font-bold flex items-center transition-all ${
+                  importTab === 'FIPAV_FEED' 
+                    ? 'text-[#00F59B] border-b-2 border-[#00F59B]' 
+                    : 'text-text-tertiary hover:text-text-primary'
+                }`}
+              >
+                <Zap className="h-4 w-4 mr-1.5 text-[#00F59B]" /> Gare FIPAV Live
               </button>
-              <button onClick={() => setImportTab('CSV')} className={`pb-2 px-1 text-sm font-semibold transition-colors ${importTab === 'CSV' ? 'text-brand-blue dark:text-brand-blue-bright border-b-2 border-brand-blue dark:border-brand-blue-bright' : 'text-text-tertiary hover:text-text-primary'}`}>
-                Importa Partite (CSV/Excel)
+              <button 
+                onClick={() => setImportTab('SEASON')} 
+                className={`pb-2.5 px-3 text-sm font-semibold transition-all ${
+                  importTab === 'SEASON' 
+                    ? 'text-[#00F59B] border-b-2 border-[#00F59B]' 
+                    : 'text-text-tertiary hover:text-text-primary'
+                }`}
+              >
+                Allenamenti Stagionali
+              </button>
+              <button 
+                onClick={() => setImportTab('CSV')} 
+                className={`pb-2.5 px-3 text-sm font-semibold transition-all ${
+                  importTab === 'CSV' 
+                    ? 'text-[#00F59B] border-b-2 border-[#00F59B]' 
+                    : 'text-text-tertiary hover:text-text-primary'
+                }`}
+              >
+                File CSV
               </button>
             </div>
 
-            {importTab === 'FIPAV' ? (
+            {importTab === 'FIPAV_FEED' ? (
+              <div className="space-y-4">
+                <div className="p-3 bg-surface border border-[#00F59B]/25 rounded-xl">
+                  <div className="flex items-center space-x-2 text-xs text-[#00F59B] font-bold mb-1">
+                    <Zap className="h-4 w-4" />
+                    <span>Feed Ufficiale Cloud FIPAV (ItalVolley Engine)</span>
+                  </div>
+                  <p className="text-xs text-text-secondary leading-relaxed">
+                    Scarica direttamente dal feed della federazione tutte le partite del girone con data, orario esatto, palazzetto e coordinate geografiche.
+                  </p>
+                </div>
+
+                {/* 1. Comitato */}
+                <div>
+                  <label className="block text-xs font-semibold text-text-secondary uppercase tracking-wider mb-1.5">
+                    1. Comitato Territoriale / Regionale
+                  </label>
+                  <select 
+                    value={fipavCommittee} 
+                    onChange={(e) => {
+                      setFipavCommittee(e.target.value);
+                      setFipavGirone('');
+                      setFipavTeam('');
+                    }}
+                    className="saas-input"
+                  >
+                    {isLoadingCommittees ? (
+                      <option>Caricamento comitati in corso...</option>
+                    ) : (
+                      committees?.map((c: any) => (
+                        <option key={c.id} value={c.id}>
+                          {c.id === '12060' ? '⭐ ' : c.id === '12000' ? '🏆 ' : ''}{c.name} ({c.region})
+                        </option>
+                      ))
+                    )}
+                  </select>
+                </div>
+
+                {/* 2. Campionato / Girone */}
+                <div>
+                  <label className="block text-xs font-semibold text-text-secondary uppercase tracking-wider mb-1.5">
+                    2. Campionato & Girone
+                  </label>
+                  <select 
+                    value={fipavGirone} 
+                    onChange={(e) => {
+                      setFipavGirone(e.target.value);
+                      setFipavTeam('');
+                    }}
+                    disabled={!fipavCommittee || isLoadingGironi}
+                    className="saas-input"
+                  >
+                    <option value="">-- Seleziona il campionato e girone --</option>
+                    {isLoadingGironi ? (
+                      <option>Caricamento gironi dal server...</option>
+                    ) : (
+                      gironi?.map((g: any) => (
+                        <option key={g.id} value={g.id}>
+                          {g.title} {g.subTitle ? `(${g.subTitle})` : ''}
+                        </option>
+                      ))
+                    )}
+                  </select>
+                </div>
+
+                {/* 3. Squadra */}
+                <div>
+                  <label className="block text-xs font-semibold text-text-secondary uppercase tracking-wider mb-1.5">
+                    3. La tua Squadra nel Girone
+                  </label>
+                  <select 
+                    value={fipavTeam} 
+                    onChange={(e) => setFipavTeam(e.target.value)}
+                    disabled={!fipavGirone || isLoadingTeams}
+                    className="saas-input"
+                  >
+                    <option value="">-- Seleziona la squadra da importare --</option>
+                    {isLoadingTeams ? (
+                      <option>Caricamento squadre...</option>
+                    ) : (
+                      teamsData?.teams?.map((t: any) => (
+                        <option key={t.name} value={t.name}>
+                          {t.name} — ({t.matchCount} partite)
+                        </option>
+                      ))
+                    )}
+                  </select>
+                </div>
+
+                {/* Anteprima e Telemetria */}
+                {fipavTeam && teamsData && (
+                  <div className="p-3 bg-surface border border-border rounded-xl flex items-center justify-between text-xs">
+                    <div>
+                      <span className="text-text-tertiary">Competizione: </span>
+                      <span className="font-bold text-text-primary">{teamsData.gironeTitle}</span>
+                    </div>
+                    <div className="px-2.5 py-1 rounded-full bg-[#00F59B]/15 text-[#00F59B] font-mono font-bold border border-[#00F59B]/30">
+                      {teamsData.teams.find((t: any) => t.name === fipavTeam)?.matchCount || 0} Gare Disponibili
+                    </div>
+                  </div>
+                )}
+
+                {/* Pulsante di importazione */}
+                <div className="pt-2">
+                  <button 
+                    type="button"
+                    disabled={!fipavGirone || !fipavTeam || importFipavMutation.isPending}
+                    onClick={() => importFipavMutation.mutate({ gironeId: fipavGirone, teamName: fipavTeam })}
+                    className="saas-btn-volt w-full py-3 flex items-center justify-center font-bold tracking-wide shadow-[0_0_20px_rgba(0,245,155,0.25)]"
+                  >
+                    {importFipavMutation.isPending ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Importazione Gare nel Database...
+                      </>
+                    ) : (
+                      <>
+                        <Trophy className="h-4 w-4 mr-2 stroke-[2.5px]" />
+                        Importa Calendario Partite FIPAV
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            ) : importTab === 'SEASON' ? (
               <form onSubmit={handleGenerateSeason} className="space-y-4">
                 <div className="p-3 bg-brand-blue/5 border border-brand-blue/20 rounded-lg mb-4">
                   <p className="text-xs text-brand-blue dark:text-brand-blue-bright leading-relaxed">
