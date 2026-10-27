@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify';
 import z from 'zod';
 import { prisma } from '../lib/prisma';
 import { EventType, RsvpStatus } from '@prisma/client';
+import * as cheerio from 'cheerio';
 
 export default async function eventRoutes(fastify: FastifyInstance) {
   // Create event
@@ -294,9 +295,6 @@ export default async function eventRoutes(fastify: FastifyInstance) {
     const { url, teamName } = parsed.data;
 
     try {
-      const cheerio = require('cheerio');
-      const fetch = require('node-fetch'); // Native fetch in Node 18+ is global, but just in case
-      
       const res = await globalThis.fetch(url);
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       const html = await res.text();

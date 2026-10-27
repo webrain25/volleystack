@@ -30,3 +30,6 @@ coverage/
 # Docker volumes
 postgres_data/
 .neon
+
+*.exe
+cloudflared.exe
