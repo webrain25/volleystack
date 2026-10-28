@@ -219,7 +219,7 @@ export default function Dashboard() {
           {eventsLoading ? (
             <div className="py-14 flex flex-col items-center justify-center text-text-tertiary">
               <Activity className="animate-spin h-7 w-7 text-[#00F59B] mb-3" />
-              <p className="text-xs font-medium">Caricamento programma gare e telemetria...</p>
+              <p className="text-xs font-medium">Caricamento prossimi eventi...</p>
             </div>
           ) : nextEvent ? (
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 md:gap-8">
@@ -406,7 +406,7 @@ export default function Dashboard() {
               € {(totalFineAmount / 100).toFixed(2)}
             </h3>
             <p className="text-xs text-text-secondary mt-1 flex items-center justify-between">
-              <span>{myFines.length === 0 ? 'Nessun debito aperto' : `${myFines.length} multe in attesa`}</span>
+              <span>{myFines.length === 0 ? 'Tutto pagato' : `${myFines.length} multe da pagare`}</span>
               <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 group-hover:text-[#00F59B] transition-all" />
             </p>
           </div>
@@ -428,24 +428,24 @@ export default function Dashboard() {
               </span>
             ) : (
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#070B12] text-text-tertiary border border-white/5">
-                <span>Saldo zero</span>
+                <span>In pari</span>
               </span>
             )}
           </div>
 
           <div className="relative z-10">
-            <p className="text-[11px] font-black text-text-tertiary uppercase tracking-wider">Paste & Pasticcini</p>
+            <p className="text-[11px] font-black text-text-tertiary uppercase tracking-wider">Turno delle Paste</p>
             <h3 className="text-xl md:text-2xl font-black text-[#F8FAFC] tracking-tight mt-1 font-mono">
               {myPendingPastes.length} {myPendingPastes.length === 1 ? 'vassoio' : 'vassoi'}
             </h3>
             <p className="text-xs text-text-secondary mt-1 flex items-center justify-between">
-              <span>{myPendingPastes.length === 0 ? 'Spogliatoio a credito' : 'Porta la colazione!'}</span>
+              <span>{myPendingPastes.length === 0 ? 'Nessun debito paste' : 'Tocca a te portare le paste!'}</span>
               <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 group-hover:text-[#FF4D94] transition-all" />
             </p>
           </div>
         </Link>
 
-        {/* Widget 3: Percentuale Presenze (Athletic Telemetry Histogram Bar Look) */}
+        {/* Widget 3: Percentuale Presenze */}
         <Link 
           to="/stats" 
           className="saas-card bg-[#0F1726] p-4 md:p-5 flex flex-col justify-between hover:border-[#00F59B]/40 active:scale-[0.99] transition-all group shadow-md"
@@ -455,17 +455,16 @@ export default function Dashboard() {
               <UserCheck className="h-5 w-5" />
             </div>
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30 shadow-[0_0_8px_rgba(0,245,155,0.2)]">
-              <span>Stagione 25/26</span>
+              <span>Stagione 26/27</span>
             </span>
           </div>
 
           <div>
-            <p className="text-[11px] font-black text-text-tertiary uppercase tracking-wider">Fedeltà Convocazioni</p>
+            <p className="text-[11px] font-black text-text-tertiary uppercase tracking-wider">Presenze Stagione</p>
             <div className="flex items-baseline justify-between mt-1">
               <h3 className="text-xl md:text-2xl font-black text-[#F8FAFC] tracking-tight font-mono">
                 94%
               </h3>
-              {/* Telemetry Micro-Frequency Bars */}
               <div className="flex items-end gap-1 h-5 pb-0.5">
                 <span className="w-1.5 h-2 rounded-sm bg-[#00F59B]/40"></span>
                 <span className="w-1.5 h-3 rounded-sm bg-[#00F59B]/60"></span>
@@ -475,7 +474,7 @@ export default function Dashboard() {
               </div>
             </div>
             <p className="text-xs text-text-secondary mt-1 flex items-center justify-between">
-              <span>Trend presenze eccellente</span>
+              <span>Ottima continuità</span>
               <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 group-hover:text-[#00F59B] transition-all" />
             </p>
           </div>
@@ -491,10 +490,10 @@ export default function Dashboard() {
           <div className="flex items-center justify-between px-1">
             <h2 className="text-xs font-black text-text-tertiary uppercase tracking-wider flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#00F59B]"></span>
-              <span>Attività Recente Spogliatoio</span>
+              <span>Ultime dallo Spogliatoio</span>
             </h2>
             <span className="text-[11px] font-mono text-[#00F59B] flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00F59B] animate-ping"></span> Live sync
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00F59B] animate-ping"></span> In tempo reale
             </span>
           </div>
 
@@ -530,7 +529,7 @@ export default function Dashboard() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs md:text-sm text-text-primary font-medium truncate">
-                  Nuova Tax assegnata a <span className="font-bold text-[#F8FAFC]">Andrea</span> · Ritardo allenamento
+                  Nuova multa assegnata a <span className="font-bold text-[#F8FAFC]">Andrea</span> · Ritardo allenamento
                 </p>
                 <p className="text-[11px] font-mono text-text-tertiary mt-0.5">2 giorni fa</p>
               </div>
@@ -542,7 +541,7 @@ export default function Dashboard() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs md:text-sm text-text-primary font-medium truncate">
-                  Debito Paste assegnato a <span className="font-bold text-[#F8FAFC]">Lorenzo</span> · Battuta lisciata
+                  Turno paste per <span className="font-bold text-[#F8FAFC]">Lorenzo</span> · Battuta lisciata
                 </p>
                 <p className="text-[11px] font-mono text-text-tertiary mt-0.5">3 giorni fa</p>
               </div>

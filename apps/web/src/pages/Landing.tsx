@@ -97,11 +97,10 @@ export default function Landing() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6 max-w-5xl leading-[1.05]"
             >
-              Il gestionale spogliatoio{' '}
+              Tutto il tuo spogliatoio{' '}
               <span className="bg-gradient-to-r from-[#00F59B] via-[#22FFAB] to-[#00DF89] bg-clip-text text-transparent">
-                definitivo
-              </span>{' '}
-              per la tua squadra.
+                in un'unica app
+              </span>.
             </motion.h1>
 
             {/* Subtitle */}
@@ -111,8 +110,8 @@ export default function Landing() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg md:text-2xl text-text-secondary mb-10 max-w-3xl leading-relaxed"
             >
-              Convocazioni, presenze, cassa multe, turno paste e statistiche in tempo reale.
-              Sincronizzato direttamente con i calendari ufficiali di campionato.
+              Convocazioni, presenze, cassa multe e turno delle paste.
+              Semplice, trasparente e sincronizzato con il calendario del tuo campionato.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -138,7 +137,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* Live Interactive Dashboard Telemetry Mockup */}
+        {/* Live Interactive Dashboard Preview Mockup */}
         <section className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 mb-24 md:mb-36">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -146,14 +145,14 @@ export default function Landing() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="relative rounded-3xl p-1 bg-gradient-to-b from-white/20 via-white/5 to-transparent dark:from-white/10 dark:via-white/5 dark:to-transparent shadow-[0_20px_80px_rgba(0,0,0,0.5)]"
           >
-            {/* Floating Telemetry Pills */}
+            {/* Floating Status Badges */}
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
               className="hidden lg:flex absolute -top-5 -left-4 z-30 items-center gap-2 px-4 py-2.5 rounded-2xl bg-surface/90 border border-[#00F59B]/40 shadow-[0_10px_30px_rgba(0,245,155,0.2)] backdrop-blur-md"
             >
               <Zap className="h-4 w-4 text-[#00F59B]" />
-              <span className="text-xs font-black text-text-primary">FIPAV Sync • 22 Gare Importate</span>
+              <span className="text-xs font-black text-text-primary">Calendario FIPAV Sincronizzato</span>
             </motion.div>
 
             <motion.div
@@ -162,7 +161,7 @@ export default function Landing() {
               className="hidden lg:flex absolute -bottom-5 -right-4 z-30 items-center gap-2 px-4 py-2.5 rounded-2xl bg-surface/90 border border-[#00F59B]/40 shadow-[0_10px_30px_rgba(0,245,155,0.2)] backdrop-blur-md"
             >
               <CheckCircle2 className="h-4 w-4 text-[#00F59B]" />
-              <span className="text-xs font-black text-text-primary">14 Convocati Presenti • Quorum 94%</span>
+              <span className="text-xs font-black text-text-primary">14 Convocati • Tutti Presenti</span>
             </motion.div>
 
             {/* Inner Glass Workspace Window */}
@@ -174,12 +173,12 @@ export default function Landing() {
                   <div className="w-3 h-3 rounded-full bg-warning/80" />
                   <div className="w-3 h-3 rounded-full bg-success/80" />
                   <span className="ml-3 text-xs font-mono text-text-tertiary">
-                    Volley Roma Spikers — Pro Matchday Telemetry
+                    Volley Roma — Prossima Partita
                   </span>
                 </div>
                 <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#00F59B]/10 border border-[#00F59B]/30 text-[#00F59B] text-xs font-bold">
                   <span className="h-2 w-2 rounded-full bg-[#00F59B] animate-pulse" />
-                  LIVE SPOGLIATOIO ATTIVO
+                  SPOGLIATOIO ATTIVO
                 </div>
               </div>
 
@@ -218,17 +217,17 @@ export default function Landing() {
 
                 {/* Side Stats Columns */}
                 <div className="space-y-4">
-                  {/* Quorum Box */}
+                  {/* Presenze Box */}
                   <div className="rounded-2xl bg-surface/40 border border-border p-5">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-xs font-bold uppercase tracking-wider text-text-tertiary">
-                        Quorum Roster
+                        Presenze Confermate
                       </span>
                       <TrendingUp className="w-4 h-4 text-[#00F59B]" />
                     </div>
-                    <div className="text-3xl font-black text-white mb-2">94%</div>
+                    <div className="text-3xl font-black text-white mb-2">14 / 14</div>
                     <div className="w-full h-2 rounded-full bg-surface overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-[#00F59B] to-[#22FFAB] rounded-full w-[94%]" />
+                      <div className="h-full bg-gradient-to-r from-[#00F59B] to-[#22FFAB] rounded-full w-full" />
                     </div>
                   </div>
 
@@ -236,14 +235,14 @@ export default function Landing() {
                   <div className="rounded-2xl bg-surface/40 border border-border p-5">
                     <div className="flex justify-between items-center mb-1">
                       <span className="text-xs font-bold uppercase tracking-wider text-text-tertiary">
-                        Cassa Multe & Tax
+                        Cassa Multe
                       </span>
                       <span className="text-[10px] font-bold text-[#00F59B] bg-[#00F59B]/15 px-2 py-0.5 rounded">
-                        REGOLARE
+                        IN REGOLA
                       </span>
                     </div>
                     <div className="text-2xl font-black text-white">€ 142.50</div>
-                    <p className="text-xs text-text-tertiary mt-1">Nessun debito scaduto</p>
+                    <p className="text-xs text-text-tertiary mt-1">Saldo squadra aggiornato</p>
                   </div>
                 </div>
               </div>
@@ -257,25 +256,25 @@ export default function Landing() {
             <div>
               <div className="text-3xl sm:text-5xl font-black text-text-primary tracking-tight mb-1">0 €</div>
               <div className="text-xs sm:text-sm font-semibold text-text-tertiary uppercase tracking-wider">
-                Costo Fisso o Licenza
+                Gratis per tutta la squadra
               </div>
             </div>
             <div>
-              <div className="text-3xl sm:text-5xl font-black text-[#00F59B] tracking-tight mb-1">1-Click</div>
+              <div className="text-3xl sm:text-5xl font-black text-[#00F59B] tracking-tight mb-1">1 Click</div>
               <div className="text-xs sm:text-sm font-semibold text-text-tertiary uppercase tracking-wider">
-                Sync Calendario FIPAV
+                Importa gare FIPAV
               </div>
             </div>
             <div>
               <div className="text-3xl sm:text-5xl font-black text-text-primary tracking-tight mb-1">100%</div>
               <div className="text-xs sm:text-sm font-semibold text-text-tertiary uppercase tracking-wider">
-                Trasparenza Cassa Multe
+                Trasparenza sulla Cassa
               </div>
             </div>
             <div>
-              <div className="text-3xl sm:text-5xl font-black text-[#00F59B] tracking-tight mb-1">h24</div>
+              <div className="text-3xl sm:text-5xl font-black text-[#00F59B] tracking-tight mb-1">H24</div>
               <div className="text-xs sm:text-sm font-semibold text-text-tertiary uppercase tracking-wider">
-                Cloud Sempre Disponibile
+                Da smartphone, tablet e PC
               </div>
             </div>
           </div>
@@ -285,11 +284,10 @@ export default function Landing() {
         <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 mb-24">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-5xl font-black tracking-tight mb-4 text-text-primary">
-              Progettato per chi vive il volley sul campo.
+              Progettato per chi vive la pallavolo ogni settimana.
             </h2>
             <p className="text-text-secondary max-w-2xl mx-auto text-base sm:text-lg">
-              Elimina i fogli Excel, le chat WhatsApp piene di messaggi persi e i conti a penna. VolleyStack accentra
-              ogni dettaglio della vita di squadra.
+              Basta con i fogli volanti, i messaggi persi nelle chat di gruppo e i conti a penna. Con VolleyStack hai tutto lo spogliatoio sotto controllo in un unico posto.
             </p>
           </div>
 
@@ -302,10 +300,9 @@ export default function Landing() {
               <div className="h-12 w-12 rounded-2xl bg-[#00F59B]/10 border border-[#00F59B]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Calendar className="h-6 w-6 text-[#00F59B]" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-text-primary">Eventi, Partite e Presenze</h3>
+              <h3 className="text-xl font-bold mb-3 text-text-primary">Partite, Allenamenti e Presenze</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Pianifica allenamenti e gare. I giocatori confermano con un tocco e l'allenatore vede subito chi sarà in
-                palestra.
+                Segna chi c'è e chi salta con un tocco. Il mister e il capitano sanno sempre con precisione chi sarà in palestra.
               </p>
             </motion.div>
 
@@ -317,10 +314,9 @@ export default function Landing() {
               <div className="h-12 w-12 rounded-2xl bg-[#00F59B]/10 border border-[#00F59B]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Wallet className="h-6 w-6 text-[#00F59B]" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-text-primary">Cassa Multe & Regolamento</h3>
+              <h3 className="text-xl font-bold mb-3 text-text-primary">Cassa Multe della Squadra</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Ritardi, maglia dimenticata, cartellini o battuta fuori. Assegna le multe e traccia i pagamenti senza
-                discussioni.
+                Ritardi, ginocchiere dimenticate o cartellini. Ognuno vede le proprie multe e il tesoriere tiene i conti in ordine senza discussioni.
               </p>
             </motion.div>
 
@@ -332,9 +328,9 @@ export default function Landing() {
               <div className="h-12 w-12 rounded-2xl bg-[#00F59B]/10 border border-[#00F59B]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Activity className="h-6 w-6 text-[#00F59B]" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-text-primary">Turno delle Paste</h3>
+              <h3 className="text-xl font-bold mb-3 text-text-primary">Il Turno delle Paste</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Compleanni, esordi o errori clamorosi: il turno dolci viene assegnato e notificato in modo trasparente.
+                Compleanni, esordi in campo o una schiacciata finita dritta sull'asta: assegna il turno dolci e ricorda a tutti chi deve portare la colazione!
               </p>
             </motion.div>
 
@@ -346,10 +342,9 @@ export default function Landing() {
               <div className="h-12 w-12 rounded-2xl bg-[#00F59B]/10 border border-[#00F59B]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Trophy className="h-6 w-6 text-[#00F59B]" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-text-primary">Statistiche & Classifiche</h3>
+              <h3 className="text-xl font-bold mb-3 text-text-primary">Classifiche e Statistiche</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Classifica dei più multati, fedeltà presenze, andamento stagionale e telemetria completa per lo staff
-                tecnico.
+                Scopri chi è il più multato della stagione, chi non salta mai un allenamento e i numeri della tua squadra nel campionato.
               </p>
             </motion.div>
 
@@ -361,9 +356,9 @@ export default function Landing() {
               <div className="h-12 w-12 rounded-2xl bg-[#00F59B]/10 border border-[#00F59B]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Users className="h-6 w-6 text-[#00F59B]" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-text-primary">Ruoli & Invito con Codice</h3>
+              <h3 className="text-xl font-bold mb-3 text-text-primary">Invito Rapido con Codice</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Coach, Capitano, Tesoriere o Giocatore. Invita la squadra con un semplice codice di 6 caratteri.
+                Mister, capitano o giocatore. Condividi un semplice codice di 6 lettere nella chat di squadra per far entrare tutti all'istante.
               </p>
             </motion.div>
 
@@ -375,9 +370,9 @@ export default function Landing() {
               <div className="h-12 w-12 rounded-2xl bg-[#00F59B]/10 border border-[#00F59B]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Shield className="h-6 w-6 text-[#00F59B]" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-text-primary">Cloud Sicuro & Sempre Attivo</h3>
+              <h3 className="text-xl font-bold mb-3 text-text-primary">Dati Sempre al Sicuro</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Database PostgreSQL di ultima generazione su Neon, CDN globale e zero costi di server.
+                Nessun rischio di perdere fogli o chat cancellate. Le presenze, le casse e il calendario rimangono sempre salvati e sincronizzati.
               </p>
             </motion.div>
           </div>
@@ -389,17 +384,16 @@ export default function Landing() {
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.035] mix-blend-overlay pointer-events-none" />
           <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
             <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-6">
-              Pronto a trasformare la tua squadra?
+              Pronto a organizzare il tuo spogliatoio?
             </h2>
             <p className="text-text-secondary text-lg md:text-xl mb-10 max-w-2xl mx-auto">
-              Unisciti a VolleyStack oggi. Registrazione gratuita, setup in 2 minuti e inizi subito a organizzare il
-              prossimo allenamento.
+              Bastano due minuti per creare la squadra e convocare tutti i giocatori per la prossima partita o allenamento.
             </p>
             <Link
               to="/register"
               className="inline-flex items-center justify-center bg-gradient-to-r from-[#00F59B] via-[#00DF89] to-[#00C87E] text-[#070B12] px-8 py-4 rounded-xl text-lg font-black shadow-[0_0_35px_rgba(0,245,155,0.45)] hover:shadow-[0_0_45px_rgba(0,245,155,0.65)] hover:scale-105 active:scale-95 transition-all"
             >
-              Inizia Ora <ArrowRight className="ml-2 h-5 w-5" />
+              Crea la tua Squadra Gratis <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </div>
         </section>
