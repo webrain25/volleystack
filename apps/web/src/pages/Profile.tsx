@@ -154,7 +154,7 @@ export default function Profile() {
               <button 
                 type="button" 
                 onClick={() => fileInputRef.current?.click()}
-                className="absolute -bottom-2 -right-2 bg-brand-blue p-2 rounded-full border-4 border-bg-primary text-white cursor-pointer hover:bg-brand-blue-bright transition-colors" 
+                className="absolute -bottom-2 -right-2 bg-[#00F59B] p-2 rounded-full border-4 border-bg-primary text-[#070B12] cursor-pointer hover:bg-[#22FFAB] shadow-[0_0_12px_rgba(0,245,155,0.4)] transition-all" 
                 title="Carica un'immagine"
               >
                 <Camera className="h-4 w-4" />
@@ -182,7 +182,7 @@ export default function Profile() {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-surface border border-border text-text-primary pl-10 pr-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue/50"
+                  className="w-full bg-surface border border-border text-text-primary pl-10 pr-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00F59B]/50 focus:border-[#00F59B] transition-all"
                   required
                 />
               </div>
@@ -196,7 +196,7 @@ export default function Profile() {
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-surface border border-border text-text-primary pl-10 pr-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue/50"
+                  className="w-full bg-surface border border-border text-text-primary pl-10 pr-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00F59B]/50 focus:border-[#00F59B] transition-all"
                   placeholder="+39 333 1234567"
                 />
               </div>
@@ -213,7 +213,7 @@ export default function Profile() {
             <button
               type="submit"
               disabled={isSavingInfo}
-              className="flex items-center justify-center bg-brand-blue text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-brand-blue-bright transition-all active:scale-95 disabled:opacity-50"
+              className="flex items-center justify-center bg-gradient-to-r from-[#00F59B] via-[#00DF89] to-[#00C87E] text-[#070B12] px-6 py-2.5 rounded-xl text-sm font-black shadow-[0_0_20px_rgba(0,245,155,0.35)] hover:shadow-[0_0_25px_rgba(0,245,155,0.55)] transition-all active:scale-95 disabled:opacity-50"
             >
               {isSavingInfo ? 'Salvataggio...' : <><Save className="h-4 w-4 mr-2" /> Salva Modifiche</>}
             </button>
@@ -232,7 +232,7 @@ export default function Profile() {
                   type="password"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
-                  className="w-full bg-surface border border-border text-text-primary pl-10 pr-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue/50"
+                  className="w-full bg-surface border border-border text-text-primary pl-10 pr-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00F59B]/50 focus:border-[#00F59B] transition-all"
                   required
                 />
               </div>
@@ -246,7 +246,7 @@ export default function Profile() {
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full bg-surface border border-border text-text-primary pl-10 pr-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue/50"
+                  className="w-full bg-surface border border-border text-text-primary pl-10 pr-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00F59B]/50 focus:border-[#00F59B] transition-all"
                   minLength={6}
                   required
                 />
@@ -264,7 +264,7 @@ export default function Profile() {
             <button
               type="submit"
               disabled={isSavingPassword}
-              className="flex items-center justify-center bg-brand-blue text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-brand-blue-bright transition-all active:scale-95 disabled:opacity-50"
+              className="flex items-center justify-center bg-gradient-to-r from-[#00F59B] via-[#00DF89] to-[#00C87E] text-[#070B12] px-6 py-2.5 rounded-xl text-sm font-black shadow-[0_0_20px_rgba(0,245,155,0.35)] hover:shadow-[0_0_25px_rgba(0,245,155,0.55)] transition-all active:scale-95 disabled:opacity-50"
             >
               {isSavingPassword ? 'Aggiornamento...' : <><Lock className="h-4 w-4 mr-2" /> Aggiorna Password</>}
             </button>
@@ -308,7 +308,7 @@ export default function Profile() {
                   step={0.1}
                   aria-labelledby="Zoom"
                   onChange={(e) => setZoom(Number(e.target.value))}
-                  className="w-full accent-brand-blue"
+                  className="w-full accent-[#00F59B]"
                 />
               </div>
               <div className="flex justify-end space-x-3">
@@ -320,7 +320,7 @@ export default function Profile() {
                 </button>
                 <button
                   onClick={handleConfirmCrop}
-                  className="px-6 py-2.5 bg-brand-blue text-white rounded-xl text-sm font-bold hover:bg-brand-blue-bright transition-colors"
+                  className="px-6 py-2.5 bg-gradient-to-r from-[#00F59B] via-[#00DF89] to-[#00C87E] text-[#070B12] rounded-xl text-sm font-black shadow-[0_0_15px_rgba(0,245,155,0.35)] transition-all"
                 >
                   Conferma
                 </button>

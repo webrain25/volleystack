@@ -427,7 +427,7 @@ export default function Landing() {
             >
               {/* Subtle Ambient Radial Accents */}
               <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#00F59B]/15 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-[#00BBF9]/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-[#22FFAB]/15 rounded-full blur-3xl pointer-events-none" />
 
               {/* Close Button */}
               <button

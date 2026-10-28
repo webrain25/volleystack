@@ -34,11 +34,11 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-text-primary mb-6">Risorse</h4>
             <ul className="space-y-4">
-              <li><Link to="/support" className="text-sm text-text-secondary hover:text-brand-blue transition-colors">Centro Assistenza</Link></li>
-              <li><Link to="/guides" className="text-sm text-text-secondary hover:text-brand-blue transition-colors">Guide e Tutorial</Link></li>
+              <li><Link to="/support" className="text-sm text-text-secondary hover:text-[#00F59B] transition-colors">Centro Assistenza</Link></li>
+              <li><Link to="/guides" className="text-sm text-text-secondary hover:text-[#00F59B] transition-colors">Guide e Tutorial</Link></li>
               <li>
                 <div className="flex items-center text-sm text-text-tertiary cursor-not-allowed">
-                  Blog <span className="ml-2 px-2 py-0.5 text-[10px] bg-brand-blue/10 text-brand-blue font-bold rounded-full uppercase tracking-wider">Coming Soon</span>
+                  Blog <span className="ml-2 px-2.5 py-0.5 text-[10px] bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30 font-bold rounded-full uppercase tracking-wider shadow-[0_0_8px_rgba(0,245,155,0.2)]">In Arrivo</span>
                 </div>
               </li>
             </ul>
@@ -49,7 +49,7 @@ export default function Footer() {
             <h4 className="font-bold text-text-primary mb-6">Contattaci</h4>
             <ul className="space-y-4">
               <li className="flex items-start space-x-3 text-sm text-text-secondary">
-                <Mail className="h-5 w-5 text-brand-blue shrink-0" />
+                <Mail className="h-5 w-5 text-[#00F59B] shrink-0" />
                 <span>support@volleystack.com</span>
               </li>
             </ul>

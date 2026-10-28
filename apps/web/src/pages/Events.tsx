@@ -491,8 +491,8 @@ export default function Events() {
               </div>
             ) : importTab === 'SEASON' ? (
               <form onSubmit={handleGenerateSeason} className="space-y-4">
-                <div className="p-3 bg-brand-blue/5 border border-brand-blue/20 rounded-lg mb-4">
-                  <p className="text-xs text-brand-blue dark:text-brand-blue-bright leading-relaxed">
+                <div className="p-3 bg-[#00F59B]/10 border border-[#00F59B]/25 rounded-lg mb-4">
+                  <p className="text-xs text-[#00F59B] leading-relaxed">
                     <strong>Stagione Automatica:</strong> Scegli i giorni in cui ti alleni. VolleyStack creerà automaticamente tutti gli eventi da Agosto a Giugno, riconoscendo le feste (🎅 Natale, 🏖️ Ferragosto, ecc.) se decidi di allenarti lo stesso!
                   </p>
                 </div>
@@ -513,7 +513,7 @@ export default function Events() {
                   {['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'].map((day, idx) => (
                     <div key={day} className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 p-2 hover:bg-surface-hover rounded-lg transition-colors">
                        <label className="flex items-center space-x-2 text-sm text-text-primary w-24 shrink-0">
-                          <input type="checkbox" name="days" value={idx + 1} className="rounded border-gray-300 text-brand-blue focus:ring-brand-blue dark:border-[#333] dark:bg-[#1a1a1a]" />
+                          <input type="checkbox" name="days" value={idx + 1} className="rounded border-gray-300 text-[#00F59B] focus:ring-[#00F59B] dark:border-[#333] dark:bg-[#1a1a1a]" />
                           <span>{day}</span>
                        </label>
                        <div className="flex gap-2 flex-1">
@@ -528,13 +528,13 @@ export default function Events() {
                 
                 <div className="flex items-center pt-2">
                    <label className="flex items-center space-x-2 text-sm text-text-primary">
-                      <input type="checkbox" name="excludeHolidays" defaultChecked className="rounded border-gray-300 text-brand-blue focus:ring-brand-blue dark:border-[#333] dark:bg-[#1a1a1a]" />
+                      <input type="checkbox" name="excludeHolidays" defaultChecked className="rounded border-gray-300 text-[#00F59B] focus:ring-[#00F59B] dark:border-[#333] dark:bg-[#1a1a1a]" />
                       <span>Non caricare gli allenamenti nei giorni di festa (Natale, Pasqua, ecc.)</span>
                    </label>
                 </div>
 
                 <div className="flex justify-end pt-4">
-                  <button type="submit" disabled={bulkGenerate.isPending} className="saas-btn-primary w-full shadow-[0_0_15px_rgba(37,99,235,0.2)]">
+                  <button type="submit" disabled={bulkGenerate.isPending} className="saas-btn-primary w-full shadow-[0_0_15px_rgba(0,245,155,0.35)]">
                     {bulkGenerate.isPending ? 'Generazione in corso...' : 'Genera Calendario Allenamenti'}
                   </button>
                 </div>
@@ -551,7 +551,7 @@ export default function Events() {
                   <input type="file" accept=".csv" onChange={handleCsvImport} className="hidden" id="csv-upload" />
                   <label htmlFor="csv-upload" className="cursor-pointer flex flex-col items-center">
                     <CalendarIcon className="h-8 w-8 text-text-tertiary mb-2" />
-                    <span className="text-sm font-semibold text-brand-blue dark:text-brand-blue-bright">Seleziona file CSV</span>
+                    <span className="text-sm font-semibold text-[#00F59B]">Seleziona file CSV</span>
                   </label>
                 </div>
               </div>
@@ -631,7 +631,7 @@ export default function Events() {
           <div className="saas-card w-full max-w-md shadow-2xl relative flex flex-col max-h-[80vh]">
             <div className="p-5 border-b border-border dark:border-[#262626] flex justify-between items-center shrink-0">
                <h2 className="text-lg font-bold text-text-primary  flex items-center">
-                  <ClipboardCheck className="h-5 w-5 mr-2 text-brand-blue dark:text-brand-blue-bright" /> Appello Presenze
+                  <ClipboardCheck className="h-5 w-5 mr-2 text-[#00F59B]" /> Appello Presenze
                </h2>
                <button onClick={() => setAttendanceEventId(null)} className="text-text-tertiary hover:text-text-secondary dark:text-text-tertiary dark:hover:text-gray-200 transition-colors">
                   <X className="h-5 w-5" />
@@ -645,9 +645,9 @@ export default function Events() {
                         <span className="text-sm font-medium text-text-primary ">{member.user.name || member.user.email}</span>
                         <button 
                            onClick={() => markAttendance.mutate({ teamMemberId: member.id, isPresent: !isPresent })}
-                           className="text-text-tertiary hover:text-brand-blue dark:hover:text-brand-blue-bright transition-colors p-1"
+                           className="text-text-tertiary hover:text-[#00F59B] transition-colors p-1"
                         >
-                           {isPresent ? <CheckSquare className="h-6 w-6 text-brand-blue dark:text-brand-blue-bright" /> : <Square className="h-6 w-6" />}
+                           {isPresent ? <CheckSquare className="h-6 w-6 text-[#00F59B]" /> : <Square className="h-6 w-6" />}
                         </button>
                      </div>
                   );
@@ -829,7 +829,7 @@ export default function Events() {
                         });
                         setShowForm(true);
                       }}
-                      className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center bg-surface-hover dark:bg-[#1a1a1a] hover:text-brand-blue"
+                      className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center bg-surface-hover dark:bg-[#1a1a1a] hover:text-[#00F59B]"
                     >
                       <Pencil className="h-3.5 w-3.5 mr-1" /> Modifica
                     </button>

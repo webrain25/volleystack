@@ -7,11 +7,11 @@ export default function Support() {
       <h2>Come possiamo aiutarti?</h2>
       <p>Il team di VolleyStack è qui per assicurarsi che tu e la tua squadra abbiate tutto il supporto necessario.</p>
       
-      <div className="bg-brand-blue/10 border border-brand-blue/20 rounded-2xl p-8 mt-8 flex flex-col items-center text-center">
-        <Mail className="h-12 w-12 text-brand-blue mb-4" />
+      <div className="bg-[#00F59B]/10 border border-[#00F59B]/25 rounded-2xl p-8 mt-8 flex flex-col items-center text-center shadow-[0_0_20px_rgba(0,245,155,0.1)]">
+        <Mail className="h-12 w-12 text-[#00F59B] mb-4" />
         <h3 className="text-xl font-bold text-text-primary mb-2 mt-0">Contattaci via Email</h3>
         <p className="text-text-secondary mb-6">Il nostro team risponde solitamente entro 24-48 ore lavorative.</p>
-        <a href="mailto:support@volleystack.com" className="bg-brand-blue text-white px-8 py-3 rounded-full font-bold hover:bg-brand-blue-bright transition-colors no-underline">
+        <a href="mailto:support@volleystack.com" className="bg-gradient-to-r from-[#00F59B] via-[#00DF89] to-[#00C87E] text-[#070B12] px-8 py-3.5 rounded-xl font-black shadow-[0_0_20px_rgba(0,245,155,0.35)] hover:shadow-[0_0_25px_rgba(0,245,155,0.55)] transition-all no-underline">
           support@volleystack.com
         </a>
       </div>

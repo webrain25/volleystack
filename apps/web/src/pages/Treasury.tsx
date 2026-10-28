@@ -220,7 +220,7 @@ export default function Treasury() {
              <div className="space-y-6">
                <div className="saas-card p-5">
                  <h2 className="text-sm font-semibold text-text-primary  flex items-center mb-4">
-                    <WalletIcon className="h-4 w-4 mr-2 text-brand-blue dark:text-brand-blue-bright" /> Impostazioni Pagamenti
+                    <WalletIcon className="h-4 w-4 mr-2 text-[#00F59B]" /> Impostazioni Pagamenti
                  </h2>
                  <form onSubmit={(e) => { e.preventDefault(); const formData = new FormData(e.currentTarget); updatePaypalLink.mutate(formData.get('paypalLink') as string); }} className="flex items-end gap-4">
                     <div className="flex-1">
@@ -236,7 +236,7 @@ export default function Treasury() {
                <div className="saas-card overflow-hidden">
                  <div className="p-4 border-b border-border dark:border-[#262626] bg-surface dark:bg-[#0a0a0a] flex items-center justify-between">
                     <h2 className="text-sm font-semibold text-text-primary  flex items-center">
-                       <FileText className="h-4 w-4 mr-2 text-brand-blue dark:text-brand-blue-bright" /> Tariffario Multe
+                       <FileText className="h-4 w-4 mr-2 text-[#00F59B]" /> Tariffario Multe
                     </h2>
                  </div>
                
@@ -351,10 +351,10 @@ export default function Treasury() {
            )}
 
            {activeTab === 'LEDGER' && (
-             <div className="saas-card overflow-hidden border-blue-100 dark:border-blue-900/30">
-               <div className="p-4 border-b border-border dark:border-[#262626] bg-blue-50/50 dark:bg-blue-950/10 flex items-center justify-between">
+             <div className="saas-card overflow-hidden border-[#00F59B]/20">
+               <div className="p-4 border-b border-border dark:border-[#262626] bg-[#00F59B]/5 flex items-center justify-between">
                   <h2 className="text-sm font-semibold text-text-primary  flex items-center">
-                     <Landmark className="h-4 w-4 mr-2 text-blue-600 dark:text-blue-500" /> Libro Mastro
+                     <Landmark className="h-4 w-4 mr-2 text-[#00F59B]" /> Libro Mastro
                   </h2>
                   <div className="text-xs font-medium text-text-tertiary dark:text-text-tertiary">
                     Traccia spese ed entrate del club
@@ -511,9 +511,9 @@ export default function Treasury() {
         {/* Form Panel (Ledger) */}
         {showLedgerForm && (
            <div className="lg:col-span-1">
-             <div className="saas-card p-5 sticky top-24 animate-in fade-in slide-in-from-right-4 border-blue-200 dark:border-blue-900/30">
+             <div className="saas-card p-5 sticky top-24 animate-in fade-in slide-in-from-right-4 border-[#00F59B]/25">
                 <div className="flex justify-between items-center mb-4 pb-4 border-b border-border dark:border-[#262626]">
-                   <h3 className="text-sm font-bold text-text-primary  flex items-center"><Landmark className="h-4 w-4 mr-2 text-blue-500"/> Registra Movimento</h3>
+                   <h3 className="text-sm font-bold text-text-primary  flex items-center"><Landmark className="h-4 w-4 mr-2 text-[#00F59B]"/> Registra Movimento</h3>
                    <button onClick={() => setShowLedgerForm(false)} className="text-text-tertiary dark:text-text-tertiary hover:text-text-primary dark:hover:text-gray-200"><X className="h-4 w-4" /></button>
                 </div>
                 
@@ -542,7 +542,7 @@ export default function Treasury() {
                     {ledgerErrors.amountEuros && <p className="text-red-500 dark:text-accent-500 text-xs mt-1">{ledgerErrors.amountEuros.message}</p>}
                   </div>
                   <div className="pt-2">
-                    <button type="submit" disabled={createLedgerTx.isPending} className="saas-btn-primary w-full bg-blue-600 hover:bg-blue-500 shadow-[0_0_15px_rgba(37,99,235,0.2)]">
+                    <button type="submit" disabled={createLedgerTx.isPending} className="saas-btn-primary w-full bg-[#00F59B] hover:bg-[#22FFAB] text-[#070B12] font-black shadow-[0_0_15px_rgba(0,245,155,0.35)]">
                       Salva Movimento
                     </button>
                   </div>

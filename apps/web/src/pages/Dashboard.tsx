@@ -512,7 +512,7 @@ export default function Dashboard() {
             </div>
 
             <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-[#162238]/60 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-brand-blue/15 border border-brand-blue/30 flex items-center justify-center text-brand-blue shrink-0 shadow-[0_0_10px_rgba(0,102,255,0.15)]">
+              <div className="w-8 h-8 rounded-full bg-[#00F59B]/15 border border-[#00F59B]/30 flex items-center justify-center text-[#00F59B] shrink-0 shadow-[0_0_10px_rgba(0,245,155,0.2)]">
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <div className="flex-1 min-w-0">

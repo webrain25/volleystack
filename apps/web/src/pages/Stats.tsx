@@ -4,21 +4,21 @@ export default function Stats() {
   return (
     <div className="space-y-6 animate-in fade-in duration-500 relative flex flex-col items-center justify-center min-h-[70vh]">
       <div className="relative group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue to-accent-500 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
-        <div className="h-24 w-24 bg-surface border border-border rounded-full flex items-center justify-center relative shadow-[0_0_40px_rgba(255,255,255,0.05)]">
-          <Activity className="w-10 h-10 text-brand-blue" />
+        <div className="absolute -inset-1 bg-gradient-to-r from-[#00F59B] to-[#00DF89] rounded-full blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+        <div className="h-24 w-24 bg-surface border border-[#00F59B]/30 rounded-full flex items-center justify-center relative shadow-[0_0_30px_rgba(0,245,155,0.2)]">
+          <Activity className="w-10 h-10 text-[#00F59B]" />
         </div>
       </div>
       
       <div className="text-center max-w-lg mt-8">
-        <h1 className="text-3xl md:text-5xl font-bold text-text-primary tracking-tight mb-4">Statistiche</h1>
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/20 text-brand-blue-bright text-xs font-semibold uppercase tracking-widest mb-6">
-          <Clock className="w-3 h-3" />
-          <span>Coming Soon</span>
+        <h1 className="text-3xl md:text-5xl font-black text-text-primary tracking-tight mb-4">Statistiche</h1>
+        <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#00F59B]/15 border border-[#00F59B]/30 text-[#00F59B] text-xs font-bold uppercase tracking-wider mb-6 shadow-[0_0_12px_rgba(0,245,155,0.2)]">
+          <Clock className="w-3.5 h-3.5" />
+          <span>In Arrivo</span>
         </div>
         <p className="text-text-secondary text-base leading-relaxed">
-          Stiamo costruendo un hub avanzato per le performance della tua squadra. 
-          Presto potrai analizzare in dettaglio le presenze, monitorare la disciplina (multe) e scoprire i migliori giocatori della stagione.
+          Stiamo preparando il modulo statistiche per la tua squadra.
+          A breve potrai consultare le presenze stagionali, la classifica delle multe e l'andamento della squadra nel campionato.
         </p>
       </div>
 
