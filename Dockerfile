@@ -1,4 +1,5 @@
 FROM node:20-alpine AS builder
+RUN apk add --no-cache openssl libc6-compat
 WORKDIR /app
 
 # Install pnpm
@@ -22,6 +23,7 @@ RUN pnpm --filter @volleystack/shared run build
 RUN pnpm --filter @volleystack/api run build
 
 FROM node:20-alpine AS runner
+RUN apk add --no-cache openssl libc6-compat
 WORKDIR /app
 
 # Copy built artifacts and production dependencies
