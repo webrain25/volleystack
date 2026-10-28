@@ -6,7 +6,6 @@ import {
   Users,
   Wallet,
   Calendar,
-  Shield,
   Activity,
   X,
   Sun,
@@ -366,11 +365,11 @@ export default function Landing() {
               className="saas-card p-6 sm:p-8 rounded-2xl sm:rounded-3xl group border border-border hover:border-[#00F59B]/50 transition-all duration-300"
             >
               <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl bg-[#00F59B]/10 border border-[#00F59B]/20 flex items-center justify-center mb-5 sm:mb-6 group-hover:scale-110 transition-transform">
-                <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-[#00F59B]" />
+                <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-[#00F59B]" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-text-primary">Dati Sempre al Sicuro</h3>
+              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-text-primary">Gare e Campionati FIPAV</h3>
               <p className="text-text-secondary text-xs sm:text-sm leading-relaxed">
-                Nessun rischio di perdere fogli o chat cancellate. Le presenze, le casse e il calendario rimangono sempre salvati e sincronizzati.
+                Sincronizzato con Serie B, Serie C e tutti i campionati FIPAV Lazio. Date, orari di fischio d'inizio e palazzetti sempre aggiornati senza copiare nulla a mano.
               </p>
             </motion.div>
           </div>
