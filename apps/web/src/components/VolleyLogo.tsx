@@ -12,14 +12,14 @@ export default function VolleyLogo({
   glow = true,
 }: VolleyLogoProps) {
   const iconDimensions = {
-    sm: { w: 34, h: 34, rounded: 'rounded-lg', textSize: 'text-base', gap: 'gap-2.5' },
-    md: { w: 42, h: 42, rounded: 'rounded-xl', textSize: 'text-xl', gap: 'gap-3' },
-    lg: { w: 56, h: 56, rounded: 'rounded-2xl', textSize: 'text-2xl', gap: 'gap-3.5' },
-    xl: { w: 68, h: 68, rounded: 'rounded-2xl', textSize: 'text-3xl', gap: 'gap-4' },
+    sm: { w: 26, h: 26, rounded: 'rounded-md', textSize: 'text-xs sm:text-base', gap: 'gap-1.5 sm:gap-2' },
+    md: { w: 32, h: 32, rounded: 'rounded-lg sm:rounded-xl', textSize: 'text-sm sm:text-xl', gap: 'gap-2 sm:gap-3' },
+    lg: { w: 44, h: 44, rounded: 'rounded-xl sm:rounded-2xl', textSize: 'text-lg sm:text-2xl', gap: 'gap-2.5 sm:gap-3' },
+    xl: { w: 56, h: 56, rounded: 'rounded-2xl', textSize: 'text-2xl sm:text-3xl', gap: 'gap-3 sm:gap-4' },
   }[size];
 
   return (
-    <div className={`inline-flex items-center ${iconDimensions.gap} select-none ${className}`}>
+    <div className={`inline-flex items-center ${iconDimensions.gap} select-none shrink-0 ${className}`}>
       {/* Icon Mark using the official user-provided logo */}
       <div
         className={`relative flex items-center justify-center shrink-0 ${iconDimensions.rounded} overflow-hidden shadow-[0_0_20px_rgba(0,245,155,0.3)] border border-white/10 transition-transform duration-200 hover:scale-105`}
@@ -40,7 +40,7 @@ export default function VolleyLogo({
 
       {/* Brand Typography */}
       {showText && (
-        <div className="flex items-center tracking-tight leading-none font-black">
+        <div className="flex items-center tracking-tight leading-none font-black shrink-0">
           <span className={`text-text-primary ${iconDimensions.textSize}`}>
             VOLLEY
           </span>
