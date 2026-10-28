@@ -5,6 +5,9 @@ dotenv.config({ path: '../../.env' });
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import jwt from '@fastify/jwt';
 import cors from '@fastify/cors';
+import fastifyStatic from '@fastify/static';
+import path from 'path';
+import fs from 'fs';
 import authRoutes from './routes/auth';
 import teamRoutes from './routes/teams';
 import eventRoutes from './routes/events';
@@ -92,6 +95,33 @@ server.register(aiRoutes, { prefix: '/teams/:teamId/ai' });
 server.get('/health', async (request, reply) => {
   return { status: 'ok' };
 });
+
+// Serve frontend static build if available
+const webDistPath = path.resolve(__dirname, '../../web/dist');
+if (fs.existsSync(webDistPath)) {
+  server.register(fastifyStatic, {
+    root: webDistPath,
+    prefix: '/',
+    wildcard: false,
+  });
+
+  server.setNotFoundHandler((request, reply) => {
+    const url = request.raw.url || '';
+    if (
+      url.startsWith('/auth') ||
+      url.startsWith('/teams') ||
+      url.startsWith('/profile') ||
+      url.startsWith('/health')
+    ) {
+      return reply.status(404).send({ error: 'Route not found', statusCode: 404 });
+    }
+    return reply.sendFile('index.html');
+  });
+} else {
+  server.get('/', async (request, reply) => {
+    return { status: 'ok', service: 'VolleyStack API', version: '1.0.0' };
+  });
+}
 
 const start = async () => {
   try {
