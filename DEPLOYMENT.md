@@ -27,10 +27,10 @@ Il tuo database è già attivo su Neon nel progetto `still-haze-33820233`:
 Nel tuo file `.env` e nel server di produzione:
 ```bash
 # Connessione con pooler (porta 6543) per le richieste dell'API:
-DATABASE_URL="postgresql://neondb_owner:npg_5Jz2SXhrBupk@ep-flat-cake-bave4n5y-pooler.c-8.eu-central-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
+DATABASE_URL="postgresql://neondb_owner:<PASSWORD>@ep-flat-cake-bave4n5y-pooler.c-8.eu-central-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
 
 # Connessione diretta (porta 5432) per migrazioni Prisma:
-DATABASE_URL_UNPOOLED="postgresql://neondb_owner:npg_5Jz2SXhrBupk@ep-flat-cake-bave4n5y.c-8.eu-central-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
+DATABASE_URL_UNPOOLED="postgresql://neondb_owner:<PASSWORD>@ep-flat-cake-bave4n5y.c-8.eu-central-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
 ```
 
 ---
@@ -80,8 +80,8 @@ gcloud run deploy volleystack-api \
   --platform managed \
   --allow-unauthenticated \
   --set-env-vars NODE_ENV=production,PORT=8080 \
-  --set-env-vars DATABASE_URL="postgresql://neondb_owner:npg_5Jz2SXhrBupk@ep-flat-cake-bave4n5y-pooler.c-8.eu-central-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require" \
-  --set-env-vars DATABASE_URL_UNPOOLED="postgresql://neondb_owner:npg_5Jz2SXhrBupk@ep-flat-cake-bave4n5y.c-8.eu-central-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require" \
+  --set-env-vars DATABASE_URL="postgresql://neondb_owner:<PASSWORD>@ep-flat-cake-bave4n5y-pooler.c-8.eu-central-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require" \
+  --set-env-vars DATABASE_URL_UNPOOLED="postgresql://neondb_owner:<PASSWORD>@ep-flat-cake-bave4n5y.c-8.eu-central-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require" \
   --set-env-vars JWT_SECRET="un_segreto_molto_lungo_e_sicuro_12345" \
   --set-env-vars GEMINI_API_KEY="tua_chiave_google_ai_studio" \
   --min-instances 0 \
