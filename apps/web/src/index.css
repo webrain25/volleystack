@@ -57,6 +57,10 @@
     --vs-text-tertiary: #64748B;
   }
   
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply antialiased selection:bg-[#00F59B]/30 selection:text-white;
     background-color: var(--vs-bg-primary);
@@ -65,18 +69,25 @@
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
+  /* Ultra-Premium Glass Scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-surface-hover rounded-full;
+    background: rgba(100, 116, 139, 0.35);
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
   }
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-text-tertiary;
+    background: #00F59B;
+    box-shadow: 0 0 14px rgba(0, 245, 155, 0.8);
   }
 }
 
@@ -148,7 +159,22 @@
   animation: floatOrb 14s infinite alternate cubic-bezier(0.22, 1, 0.36, 1);
 }
 .dark .ambient-light-orb {
-  background: radial-gradient(circle, rgba(0, 245, 155, 0.08) 0%, rgba(22, 131, 255, 0.04) 45%, rgba(0, 245, 155, 0) 70%);
+  background: radial-gradient(circle, rgba(0, 245, 155, 0.09) 0%, rgba(22, 131, 255, 0.05) 45%, rgba(0, 245, 155, 0) 70%);
+}
+
+.ambient-light-orb-secondary {
+  position: absolute;
+  bottom: 15%;
+  left: 10%;
+  width: 50vh;
+  height: 50vh;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 245, 155, 0.10) 0%, rgba(0, 245, 155, 0) 70%);
+  filter: blur(70px);
+  animation: floatOrbSecondary 18s infinite alternate cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dark .ambient-light-orb-secondary {
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, rgba(0, 245, 155, 0.05) 50%, rgba(0, 229, 255, 0) 70%);
 }
 
 .ambient-court-lines {
@@ -172,8 +198,14 @@
   100% { transform: translate(-40px, 60px) scale(1.1); }
 }
 
+@keyframes floatOrbSecondary {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(60px, -40px) scale(1.15); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .ambient-light-orb {
+  .ambient-light-orb,
+  .ambient-light-orb-secondary {
     animation: none;
   }
   .saas-card, .saas-btn-primary, .saas-btn-secondary, .saas-input {
