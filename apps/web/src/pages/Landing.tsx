@@ -52,43 +52,39 @@ export default function Landing() {
 
       {/* Main Page Layout */}
       <div className="relative z-10 min-h-screen flex flex-col justify-between">
-        {/* Top Navbar */}
-        <nav className="fixed top-0 w-full z-40 bg-[#070B12]/75 backdrop-blur-xl border-b border-white/10 transition-colors">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-18 md:h-20 flex items-center justify-between">
-            <Link to="/" className="group flex items-center transition-transform hover:opacity-95">
-              <VolleyLogo size="md" />
+        {/* In-Page Header: Direct in content grid, zero fixed bar, zero transparency */}
+        <header className="relative z-30 w-full max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 flex items-center justify-between pb-6 border-b border-white/10">
+          <Link to="/" className="group flex items-center transition-transform hover:opacity-95">
+            <VolleyLogo size="md" />
+          </Link>
+
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="h-10 w-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-text-secondary hover:text-text-primary transition-all active:scale-95 cursor-pointer shadow-sm"
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
+
+            <Link
+              to="/login"
+              className="text-sm font-bold text-text-primary hover:text-[#00F59B] transition-all px-4 py-2.5 rounded-xl hover:bg-white/5 border border-white/10 hover:border-[#00F59B]/30"
+            >
+              Accedi
             </Link>
 
-            <div className="flex items-center space-x-2 sm:space-x-3">
-              <button
-                onClick={toggleTheme}
-                aria-label="Toggle theme"
-                className="h-10 w-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-text-secondary hover:text-text-primary transition-all active:scale-95 cursor-pointer shadow-sm"
-              >
-                {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </button>
-
-              <Link
-                to="/login"
-                className="text-sm font-bold text-text-primary hover:text-[#00F59B] transition-all px-4 py-2.5 rounded-xl hover:bg-white/5 border border-white/10 hover:border-[#00F59B]/30"
-              >
-                Accedi
-              </Link>
-
-              <Link
-                to="/register"
-                className="relative inline-flex items-center justify-center bg-gradient-to-r from-[#00F59B] via-[#00DF89] to-[#00C87E] hover:from-[#22FFAB] hover:to-[#00DF89] text-[#070B12] px-5 py-2.5 rounded-xl text-sm font-black tracking-wide shadow-[0_0_20px_rgba(0,245,155,0.35)] hover:shadow-[0_0_30px_rgba(0,245,155,0.55)] hover:scale-[1.03] active:scale-[0.98] transition-all"
-              >
-                Inizia Gratis
-              </Link>
-            </div>
+            <Link
+              to="/register"
+              className="relative inline-flex items-center justify-center bg-gradient-to-r from-[#00F59B] via-[#00DF89] to-[#00C87E] hover:from-[#22FFAB] hover:to-[#00DF89] text-[#070B12] px-5 py-2.5 rounded-xl text-sm font-black tracking-wide shadow-[0_0_20px_rgba(0,245,155,0.35)] hover:shadow-[0_0_30px_rgba(0,245,155,0.55)] hover:scale-[1.03] active:scale-[0.98] transition-all"
+            >
+              Inizia Gratis
+            </Link>
           </div>
-          {/* Subtle Neon Line Under Navbar */}
-          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#00F59B]/25 to-transparent" />
-        </nav>
+        </header>
 
         {/* Hero Section */}
-        <section className="relative pt-32 pb-16 md:pt-48 md:pb-24 px-4 sm:px-6">
+        <section className="relative pt-12 pb-16 md:pt-20 md:pb-24 px-4 sm:px-6">
           <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
             {/* Main Headline */}
             <motion.h1

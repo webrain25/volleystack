@@ -112,7 +112,7 @@ export default function App() {
       </div>
 
       {/* Desktop Top Navbar */}
-      <nav className="hidden md:flex items-center justify-between h-16 w-full glass-panel border-b border-border sticky top-0 z-40 px-6 transition-all">
+      <nav className="hidden md:flex items-center justify-between h-16 w-full bg-[#070B12] border-b border-white/10 sticky top-0 z-40 px-6 transition-all shadow-md">
         <div className="flex items-center">
           <Link to="/dashboard" className="mr-8 transition-transform hover:scale-105">
             <VolleyLogo size="sm" />
@@ -163,7 +163,7 @@ export default function App() {
       {/* Main Content Area */}
       <main className="flex-1 relative min-h-screen pb-20 md:pb-0 overflow-y-auto">
         {/* TopBar (Mobile Header) */}
-        <header className="md:hidden sticky top-0 z-30 h-14 glass-panel border-b border-border px-4 flex items-center justify-between">
+        <header className="md:hidden sticky top-0 z-30 h-14 bg-[#070B12] border-b border-white/10 px-4 flex items-center justify-between shadow-sm">
           <Link to="/dashboard" className="flex items-center transition-transform hover:scale-105">
             <VolleyLogo size="sm" />
           </Link>
@@ -212,11 +212,11 @@ export default function App() {
       </main>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="md:hidden fixed bottom-0 w-full h-16 glass-panel border-t border-border z-50 px-2 pb-safe">
+      <nav className="md:hidden fixed bottom-0 w-full h-16 bg-[#070B12] border-t border-white/10 z-50 px-2 pb-safe shadow-2xl">
         <div className="flex items-center justify-around h-full">
           <BottomNavItem to="/dashboard" icon={Home} label="Home" />
           <BottomNavItem to="/events" icon={Calendar} label="Eventi" />
-          <BottomNavItem to="/treasury" icon={WalletCards} label="Tax" />
+          <BottomNavItem to="/treasury" icon={WalletCards} label="Cassa" />
           <BottomNavItem to="/team" icon={Users} label="Squadra" />
           <BottomNavItem to="/profile" icon={User} label="Profilo" />
         </div>
