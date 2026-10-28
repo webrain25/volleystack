@@ -79,8 +79,6 @@ export default function Dashboard() {
   const attendingCount = nextEvent?.rsvps?.filter((r: any) => r.status === 'ATTENDING').length || 0;
   const absentCount = nextEvent?.rsvps?.filter((r: any) => r.status === 'ABSENT').length || 0;
   const maybeCount = nextEvent?.rsvps?.filter((r: any) => r.status === 'MAYBE').length || 0;
-  const totalRsvps = attendingCount + absentCount + maybeCount;
-  const quorumPercent = totalRsvps > 0 ? Math.round((attendingCount / totalRsvps) * 100) : 0;
 
   // Formatted date string for today
   const todayFormatted = new Intl.DateTimeFormat('it-IT', { 
@@ -327,46 +325,30 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {/* Colonna Destra: Roster Status Card (Telemetry Box) */}
-              <div className="lg:w-72 bg-[#070B12]/90 rounded-2xl p-4 md:p-5 border border-white/10 flex flex-col justify-between space-y-4 shadow-inner">
+              {/* Colonna Destra: Roster Status Card */}
+              <div className="lg:w-72 bg-[#070B12]/90 rounded-2xl p-4 md:p-5 border border-white/10 flex flex-col justify-between space-y-3.5 shadow-inner">
                 <div className="flex items-center justify-between pb-2 border-b border-white/10">
                   <span className="text-[11px] font-black text-text-tertiary uppercase tracking-wider flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#00F59B]"></span>
-                    <span>Telemetria Roster</span>
+                    <span>{nextEvent.type === 'MATCH' ? 'Convocati Partita' : 'Presenze Allenamento'}</span>
                   </span>
                   <Link to={`/events`} className="text-[11px] font-bold text-[#00F59B] hover:underline">
                     Dettagli
                   </Link>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 text-center">
-                  <div className="bg-[#0F1726] rounded-xl p-2.5 border border-white/5">
-                    <p className="text-xl font-black text-[#00F59B] font-mono leading-none">{attendingCount}</p>
-                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-1.5">Presenti</p>
+                <div className="grid grid-cols-3 gap-2 text-center py-1">
+                  <div className="bg-[#0F1726] rounded-xl p-3 border border-white/5">
+                    <p className="text-2xl font-black text-[#00F59B] font-mono leading-none">{attendingCount}</p>
+                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-2">Presenti</p>
                   </div>
-                  <div className="bg-[#0F1726] rounded-xl p-2.5 border border-white/5">
-                    <p className="text-xl font-black text-danger font-mono leading-none">{absentCount}</p>
-                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-1.5">Assenti</p>
+                  <div className="bg-[#0F1726] rounded-xl p-3 border border-white/5">
+                    <p className="text-2xl font-black text-danger font-mono leading-none">{absentCount}</p>
+                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-2">Assenti</p>
                   </div>
-                  <div className="bg-[#0F1726] rounded-xl p-2.5 border border-white/5">
-                    <p className="text-xl font-black text-amber-400 font-mono leading-none">{maybeCount}</p>
-                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-1.5">In attesa</p>
-                  </div>
-                </div>
-
-                {/* Progress bar visuale presenze con Electric Volt glow */}
-                <div>
-                  <div className="flex justify-between text-[11px] font-mono font-medium text-text-tertiary mb-1.5">
-                    <span>Quorum convocati</span>
-                    <span className="font-black text-[#00F59B] font-mono">
-                      {quorumPercent}%
-                    </span>
-                  </div>
-                  <div className="w-full h-2 rounded-full bg-[#162238] overflow-hidden border border-white/5 p-0.5">
-                    <div 
-                      className="h-full bg-[#00F59B] transition-all duration-300 rounded-full shadow-[0_0_10px_rgba(0,245,155,0.7)]"
-                      style={{ width: `${quorumPercent}%` }}
-                    />
+                  <div className="bg-[#0F1726] rounded-xl p-3 border border-white/5">
+                    <p className="text-2xl font-black text-amber-400 font-mono leading-none">{maybeCount}</p>
+                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-2">In attesa</p>
                   </div>
                 </div>
               </div>

@@ -38,43 +38,46 @@ export default function Landing() {
 
   return (
     <div className="relative w-full min-h-screen bg-bg-primary text-text-primary overflow-x-hidden scroll-smooth selection:bg-[#00F59B]/30 selection:text-white">
-      {/* Dynamic Ambient Background */}
+      {/* Dynamic Ambient Background with Real Volleyball Court Arena */}
       <div className="ambient-bg-container fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="absolute inset-0 z-0 opacity-10 dark:opacity-25 transition-opacity duration-700">
+        {/* Real Volleyball Court Atmosphere */}
+        <div className="absolute inset-0 z-0 opacity-40 dark:opacity-55 transition-opacity duration-700">
           <img
-            src="/backgrounds/court.jpg"
-            alt="Court Ambient"
-            className="w-full h-full object-cover mix-blend-luminosity filter blur-[1px]"
+            src="/bg.jpg"
+            alt="Volleyball Arena Court"
+            className="w-full h-full object-cover object-center filter contrast-110 brightness-95"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-bg-primary/50 via-bg-primary/90 to-bg-primary z-0" />
+        {/* Soft Vignette Overlay to maintain pristine text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#070B12]/80 via-transparent to-[#070B12] z-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(7,11,18,0.25)_0%,rgba(7,11,18,0.85)_100%)] z-0" />
         <div className="ambient-court-lines" />
         <div className="ambient-light-orb" />
         <div className="ambient-light-orb-secondary" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.035] mix-blend-overlay" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
       </div>
 
       {/* Main Page Layout */}
       <div className="relative z-10 min-h-screen flex flex-col justify-between">
         {/* Top Navbar */}
-        <nav className="fixed top-0 w-full z-40 bg-bg-primary/80 backdrop-blur-xl border-b border-border/80 transition-colors">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+        <nav className="fixed top-0 w-full z-40 bg-[#070B12]/75 backdrop-blur-xl border-b border-white/10 transition-colors">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-18 md:h-20 flex items-center justify-between">
             <Link to="/" className="group flex items-center transition-transform hover:opacity-95">
               <VolleyLogo size="md" />
             </Link>
 
-            <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <button
                 onClick={toggleTheme}
                 aria-label="Toggle theme"
-                className="h-10 w-10 rounded-xl bg-surface/80 border border-border flex items-center justify-center text-text-secondary hover:text-text-primary hover:bg-surface transition-all active:scale-95 shadow-sm"
+                className="h-10 w-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-text-secondary hover:text-text-primary transition-all active:scale-95 cursor-pointer shadow-sm"
               >
                 {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </button>
 
               <Link
                 to="/login"
-                className="text-sm font-bold text-text-secondary hover:text-text-primary transition-all px-4 py-2.5 rounded-xl hover:bg-surface/70 border border-transparent hover:border-border hidden sm:block"
+                className="text-sm font-bold text-text-primary hover:text-[#00F59B] transition-all px-4 py-2.5 rounded-xl hover:bg-white/5 border border-white/10 hover:border-[#00F59B]/30"
               >
                 Accedi
               </Link>
@@ -94,25 +97,6 @@ export default function Landing() {
         {/* Hero Section */}
         <section className="relative pt-32 pb-16 md:pt-48 md:pb-24 px-4 sm:px-6">
           <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
-            {/* Beacon Pill */}
-            <motion.div
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-surface/85 border border-[#00F59B]/40 shadow-[0_0_20px_rgba(0,245,155,0.18)] mb-8 backdrop-blur-md"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00F59B] opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00F59B]" />
-              </span>
-              <span className="text-xs font-bold tracking-wider text-text-primary uppercase">
-                Next-Gen Volleyball Suite • Stagione 25/26
-              </span>
-              <span className="text-[10px] font-black bg-[#00F59B]/20 text-[#00F59B] px-1.5 py-0.5 rounded">
-                LIVE
-              </span>
-            </motion.div>
-
             {/* Main Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -431,38 +415,44 @@ export default function Landing() {
         <Footer />
       </div>
 
-      {/* Auth Drawer / Modal */}
+      {/* Centered Auth Modal (Opzione A) */}
       <AnimatePresence>
         {isAuth && (
-          <div className="fixed inset-0 z-50 overflow-hidden flex justify-end">
-            {/* Backdrop */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+            {/* Backdrop with Blur */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-black/75 backdrop-blur-md"
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 bg-black/80 backdrop-blur-md"
               onClick={closeAuth}
             />
 
-            {/* Slide-over Auth Panel */}
+            {/* Centered Modal Card */}
             <motion.div
-              initial={{ x: '100%', opacity: 0 }}
-              animate={{ x: '0%', opacity: 1 }}
-              exit={{ x: '100%', opacity: 0 }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full sm:max-w-[480px] h-full bg-bg-primary/95 backdrop-blur-2xl shadow-2xl border-l border-border/80 overflow-y-auto z-10 flex flex-col"
+              initial={{ opacity: 0, scale: 0.94, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 12 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-[440px] my-auto bg-[#0A101D]/95 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),0_0_35px_rgba(0,245,155,0.12)] p-6 sm:p-8 z-10 overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
             >
+              {/* Subtle Ambient Radial Accents */}
+              <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#00F59B]/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-[#00BBF9]/15 rounded-full blur-3xl pointer-events-none" />
+
+              {/* Close Button */}
               <button
                 onClick={closeAuth}
-                className="absolute top-6 right-6 z-20 p-2.5 rounded-xl bg-surface hover:bg-surface-hover border border-border text-text-primary transition-all hover:scale-105 active:scale-95 shadow-sm"
+                className="absolute top-5 right-5 z-20 p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-text-secondary hover:text-text-primary transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
                 title="Chiudi"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="w-full my-auto py-12 px-6 sm:px-10">
-                {isLogin ? <Login /> : <Register />}
+              <div className="relative z-10">
+                {isLogin ? <Login inModal /> : <Register inModal />}
               </div>
             </motion.div>
           </div>
