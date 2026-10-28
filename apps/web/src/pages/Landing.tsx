@@ -387,7 +387,7 @@ export default function Landing() {
               Pronto a organizzare il tuo spogliatoio?
             </h2>
             <p className="text-text-secondary text-lg md:text-xl mb-10 max-w-2xl mx-auto">
-              Bastano due minuti per creare la squadra e convocare tutti i giocatori per la prossima partita o allenamento.
+              Bastano due minuti per creare la squadra e riunire tutto il tuo spogliatoio.
             </p>
             <Link
               to="/register"
