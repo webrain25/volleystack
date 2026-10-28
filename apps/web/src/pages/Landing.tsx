@@ -37,24 +37,17 @@ export default function Landing() {
   };
 
   return (
-    <div className="relative w-full min-h-screen bg-bg-primary text-text-primary overflow-x-hidden scroll-smooth selection:bg-[#00F59B]/30 selection:text-white">
-      {/* Dynamic Ambient Background with Real Volleyball Court Arena */}
-      <div className="ambient-bg-container fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        {/* Real Volleyball Court Atmosphere */}
-        <div className="absolute inset-0 z-0 opacity-40 dark:opacity-55 transition-opacity duration-700">
-          <img
-            src="/bg.jpg"
-            alt="Volleyball Arena Court"
-            className="w-full h-full object-cover object-center filter contrast-110 brightness-95"
-          />
-        </div>
-        {/* Soft Vignette Overlay to maintain pristine text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#070B12]/80 via-transparent to-[#070B12] z-0" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(7,11,18,0.25)_0%,rgba(7,11,18,0.85)_100%)] z-0" />
-        <div className="ambient-court-lines" />
-        <div className="ambient-light-orb" />
-        <div className="ambient-light-orb-secondary" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
+    <div className="relative w-full min-h-screen text-text-primary overflow-x-hidden scroll-smooth selection:bg-[#00F59B]/30 selection:text-white">
+      {/* Real Volleyball Court Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <img
+          src="/backgrounds/court.jpg"
+          alt="Campo di Pallavolo"
+          className="w-full h-full object-cover object-center filter brightness-[0.70] contrast-[1.05]"
+        />
+        {/* Soft gradient overlays so text remains pristine and readable while the court is clearly visible */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#070B12]/80 via-[#070B12]/40 to-[#070B12] z-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(7,11,18,0.2)_0%,rgba(7,11,18,0.75)_100%)] z-0" />
       </div>
 
       {/* Main Page Layout */}
