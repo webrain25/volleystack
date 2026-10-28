@@ -14,6 +14,7 @@ import CookiePolicy from './pages/CookiePolicy';
 import Support from './pages/Support';
 import Guides from './pages/Guides';
 import Footer from './components/Footer';
+import VolleyLogo from './components/VolleyLogo';
 import { useAuthStore } from './store/authStore';
 import { useThemeStore } from './store/useThemeStore';
 import { useEffect } from 'react';
@@ -113,10 +114,9 @@ export default function App() {
       {/* Desktop Top Navbar */}
       <nav className="hidden md:flex items-center justify-between h-16 w-full glass-panel border-b border-border sticky top-0 z-40 px-6 transition-all">
         <div className="flex items-center">
-          <div className="h-8 w-8 rounded-lg flex items-center justify-center mr-3 overflow-hidden ring-1 ring-border">
-            <img src="/logo.jpg" alt="VolleyStack Logo" className="w-full h-full object-cover" />
-          </div>
-          <span className="font-extrabold text-lg tracking-tight text-text-primary mr-8">VolleyStack</span>
+          <Link to="/dashboard" className="mr-8 transition-transform hover:scale-105">
+            <VolleyLogo size="sm" />
+          </Link>
           
           <div className="flex items-center space-x-1">
             <Link to="/dashboard" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/dashboard') && location.pathname === '/dashboard' ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
@@ -164,12 +164,9 @@ export default function App() {
       <main className="flex-1 relative min-h-screen pb-20 md:pb-0 overflow-y-auto">
         {/* TopBar (Mobile Header) */}
         <header className="md:hidden sticky top-0 z-30 h-14 glass-panel border-b border-border px-4 flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="h-7 w-7 rounded-md flex items-center justify-center mr-2 overflow-hidden">
-              <img src="/logo.jpg" alt="Logo" className="w-full h-full object-cover" />
-            </div>
-            <span className="font-bold text-[17px] tracking-tight">VolleyStack</span>
-          </div>
+          <Link to="/dashboard" className="flex items-center transition-transform hover:scale-105">
+            <VolleyLogo size="sm" />
+          </Link>
           <div className="flex items-center space-x-3">
             <button onClick={toggleTheme} className="h-8 w-8 rounded-full bg-surface border border-border flex items-center justify-center text-text-secondary active:scale-95 transition-transform">
               {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}

@@ -1,20 +1,18 @@
 import { Link } from 'react-router-dom';
 import { Mail } from 'lucide-react';
+import VolleyLogo from './VolleyLogo';
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-white dark:bg-[#111111] border-t border-border mt-20">
+    <footer className="w-full bg-white dark:bg-[#070B12] border-t border-border mt-20">
       <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           
           {/* Brand Col */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 rounded-xl overflow-hidden shadow-sm">
-                <img src="/logo.jpg" alt="VolleyStack Logo" className="w-full h-full object-cover" />
-              </div>
-              <span className="font-bold text-xl tracking-tight text-text-primary">VolleyStack</span>
-            </div>
+            <Link to="/" className="inline-block transition-transform hover:scale-105">
+              <VolleyLogo size="md" />
+            </Link>
             <p className="text-sm text-text-tertiary leading-relaxed max-w-xs mt-4">
               L'hub avanzato per le performance della tua squadra. Gestisci eventi, statistiche, finanze e molto altro in un'unica piattaforma integrata.
             </p>
@@ -24,11 +22,11 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-text-primary mb-6">Piattaforma</h4>
             <ul className="space-y-4">
-              <li><Link to="/dashboard" className="text-sm text-text-secondary hover:text-brand-blue transition-colors">Dashboard</Link></li>
-              <li><Link to="/events" className="text-sm text-text-secondary hover:text-brand-blue transition-colors">Calendario & Eventi</Link></li>
-              <li><Link to="/team" className="text-sm text-text-secondary hover:text-brand-blue transition-colors">Gestione Squadra</Link></li>
-              <li><Link to="/stats" className="text-sm text-text-secondary hover:text-brand-blue transition-colors">Statistiche</Link></li>
-              <li><Link to="/treasury" className="text-sm text-text-secondary hover:text-brand-blue transition-colors">Finanze & Cassa</Link></li>
+              <li><Link to="/dashboard" className="text-sm text-text-secondary hover:text-[#00F59B] transition-colors">Dashboard</Link></li>
+              <li><Link to="/events" className="text-sm text-text-secondary hover:text-[#00F59B] transition-colors">Calendario & Eventi</Link></li>
+              <li><Link to="/team" className="text-sm text-text-secondary hover:text-[#00F59B] transition-colors">Gestione Squadra</Link></li>
+              <li><Link to="/stats" className="text-sm text-text-secondary hover:text-[#00F59B] transition-colors">Statistiche</Link></li>
+              <li><Link to="/treasury" className="text-sm text-text-secondary hover:text-[#00F59B] transition-colors">Finanze & Cassa</Link></li>
             </ul>
           </div>
 
