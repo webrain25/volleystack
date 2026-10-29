@@ -156,8 +156,8 @@ export default function Support() {
     <div className="space-y-10 max-w-4xl mx-auto">
       {/* Hero Header */}
       <div className="text-center space-y-4">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#00F59B]/10 text-[#00F59B] border border-[#00F59B]/30 shadow-[0_0_15px_rgba(0,245,155,0.2)]">
-          <HelpCircle className="w-3.5 h-3.5 text-[#00F59B]" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#38BDF8]/10 text-[#38BDF8] border border-[#2A7EA2]/30 shadow-[0_0_15px_rgba(56,189,248,0.2)]">
+          <HelpCircle className="w-3.5 h-3.5 text-[#38BDF8]" />
           <span>Centro Assistenza & FAQ</span>
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-text-primary tracking-tight">
@@ -176,7 +176,7 @@ export default function Support() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cerca una risposta (es. paste, convocazione, multa, FIPAV)..."
-              className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-surface/90 border border-white/10 hover:border-[#00F59B]/40 focus:border-[#00F59B] text-text-primary placeholder:text-text-tertiary outline-none transition-all shadow-lg backdrop-blur-md text-sm sm:text-base font-medium"
+              className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-surface/90 border border-white/10 hover:border-[#2A7EA2]/40 focus:border-[#2A7EA2] text-text-primary placeholder:text-text-tertiary outline-none transition-all shadow-lg backdrop-blur-md text-sm sm:text-base font-medium"
             />
             {searchQuery && (
               <button
@@ -200,7 +200,7 @@ export default function Support() {
               onClick={() => setSelectedCategory(cat)}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-150 active:scale-95 cursor-pointer ${
                 isActive
-                  ? 'bg-[#00F59B] text-[#070B12] shadow-[0_0_20px_rgba(0,245,155,0.35)]'
+                  ? 'bg-[#38BDF8] text-[#070B12] shadow-[0_0_20px_rgba(56,189,248,0.35)]'
                   : 'bg-surface hover:bg-white/5 border border-white/10 text-text-secondary hover:text-text-primary'
               }`}
             >
@@ -235,7 +235,7 @@ export default function Support() {
                 initial={false}
                 className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
                   isOpen 
-                    ? 'bg-[#0F1726] border-[#00F59B]/40 shadow-[0_0_25px_rgba(0,245,155,0.08)]' 
+                    ? 'bg-[#0F1726] border-[#2A7EA2]/40 shadow-[0_0_25px_rgba(56,189,248,0.10)]' 
                     : 'bg-[#0A101D]/70 hover:bg-[#0F1726]/90 border-white/10 hover:border-white/20'
                 }`}
               >
@@ -244,12 +244,12 @@ export default function Support() {
                   className="w-full p-4 sm:p-5 flex items-center justify-between text-left gap-4 cursor-pointer"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <span className="shrink-0 w-2 h-2 rounded-full bg-[#00F59B]" />
+                    <span className="shrink-0 w-2 h-2 rounded-full bg-[#38BDF8]" />
                     <span className="font-bold text-sm sm:text-base text-text-primary">
                       {faq.question}
                     </span>
                   </div>
-                  <div className={`p-1.5 rounded-lg bg-white/5 border border-white/10 text-text-tertiary transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-180 text-[#00F59B] border-[#00F59B]/30' : ''}`}>
+                  <div className={`p-1.5 rounded-lg bg-white/5 border border-white/10 text-text-tertiary transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-180 text-[#38BDF8] border-[#2A7EA2]/30' : ''}`}>
                     <ChevronDown className="w-4 h-4" />
                   </div>
                 </button>
@@ -266,7 +266,7 @@ export default function Support() {
                       <div className="px-5 pb-5 pt-1 border-t border-white/5 text-sm sm:text-base text-text-secondary leading-relaxed space-y-3">
                         <p>{faq.answer}</p>
                         {faq.highlight && (
-                          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#00F59B]/10 border border-[#00F59B]/25 text-[#00F59B] text-xs font-semibold">
+                          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#38BDF8]/10 border border-[#2A7EA2]/25 text-[#38BDF8] text-xs font-semibold">
                             <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                             <span>{faq.highlight}</span>
                           </div>
@@ -283,9 +283,9 @@ export default function Support() {
 
       {/* Guide & Tutorial Callout */}
       <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#0F1726] via-[#131F33] to-[#0F1726] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#00F59B]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#38BDF8]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-2 text-center sm:text-left">
-          <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[#00F59B]">
+          <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[#38BDF8]">
             <BookOpen className="w-3.5 h-3.5" />
             <span>Guide Passo-Passo</span>
           </div>
@@ -298,7 +298,7 @@ export default function Support() {
         </div>
         <Link
           to="/guides"
-          className="relative z-10 shrink-0 inline-flex items-center gap-2 bg-[#00F59B] hover:bg-[#22FFAB] text-[#070B12] px-6 py-3.5 rounded-xl font-black text-sm transition-all duration-150 active:scale-95 shadow-[0_0_20px_rgba(0,245,155,0.35)]"
+          className="relative z-10 shrink-0 inline-flex items-center gap-2 bg-white hover:bg-slate-100 text-[#04060A] px-6 py-3.5 rounded-xl font-extrabold text-sm transition-all duration-150 active:scale-95 shadow-[0_4px_20px_rgba(255,255,255,0.22)]"
         >
           <span>Apri le Guide</span>
           <ArrowRight className="w-4 h-4" />
@@ -307,7 +307,7 @@ export default function Support() {
 
       {/* Direct Contact Card */}
       <div className="rounded-3xl p-8 bg-[#0A101D]/90 border border-white/10 text-center space-y-4 shadow-xl">
-        <div className="w-12 h-12 rounded-2xl bg-[#00F59B]/15 border border-[#00F59B]/30 flex items-center justify-center mx-auto text-[#00F59B] shadow-[0_0_20px_rgba(0,245,155,0.2)]">
+        <div className="w-12 h-12 rounded-2xl bg-[#38BDF8]/15 border border-[#2A7EA2]/30 flex items-center justify-center mx-auto text-[#38BDF8] shadow-[0_0_20px_rgba(56,189,248,0.2)]">
           <Mail className="w-6 h-6" />
         </div>
         <h3 className="text-xl font-black text-text-primary tracking-tight">
@@ -319,9 +319,9 @@ export default function Support() {
         <div className="pt-2">
           <a
             href="mailto:support@volleystack.com"
-            className="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-[#00F59B]/50 text-text-primary hover:text-[#00F59B] px-6 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 shadow-sm"
+            className="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-[#2A7EA2]/50 text-text-primary hover:text-[#38BDF8] px-6 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 shadow-sm"
           >
-            <Mail className="w-4 h-4 text-[#00F59B]" />
+            <Mail className="w-4 h-4 text-[#38BDF8]" />
             <span>support@volleystack.com</span>
           </a>
         </div>
@@ -336,7 +336,7 @@ export default function Support() {
 
   // If unauthenticated visitor from landing/footer, wrap with public navbar and volleyball backdrop
   return (
-    <div className="min-h-screen bg-[#070B12] text-text-primary relative selection:bg-[#00F59B]/30 selection:text-white flex flex-col justify-between">
+    <div className="min-h-screen bg-[#070B12] text-text-primary relative selection:bg-[#38BDF8]/30 selection:text-white flex flex-col justify-between">
       {/* Background with court atmosphere */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute inset-0 opacity-25">
@@ -371,7 +371,7 @@ export default function Support() {
             </Link>
             <Link
               to="/register"
-              className="bg-gradient-to-r from-[#00F59B] via-[#00DF89] to-[#00C87E] text-[#070B12] px-4 py-2 rounded-xl text-sm font-black shadow-[0_0_20px_rgba(0,245,155,0.35)] hover:shadow-[0_0_25px_rgba(0,245,155,0.55)] transition-all"
+              className="bg-white hover:bg-slate-100 text-[#04060A] px-4 py-2 rounded-xl text-sm font-extrabold shadow-[0_4px_20px_rgba(255,255,255,0.22)] transition-all"
             >
               Inizia Ora
             </Link>

@@ -14,14 +14,25 @@
   --color-text-secondary: var(--vs-text-secondary);
   --color-text-tertiary: var(--vs-text-tertiary);
 
-  --color-brand-blue: #00F59B;
-  --color-brand-blue-bright: #22FFAB;
-  --color-brand-orange: #FF7A00;
-  --color-brand-volt: #00F59B;
-  --color-brand-volt-bright: #22FFAB;
-  --color-brand-volt-dark: #00C87E;
+  /* Brand Kit 09 - Apple Pro Monolith */
+  --color-brand-petrol: #0A4059;
+  --color-brand-steel: #2A7EA2;
+  --color-brand-cyan: #38BDF8;
+  --color-brand-cyan-light: #7DD3FC;
+  --color-brand-cyan-dark: #0284C7;
+  --color-brand-navy: #025292;
+  --color-brand-obsidian: #070B12;
+  --color-brand-surface: #0F1726;
 
-  --color-success: #00F59B;
+  /* Backward compatibility pointers */
+  --color-brand-blue: #38BDF8;
+  --color-brand-blue-bright: #7DD3FC;
+  --color-brand-orange: #FF7A00;
+  --color-brand-volt: #38BDF8;
+  --color-brand-volt-bright: #7DD3FC;
+  --color-brand-volt-dark: #2A7EA2;
+
+  --color-success: #10B981;
   --color-danger: #EF4444;
   --color-warning: #F59E0B;
   --color-pastry: #EC4899;
@@ -38,7 +49,7 @@
     --vs-surface: #FFFFFF;
     --vs-surface-hover: #F1F5F9;
     --vs-border: rgba(15, 23, 42, 0.08);
-    --vs-border-strong: rgba(15, 23, 42, 0.16);
+    --vs-border-strong: rgba(10, 64, 89, 0.25);
     --vs-text-primary: #0F172A;
     --vs-text-secondary: #475569;
     --vs-text-tertiary: #64748B;
@@ -51,7 +62,7 @@
     --vs-surface: #0F1726;
     --vs-surface-hover: #162238;
     --vs-border: rgba(255, 255, 255, 0.08);
-    --vs-border-strong: rgba(0, 245, 155, 0.35);
+    --vs-border-strong: rgba(56, 189, 248, 0.35);
     --vs-text-primary: #F8FAFC;
     --vs-text-secondary: #94A3B8;
     --vs-text-tertiary: #64748B;
@@ -64,7 +75,7 @@
   }
 
   body {
-    @apply antialiased selection:bg-[#00F59B]/30 selection:text-white;
+    @apply antialiased selection:bg-[#38BDF8]/30 selection:text-white;
     background-color: var(--vs-bg-primary);
     color: var(--color-text-primary);
     overflow-x: hidden;
@@ -89,8 +100,8 @@
     background: rgba(255, 255, 255, 0.15);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #00F59B;
-    box-shadow: 0 0 14px rgba(0, 245, 155, 0.8);
+    background: #38BDF8;
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.6);
   }
 }
 
@@ -102,7 +113,7 @@
     @apply transition-all duration-200;
   }
   .dark .saas-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+    background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
   }
   
   .saas-card-hover {
@@ -110,23 +121,27 @@
   }
   
   .saas-input {
-    @apply w-full bg-bg-secondary border border-border rounded-xl text-sm text-text-primary px-4 py-3 focus:outline-none focus:ring-1 focus:ring-[#00F59B] focus:border-[#00F59B] placeholder-text-tertiary transition-all;
+    @apply w-full bg-bg-secondary border border-border rounded-xl text-sm text-text-primary px-4 py-3 focus:outline-none focus:ring-1 focus:ring-[#38BDF8] focus:border-[#38BDF8] placeholder-text-tertiary transition-all;
   }
   
+  /* Apple Pro Monolith Primary Button: stark pure white, deep dark text, luxury glow */
   .saas-btn-primary {
-    @apply bg-[#00F59B] hover:bg-[#22FFAB] text-[#070B12] text-sm font-black tracking-wide py-2.5 px-5 rounded-xl transition-all duration-200 active:scale-95 shadow-[0_0_20px_rgba(0,245,155,0.3)] hover:shadow-[0_0_25px_rgba(0,245,155,0.5)] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+    @apply bg-white hover:bg-slate-100 text-[#04060A] text-sm font-extrabold tracking-wide py-2.5 px-5 rounded-xl transition-all duration-200 active:scale-95 shadow-[0_4px_20px_rgba(255,255,255,0.20)] hover:shadow-[0_4px_24px_rgba(255,255,255,0.32)] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
   }
 
-  .saas-btn-volt {
-    @apply bg-[#00F59B] hover:bg-[#22FFAB] text-[#070B12] text-sm font-black tracking-wide py-2.5 px-5 rounded-xl transition-all duration-200 active:scale-95 shadow-[0_0_20px_rgba(0,245,155,0.35)] hover:shadow-[0_0_25px_rgba(0,245,155,0.55)] disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-
-  .saas-badge-volt {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30 shadow-[0_0_10px_rgba(0,245,155,0.15)];
-  }
-  
+  /* Secondary Monolith Button: dark translucent obsidian with petrol/steel border & cyan text */
   .saas-btn-secondary {
-    @apply bg-surface hover:bg-surface-hover border border-border text-text-primary text-sm font-semibold py-2.5 px-5 rounded-xl transition-all duration-200 active:scale-95;
+    @apply bg-[#0A4059]/20 hover:bg-[#0A4059]/35 border border-[#2A7EA2]/40 hover:border-[#38BDF8]/60 text-[#38BDF8] text-sm font-semibold py-2.5 px-5 rounded-xl transition-all duration-200 active:scale-95 shadow-[0_2px_12px_rgba(10,64,89,0.25)];
+  }
+
+  /* Vibrant Accent Button */
+  .saas-btn-volt {
+    @apply bg-[#0284C7] hover:bg-[#0369A1] text-white text-sm font-bold tracking-wide py-2.5 px-5 rounded-xl transition-all duration-200 active:scale-95 shadow-[0_4px_18px_rgba(2,132,199,0.35)] hover:shadow-[0_4px_22px_rgba(2,132,199,0.5)] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Electric Cyan Tag / Badge */
+  .saas-badge-volt {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#38BDF8]/12 text-[#38BDF8] border border-[#38BDF8]/30 shadow-[0_0_10px_rgba(56,189,248,0.12)];
   }
 
   .glass-panel {
@@ -157,12 +172,12 @@
   width: 60vh;
   height: 60vh;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(22, 131, 255, 0.12) 0%, rgba(22, 131, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(10, 64, 89, 0.22) 0%, rgba(10, 64, 89, 0) 70%);
   filter: blur(60px);
   animation: floatOrb 14s infinite alternate cubic-bezier(0.22, 1, 0.36, 1);
 }
 .dark .ambient-light-orb {
-  background: radial-gradient(circle, rgba(0, 245, 155, 0.09) 0%, rgba(22, 131, 255, 0.05) 45%, rgba(0, 245, 155, 0) 70%);
+  background: radial-gradient(circle, rgba(10, 64, 89, 0.35) 0%, rgba(2, 132, 199, 0.12) 45%, rgba(10, 64, 89, 0) 70%);
 }
 
 .ambient-light-orb-secondary {
@@ -172,12 +187,12 @@
   width: 50vh;
   height: 50vh;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 245, 155, 0.10) 0%, rgba(0, 245, 155, 0) 70%);
+  background: radial-gradient(circle, rgba(42, 126, 162, 0.18) 0%, rgba(42, 126, 162, 0) 70%);
   filter: blur(70px);
   animation: floatOrbSecondary 18s infinite alternate cubic-bezier(0.22, 1, 0.36, 1);
 }
 .dark .ambient-light-orb-secondary {
-  background: radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, rgba(0, 245, 155, 0.05) 50%, rgba(0, 229, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.14) 0%, rgba(10, 64, 89, 0.08) 50%, rgba(56, 189, 248, 0) 70%);
 }
 
 .ambient-court-lines {

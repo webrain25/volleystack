@@ -122,8 +122,8 @@ export default function Team() {
           <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="saas-card p-8 flex flex-col justify-between">
               <div>
-                <div className="h-10 w-10 bg-[#00F59B]/10 border border-[#00F59B]/25 rounded-[12px] flex items-center justify-center mb-5 shadow-[0_0_12px_rgba(0,245,155,0.15)]">
-                   <Users className="h-5 w-5 text-[#00F59B]" />
+                <div className="h-10 w-10 bg-[#38BDF8]/10 border border-[#2A7EA2]/25 rounded-[12px] flex items-center justify-center mb-5 shadow-[0_0_12px_rgba(56,189,248,0.2)]">
+                   <Users className="h-5 w-5 text-[#38BDF8]" />
                 </div>
                 <h2 className="text-xl font-bold text-text-primary mb-2">Crea nuova squadra</h2>
                 <p className="text-sm text-text-secondary mb-8">Ideale per allenatori e dirigenti. Sarai il proprietario.</p>
@@ -222,7 +222,7 @@ export default function Team() {
             </div>
           ) : (
             <div className="flex items-center gap-4 mt-1">
-              <p className="text-xl font-black text-[#00F59B] font-mono tracking-widest drop-shadow-[0_0_8px_rgba(0,245,155,0.3)]">{(membership.team as any)?.joinCode}</p>
+              <p className="text-xl font-black text-[#38BDF8] font-mono tracking-widest drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]">{(membership.team as any)?.joinCode}</p>
               <div className="flex space-x-1 ml-auto">
                 {isOwner && (
                   <button 
@@ -235,10 +235,10 @@ export default function Team() {
                 )}
                 <button 
                   onClick={copyToClipboard}
-                  className="p-2 rounded-lg hover:bg-surface border border-transparent hover:border-border text-text-tertiary hover:text-[#00F59B] transition-colors"
+                  className="p-2 rounded-lg hover:bg-surface border border-transparent hover:border-border text-text-tertiary hover:text-[#38BDF8] transition-colors"
                   title="Copia codice"
                 >
-                  {copied ? <CheckCircle2 className="h-4 w-4 text-[#00F59B]" /> : <CopyIcon className="h-4 w-4" />}
+                  {copied ? <CheckCircle2 className="h-4 w-4 text-[#38BDF8]" /> : <CopyIcon className="h-4 w-4" />}
                 </button>
               </div>
             </div>
@@ -295,7 +295,7 @@ export default function Team() {
         
         {isLoading ? (
           <div className="p-12 flex flex-col justify-center items-center text-text-tertiary">
-             <div className="h-6 w-6 rounded-full border-2 border-[#00F59B] border-t-transparent animate-spin mb-4"></div>
+             <div className="h-6 w-6 rounded-full border-2 border-[#2A7EA2] border-t-transparent animate-spin mb-4"></div>
              <span className="text-sm">Caricamento squadra...</span>
           </div>
         ) : (
@@ -314,7 +314,7 @@ export default function Team() {
                 <div className="flex items-center space-x-2 md:space-x-4">
                   {member.roles.map((r: any) => (
                     <span key={r.id} className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-[8px] flex items-center ${
-                      r.role === 'ADMIN' ? 'bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30' : 
+                      r.role === 'ADMIN' ? 'bg-[#38BDF8]/15 text-[#38BDF8] border border-[#2A7EA2]/30' : 
                       r.role === 'TREASURER' ? 'bg-accent-500/10 text-accent-500 border border-accent-500/20' :
                       'bg-surface text-text-secondary border border-border'
                     }`}>

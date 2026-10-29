@@ -107,7 +107,7 @@ export function TimePicker({
           {/* Header */}
           <div className="flex items-center justify-between pb-3 border-b border-border/50 dark:border-white/10 mb-3">
             <span className="text-xs font-bold text-text-secondary dark:text-text-tertiary uppercase tracking-wider flex items-center">
-              <Clock className="h-3.5 w-3.5 mr-1.5 text-[#00F59B]" /> Orario
+              <Clock className="h-3.5 w-3.5 mr-1.5 text-[#38BDF8]" /> Orario
             </span>
             <button
               type="button"
@@ -129,7 +129,7 @@ export function TimePicker({
                   onClick={() => handlePresetClick(preset)}
                   className={`text-xs px-2.5 py-1 rounded-lg font-medium transition-all ${
                     internalTime === preset
-                      ? 'bg-[#00F59B] text-[#070B12] font-black shadow-[0_0_12px_rgba(0,245,155,0.4)]'
+                      ? 'bg-[#38BDF8] text-[#070B12] font-black shadow-[0_0_12px_rgba(56,189,248,0.3)]'
                       : 'bg-surface hover:bg-surface-hover text-text-secondary hover:text-text-primary border border-border/40 dark:border-white/5'
                   }`}
                 >
@@ -157,7 +157,7 @@ export function TimePicker({
                       onClick={() => handleHourClick(h)}
                       className={`w-full py-1.5 rounded-lg text-sm font-semibold transition-all ${
                         isSelected
-                          ? 'bg-[#00F59B] text-[#070B12] font-black shadow-[0_0_10px_rgba(0,245,155,0.4)]'
+                          ? 'bg-[#38BDF8] text-[#070B12] font-black shadow-[0_0_10px_rgba(56,189,248,0.3)]'
                           : 'text-text-secondary hover:bg-surface-hover hover:text-text-primary'
                       }`}
                     >
@@ -184,7 +184,7 @@ export function TimePicker({
                       onClick={() => handleMinuteClick(m)}
                       className={`w-full py-1.5 rounded-lg text-sm font-semibold transition-all ${
                         isSelected
-                          ? 'bg-[#00F59B] text-[#070B12] font-black shadow-[0_0_10px_rgba(0,245,155,0.4)]'
+                          ? 'bg-[#38BDF8] text-[#070B12] font-black shadow-[0_0_10px_rgba(56,189,248,0.3)]'
                           : 'text-text-secondary hover:bg-surface-hover hover:text-text-primary'
                       }`}
                     >
@@ -199,7 +199,7 @@ export function TimePicker({
           {/* Footer Action */}
           <div className="flex items-center justify-between pt-3 mt-3 border-t border-border/50 dark:border-white/10">
             <span className="text-xs text-text-tertiary">
-              Selezionato: <strong className="text-[#00F59B]">{internalTime}</strong>
+              Selezionato: <strong className="text-[#38BDF8]">{internalTime}</strong>
             </span>
             <button
               type="button"

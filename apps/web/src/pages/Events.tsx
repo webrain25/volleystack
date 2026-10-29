@@ -322,12 +322,12 @@ export default function Events() {
 
       {showImportForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-in fade-in">
-          <div className="saas-card w-full max-w-xl p-6 shadow-2xl relative animate-in slide-in-from-bottom-4 border border-[#00F59B]/20">
+          <div className="saas-card w-full max-w-xl p-6 shadow-2xl relative animate-in slide-in-from-bottom-4 border border-[#2A7EA2]/20">
             <button onClick={() => setShowImportForm(false)} className="absolute top-4 right-4 text-text-tertiary hover:text-text-primary transition-colors">
               <X className="h-5 w-5" />
             </button>
             <h2 className="text-xl font-bold mb-1 text-text-primary flex items-center">
-              <Trophy className="h-5 w-5 mr-2 text-[#00F59B]" />
+              <Trophy className="h-5 w-5 mr-2 text-[#38BDF8]" />
               Importa Calendario
             </h2>
             <p className="text-sm text-text-tertiary mb-5">Sincronizza le partite FIPAV ufficiali o genera gli allenamenti stagionali.</p>
@@ -337,17 +337,17 @@ export default function Events() {
                 onClick={() => setImportTab('FIPAV_FEED')} 
                 className={`pb-2.5 px-3 text-sm font-bold flex items-center transition-all ${
                   importTab === 'FIPAV_FEED' 
-                    ? 'text-[#00F59B] border-b-2 border-[#00F59B]' 
+                    ? 'text-[#38BDF8] border-b-2 border-[#2A7EA2]' 
                     : 'text-text-tertiary hover:text-text-primary'
                 }`}
               >
-                <Zap className="h-4 w-4 mr-1.5 text-[#00F59B]" /> Gare FIPAV Live
+                <Zap className="h-4 w-4 mr-1.5 text-[#38BDF8]" /> Gare FIPAV Live
               </button>
               <button 
                 onClick={() => setImportTab('SEASON')} 
                 className={`pb-2.5 px-3 text-sm font-semibold transition-all ${
                   importTab === 'SEASON' 
-                    ? 'text-[#00F59B] border-b-2 border-[#00F59B]' 
+                    ? 'text-[#38BDF8] border-b-2 border-[#2A7EA2]' 
                     : 'text-text-tertiary hover:text-text-primary'
                 }`}
               >
@@ -357,7 +357,7 @@ export default function Events() {
                 onClick={() => setImportTab('CSV')} 
                 className={`pb-2.5 px-3 text-sm font-semibold transition-all ${
                   importTab === 'CSV' 
-                    ? 'text-[#00F59B] border-b-2 border-[#00F59B]' 
+                    ? 'text-[#38BDF8] border-b-2 border-[#2A7EA2]' 
                     : 'text-text-tertiary hover:text-text-primary'
                 }`}
               >
@@ -367,8 +367,8 @@ export default function Events() {
 
             {importTab === 'FIPAV_FEED' ? (
               <div className="space-y-4">
-                <div className="p-3 bg-surface border border-[#00F59B]/25 rounded-xl">
-                  <div className="flex items-center space-x-2 text-xs text-[#00F59B] font-bold mb-1">
+                <div className="p-3 bg-surface border border-[#2A7EA2]/25 rounded-xl">
+                  <div className="flex items-center space-x-2 text-xs text-[#38BDF8] font-bold mb-1">
                     <Zap className="h-4 w-4" />
                     <span>Feed Ufficiale Cloud FIPAV (ItalVolley Engine)</span>
                   </div>
@@ -461,7 +461,7 @@ export default function Events() {
                       <span className="text-text-tertiary">Competizione: </span>
                       <span className="font-bold text-text-primary">{teamsData.gironeTitle}</span>
                     </div>
-                    <div className="px-2.5 py-1 rounded-full bg-[#00F59B]/15 text-[#00F59B] font-mono font-bold border border-[#00F59B]/30">
+                    <div className="px-2.5 py-1 rounded-full bg-[#38BDF8]/15 text-[#38BDF8] font-mono font-bold border border-[#2A7EA2]/30">
                       {teamsData.teams.find((t: any) => t.name === fipavTeam)?.matchCount || 0} Gare Disponibili
                     </div>
                   </div>
@@ -473,7 +473,7 @@ export default function Events() {
                     type="button"
                     disabled={!fipavGirone || !fipavTeam || importFipavMutation.isPending}
                     onClick={() => importFipavMutation.mutate({ gironeId: fipavGirone, teamName: fipavTeam })}
-                    className="saas-btn-volt w-full py-3 flex items-center justify-center font-bold tracking-wide shadow-[0_0_20px_rgba(0,245,155,0.25)]"
+                    className="saas-btn-volt w-full py-3 flex items-center justify-center font-bold tracking-wide shadow-[0_0_20px_rgba(56,189,248,0.25)]"
                   >
                     {importFipavMutation.isPending ? (
                       <>
@@ -491,8 +491,8 @@ export default function Events() {
               </div>
             ) : importTab === 'SEASON' ? (
               <form onSubmit={handleGenerateSeason} className="space-y-4">
-                <div className="p-3 bg-[#00F59B]/10 border border-[#00F59B]/25 rounded-lg mb-4">
-                  <p className="text-xs text-[#00F59B] leading-relaxed">
+                <div className="p-3 bg-[#38BDF8]/10 border border-[#2A7EA2]/25 rounded-lg mb-4">
+                  <p className="text-xs text-[#38BDF8] leading-relaxed">
                     <strong>Stagione Automatica:</strong> Scegli i giorni in cui ti alleni. VolleyStack creerà automaticamente tutti gli eventi da Agosto a Giugno, riconoscendo le feste (🎅 Natale, 🏖️ Ferragosto, ecc.) se decidi di allenarti lo stesso!
                   </p>
                 </div>
@@ -513,7 +513,7 @@ export default function Events() {
                   {['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'].map((day, idx) => (
                     <div key={day} className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 p-2 hover:bg-surface-hover rounded-lg transition-colors">
                        <label className="flex items-center space-x-2 text-sm text-text-primary w-24 shrink-0">
-                          <input type="checkbox" name="days" value={idx + 1} className="rounded border-gray-300 text-[#00F59B] focus:ring-[#00F59B] dark:border-[#333] dark:bg-[#1a1a1a]" />
+                          <input type="checkbox" name="days" value={idx + 1} className="rounded border-gray-300 text-[#38BDF8] focus:ring-[#38BDF8] dark:border-[#333] dark:bg-[#1a1a1a]" />
                           <span>{day}</span>
                        </label>
                        <div className="flex gap-2 flex-1">
@@ -528,7 +528,7 @@ export default function Events() {
                 
                 <div className="flex items-center pt-2">
                    <label className="flex items-center space-x-2 text-sm text-text-primary">
-                      <input type="checkbox" name="excludeHolidays" defaultChecked className="rounded border-gray-300 text-[#00F59B] focus:ring-[#00F59B] dark:border-[#333] dark:bg-[#1a1a1a]" />
+                      <input type="checkbox" name="excludeHolidays" defaultChecked className="rounded border-gray-300 text-[#38BDF8] focus:ring-[#38BDF8] dark:border-[#333] dark:bg-[#1a1a1a]" />
                       <span>Non caricare gli allenamenti nei giorni di festa (Natale, Pasqua, ecc.)</span>
                    </label>
                 </div>
@@ -551,7 +551,7 @@ export default function Events() {
                   <input type="file" accept=".csv" onChange={handleCsvImport} className="hidden" id="csv-upload" />
                   <label htmlFor="csv-upload" className="cursor-pointer flex flex-col items-center">
                     <CalendarIcon className="h-8 w-8 text-text-tertiary mb-2" />
-                    <span className="text-sm font-semibold text-[#00F59B]">Seleziona file CSV</span>
+                    <span className="text-sm font-semibold text-[#38BDF8]">Seleziona file CSV</span>
                   </label>
                 </div>
               </div>
@@ -631,7 +631,7 @@ export default function Events() {
           <div className="saas-card w-full max-w-md shadow-2xl relative flex flex-col max-h-[80vh]">
             <div className="p-5 border-b border-border dark:border-[#262626] flex justify-between items-center shrink-0">
                <h2 className="text-lg font-bold text-text-primary  flex items-center">
-                  <ClipboardCheck className="h-5 w-5 mr-2 text-[#00F59B]" /> Appello Presenze
+                  <ClipboardCheck className="h-5 w-5 mr-2 text-[#38BDF8]" /> Appello Presenze
                </h2>
                <button onClick={() => setAttendanceEventId(null)} className="text-text-tertiary hover:text-text-secondary dark:text-text-tertiary dark:hover:text-gray-200 transition-colors">
                   <X className="h-5 w-5" />
@@ -645,9 +645,9 @@ export default function Events() {
                         <span className="text-sm font-medium text-text-primary ">{member.user.name || member.user.email}</span>
                         <button 
                            onClick={() => markAttendance.mutate({ teamMemberId: member.id, isPresent: !isPresent })}
-                           className="text-text-tertiary hover:text-[#00F59B] transition-colors p-1"
+                           className="text-text-tertiary hover:text-[#38BDF8] transition-colors p-1"
                         >
-                           {isPresent ? <CheckSquare className="h-6 w-6 text-[#00F59B]" /> : <Square className="h-6 w-6" />}
+                           {isPresent ? <CheckSquare className="h-6 w-6 text-[#38BDF8]" /> : <Square className="h-6 w-6" />}
                         </button>
                      </div>
                   );
@@ -756,7 +756,7 @@ export default function Events() {
                    <div className={`mt-1 shrink-0 h-10 w-10 rounded-xl flex items-center justify-center border ${
                       event.type === 'MATCH' ? 'bg-amber-500/15 border-amber-500/30 text-amber-400' : 
                       event.type === 'SOCIAL' ? 'bg-purple-500/15 border-purple-500/30 text-purple-400' : 
-                      'bg-[#00F59B]/15 border-[#00F59B]/30 text-[#00F59B]'
+                      'bg-[#38BDF8]/15 border-[#2A7EA2]/30 text-[#38BDF8]'
                    }`}>
                       <CalendarIcon className="h-5 w-5" />
                    </div>
@@ -766,7 +766,7 @@ export default function Events() {
                       <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider ${
                         event.type === 'MATCH' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' : 
                         event.type === 'SOCIAL' ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30' : 
-                        'bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30'
+                        'bg-[#38BDF8]/15 text-[#38BDF8] border border-[#2A7EA2]/30'
                       }`}>
                         {event.type}
                       </span>
@@ -778,7 +778,7 @@ export default function Events() {
                           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="flex items-center hover:text-[#00F59B] transition-colors hover:underline"
+                          className="flex items-center hover:text-[#38BDF8] transition-colors hover:underline"
                         >
                           <MapPin className="h-3.5 w-3.5 mr-1 text-danger" /> {event.location}
                         </a>
@@ -791,7 +791,7 @@ export default function Events() {
                   <div className="flex items-center space-x-2">
                     <button 
                       onClick={() => rsvp.mutate({ eventId: event.id, status: 'ATTENDING' })}
-                      className="saas-btn-secondary py-1.5 px-3 text-xs bg-transparent hover:bg-[#00F59B]/15 hover:text-[#00F59B] hover:border-[#00F59B]/40"
+                      className="saas-btn-secondary py-1.5 px-3 text-xs bg-transparent hover:bg-[#38BDF8]/15 hover:text-[#38BDF8] hover:border-[#2A7EA2]/40"
                     >
                       Presente
                     </button>
@@ -804,7 +804,7 @@ export default function Events() {
                   </div>
                   <button 
                     onClick={() => setAttendanceEventId(event.id)}
-                    className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center hover:border-[#00F59B]/40 hover:text-[#00F59B]"
+                    className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center hover:border-[#2A7EA2]/40 hover:text-[#38BDF8]"
                   >
                     <ClipboardCheck className="h-3.5 w-3.5 mr-1" /> Appello
                   </button>
@@ -829,7 +829,7 @@ export default function Events() {
                         });
                         setShowForm(true);
                       }}
-                      className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center bg-surface-hover dark:bg-[#1a1a1a] hover:text-[#00F59B]"
+                      className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center bg-surface-hover dark:bg-[#1a1a1a] hover:text-[#38BDF8]"
                     >
                       <Pencil className="h-3.5 w-3.5 mr-1" /> Modifica
                     </button>

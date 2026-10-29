@@ -164,7 +164,7 @@ export default function Treasury() {
             </button>
             <button 
               onClick={() => { setShowLedgerForm(false); setShowRuleForm(false); setShowPaymentForm(true); setShowAssignForm(false); }}
-              className="saas-btn-secondary flex items-center hover:border-[#00F59B]/40 hover:text-[#00F59B] shrink-0"
+              className="saas-btn-secondary flex items-center hover:border-[#2A7EA2]/40 hover:text-[#38BDF8] shrink-0"
             >
               <Banknote className="h-4 w-4 mr-1.5" /> Paga Multe
             </button>
@@ -187,25 +187,25 @@ export default function Treasury() {
       <div className="flex flex-wrap gap-1 p-1 bg-[#0F1726]/60 rounded-xl w-fit border border-border">
         <button 
           onClick={() => setActiveTab('FINES')}
-          className={`px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'FINES' ? 'bg-[#0F1726] border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_12px_rgba(0,245,155,0.15)]' : 'text-text-tertiary hover:text-text-primary'}`}
+          className={`px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'FINES' ? 'bg-[#0A4059]/30 border border-[#2A7EA2]/50 text-[#38BDF8] shadow-[0_2px_12px_rgba(10,64,89,0.3)]' : 'text-text-tertiary hover:text-text-primary'}`}
         >
           Multe Assegnate
         </button>
         <button 
           onClick={() => setActiveTab('PAYMENTS')}
-          className={`px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'PAYMENTS' ? 'bg-[#0F1726] border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_12px_rgba(0,245,155,0.15)]' : 'text-text-tertiary hover:text-text-primary'}`}
+          className={`px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'PAYMENTS' ? 'bg-[#0A4059]/30 border border-[#2A7EA2]/50 text-[#38BDF8] shadow-[0_2px_12px_rgba(10,64,89,0.3)]' : 'text-text-tertiary hover:text-text-primary'}`}
         >
           Pagamenti
         </button>
         <button 
           onClick={() => setActiveTab('RULES')}
-          className={`px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'RULES' ? 'bg-[#0F1726] border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_12px_rgba(0,245,155,0.15)]' : 'text-text-tertiary hover:text-text-primary'}`}
+          className={`px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'RULES' ? 'bg-[#0A4059]/30 border border-[#2A7EA2]/50 text-[#38BDF8] shadow-[0_2px_12px_rgba(10,64,89,0.3)]' : 'text-text-tertiary hover:text-text-primary'}`}
         >
           Tariffario Base
         </button>
         <button 
           onClick={() => setActiveTab('LEDGER')}
-          className={`px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'LEDGER' ? 'bg-[#0F1726] border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_12px_rgba(0,245,155,0.15)]' : 'text-text-tertiary hover:text-text-primary'}`}
+          className={`px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'LEDGER' ? 'bg-[#0A4059]/30 border border-[#2A7EA2]/50 text-[#38BDF8] shadow-[0_2px_12px_rgba(10,64,89,0.3)]' : 'text-text-tertiary hover:text-text-primary'}`}
         >
           Cassa Generale
         </button>
@@ -220,7 +220,7 @@ export default function Treasury() {
              <div className="space-y-6">
                <div className="saas-card p-5">
                  <h2 className="text-sm font-semibold text-text-primary  flex items-center mb-4">
-                    <WalletIcon className="h-4 w-4 mr-2 text-[#00F59B]" /> Impostazioni Pagamenti
+                    <WalletIcon className="h-4 w-4 mr-2 text-[#38BDF8]" /> Impostazioni Pagamenti
                  </h2>
                  <form onSubmit={(e) => { e.preventDefault(); const formData = new FormData(e.currentTarget); updatePaypalLink.mutate(formData.get('paypalLink') as string); }} className="flex items-end gap-4">
                     <div className="flex-1">
@@ -236,7 +236,7 @@ export default function Treasury() {
                <div className="saas-card overflow-hidden">
                  <div className="p-4 border-b border-border dark:border-[#262626] bg-surface dark:bg-[#0a0a0a] flex items-center justify-between">
                     <h2 className="text-sm font-semibold text-text-primary  flex items-center">
-                       <FileText className="h-4 w-4 mr-2 text-[#00F59B]" /> Tariffario Multe
+                       <FileText className="h-4 w-4 mr-2 text-[#38BDF8]" /> Tariffario Multe
                     </h2>
                  </div>
                
@@ -351,10 +351,10 @@ export default function Treasury() {
            )}
 
            {activeTab === 'LEDGER' && (
-             <div className="saas-card overflow-hidden border-[#00F59B]/20">
-               <div className="p-4 border-b border-border dark:border-[#262626] bg-[#00F59B]/5 flex items-center justify-between">
+             <div className="saas-card overflow-hidden border-[#2A7EA2]/20">
+               <div className="p-4 border-b border-border dark:border-[#262626] bg-[#38BDF8]/5 flex items-center justify-between">
                   <h2 className="text-sm font-semibold text-text-primary  flex items-center">
-                     <Landmark className="h-4 w-4 mr-2 text-[#00F59B]" /> Libro Mastro
+                     <Landmark className="h-4 w-4 mr-2 text-[#38BDF8]" /> Libro Mastro
                   </h2>
                   <div className="text-xs font-medium text-text-tertiary dark:text-text-tertiary">
                     Traccia spese ed entrate del club
@@ -511,9 +511,9 @@ export default function Treasury() {
         {/* Form Panel (Ledger) */}
         {showLedgerForm && (
            <div className="lg:col-span-1">
-             <div className="saas-card p-5 sticky top-24 animate-in fade-in slide-in-from-right-4 border-[#00F59B]/25">
+             <div className="saas-card p-5 sticky top-24 animate-in fade-in slide-in-from-right-4 border-[#2A7EA2]/25">
                 <div className="flex justify-between items-center mb-4 pb-4 border-b border-border dark:border-[#262626]">
-                   <h3 className="text-sm font-bold text-text-primary  flex items-center"><Landmark className="h-4 w-4 mr-2 text-[#00F59B]"/> Registra Movimento</h3>
+                   <h3 className="text-sm font-bold text-text-primary  flex items-center"><Landmark className="h-4 w-4 mr-2 text-[#38BDF8]"/> Registra Movimento</h3>
                    <button onClick={() => setShowLedgerForm(false)} className="text-text-tertiary dark:text-text-tertiary hover:text-text-primary dark:hover:text-gray-200"><X className="h-4 w-4" /></button>
                 </div>
                 
@@ -542,7 +542,7 @@ export default function Treasury() {
                     {ledgerErrors.amountEuros && <p className="text-red-500 dark:text-accent-500 text-xs mt-1">{ledgerErrors.amountEuros.message}</p>}
                   </div>
                   <div className="pt-2">
-                    <button type="submit" disabled={createLedgerTx.isPending} className="saas-btn-primary w-full bg-[#00F59B] hover:bg-[#22FFAB] text-[#070B12] font-black shadow-[0_0_15px_rgba(0,245,155,0.35)]">
+                    <button type="submit" disabled={createLedgerTx.isPending} className="saas-btn-primary w-full bg-white hover:bg-slate-100 text-[#04060A] font-extrabold shadow-[0_4px_20px_rgba(255,255,255,0.22)]">
                       Salva Movimento
                     </button>
                   </div>

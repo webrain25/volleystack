@@ -126,8 +126,8 @@ export default function Dashboard() {
       <motion.div variants={itemVariants} className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-border">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-[#00F59B]/10 text-[#00F59B] border border-[#00F59B]/30 shadow-[0_0_12px_rgba(0,245,155,0.2)]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00F59B] animate-pulse"></span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-[#38BDF8]/10 text-[#38BDF8] border border-[#2A7EA2]/30 shadow-[0_0_12px_rgba(56,189,248,0.2)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-pulse"></span>
               <span>{membership.team?.name || 'Volley Club'}</span>
             </span>
             {membership.roles?.[0]?.role && (
@@ -142,8 +142,8 @@ export default function Dashboard() {
           <p className="text-xs md:text-sm text-text-tertiary capitalize mt-0.5 flex items-center gap-2">
             <span>{todayFormatted}</span>
             <span>·</span>
-            <span className="text-[#00F59B] font-semibold flex items-center gap-1">
-              <Zap className="w-3 h-3 text-[#00F59B]" /> Spogliatoio Attivo
+            <span className="text-[#38BDF8] font-semibold flex items-center gap-1">
+              <Zap className="w-3 h-3 text-[#38BDF8]" /> Spogliatoio Attivo
             </span>
           </p>
         </div>
@@ -213,12 +213,12 @@ export default function Dashboard() {
         className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden border border-border bg-[#0F1726] shadow-xl"
       >
         {/* Ambient Top-Right Radial Volt Court Glow */}
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[radial-gradient(circle,rgba(0,245,155,0.09)_0%,transparent_70%)] pointer-events-none -mr-20 -mt-20"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.10)_0%,transparent_70%)] pointer-events-none -mr-20 -mt-20"></div>
 
         <div className="p-5 md:p-8 relative z-10">
           {eventsLoading ? (
             <div className="py-14 flex flex-col items-center justify-center text-text-tertiary">
-              <Activity className="animate-spin h-7 w-7 text-[#00F59B] mb-3" />
+              <Activity className="animate-spin h-7 w-7 text-[#38BDF8] mb-3" />
               <p className="text-xs font-medium">Caricamento prossimi eventi...</p>
             </div>
           ) : nextEvent ? (
@@ -231,7 +231,7 @@ export default function Dashboard() {
                     nextEvent.type === 'MATCH' 
                       ? 'bg-amber-500/15 text-amber-400 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.2)]' 
                       : nextEvent.type === 'TRAINING'
-                      ? 'bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30 shadow-[0_0_10px_rgba(0,245,155,0.2)]'
+                      ? 'bg-[#38BDF8]/15 text-[#38BDF8] border border-[#2A7EA2]/30 shadow-[0_0_10px_rgba(56,189,248,0.2)]'
                       : 'bg-purple-500/15 text-purple-400 border-purple-500/30'
                   }`}>
                     <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
@@ -239,7 +239,7 @@ export default function Dashboard() {
                   </span>
 
                   <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-text-primary bg-[#070B12]/80 px-2.5 py-1 rounded-md border border-white/10 shadow-inner">
-                    <Clock className="w-3 h-3 text-[#00F59B]" />
+                    <Clock className="w-3 h-3 text-[#38BDF8]" />
                     <span>{getEventTimeLeft(nextEvent.date)}</span>
                   </span>
                 </div>
@@ -251,7 +251,7 @@ export default function Dashboard() {
                   
                   <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs md:text-sm text-text-secondary mt-2.5">
                     <div className="flex items-center gap-1.5 font-medium text-text-primary">
-                      <CalendarIcon className="w-4 h-4 text-[#00F59B]" />
+                      <CalendarIcon className="w-4 h-4 text-[#38BDF8]" />
                       <span className="capitalize">
                         {new Date(nextEvent.date).toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short' })}
                       </span>
@@ -260,7 +260,7 @@ export default function Dashboard() {
                     </div>
 
                     {nextEvent.location && (
-                      <div className="flex items-center gap-1 text-text-secondary hover:text-[#00F59B] transition-colors">
+                      <div className="flex items-center gap-1 text-text-secondary hover:text-[#38BDF8] transition-colors">
                         <MapPin className="w-4 h-4 text-danger shrink-0" />
                         <a 
                           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(nextEvent.location)}`} 
@@ -286,11 +286,11 @@ export default function Dashboard() {
                       onClick={() => rsvp.mutate({ eventId: nextEvent.id, status: 'ATTENDING' })}
                       className={`flex-1 min-h-[44px] px-4 py-2.5 rounded-xl text-xs md:text-sm font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-200 active:scale-95 border ${
                         myRsvpStatus === 'ATTENDING'
-                          ? 'bg-[#00F59B] hover:bg-[#22FFAB] text-[#070B12] border-[#00F59B] shadow-[0_0_25px_rgba(0,245,155,0.45)]'
-                          : 'bg-surface hover:bg-[#00F59B]/15 text-[#F8FAFC] border-white/10 hover:border-[#00F59B]/50 hover:text-[#00F59B]'
+                          ? 'bg-[#38BDF8] hover:bg-[#0284C7] text-[#070B12] border-[#2A7EA2] shadow-[0_0_25px_rgba(255,255,255,0.22)]'
+                          : 'bg-surface hover:bg-[#38BDF8]/15 text-[#F8FAFC] border-white/10 hover:border-[#2A7EA2]/50 hover:text-[#38BDF8]'
                       }`}
                     >
-                      <Check className={`h-4 w-4 stroke-[3px] ${myRsvpStatus === 'ATTENDING' ? 'text-[#070B12]' : 'text-[#00F59B]'}`} />
+                      <Check className={`h-4 w-4 stroke-[3px] ${myRsvpStatus === 'ATTENDING' ? 'text-[#04060A]' : 'text-[#38BDF8]'}`} />
                       <span>Ci sono</span>
                     </button>
 
@@ -329,17 +329,17 @@ export default function Dashboard() {
               <div className="lg:w-72 bg-[#070B12]/90 rounded-2xl p-4 md:p-5 border border-white/10 flex flex-col justify-between space-y-3.5 shadow-inner">
                 <div className="flex items-center justify-between pb-2 border-b border-white/10">
                   <span className="text-[11px] font-black text-text-tertiary uppercase tracking-wider flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#00F59B]"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]"></span>
                     <span>{nextEvent.type === 'MATCH' ? 'Convocati Partita' : 'Presenze Allenamento'}</span>
                   </span>
-                  <Link to={`/events`} className="text-[11px] font-bold text-[#00F59B] hover:underline">
+                  <Link to={`/events`} className="text-[11px] font-bold text-[#38BDF8] hover:underline">
                     Dettagli
                   </Link>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2 text-center py-1">
                   <div className="bg-[#0F1726] rounded-xl p-3 border border-white/5">
-                    <p className="text-2xl font-black text-[#00F59B] font-mono leading-none">{attendingCount}</p>
+                    <p className="text-2xl font-black text-[#38BDF8] font-mono leading-none">{attendingCount}</p>
                     <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-2">Presenti</p>
                   </div>
                   <div className="bg-[#0F1726] rounded-xl p-3 border border-white/5">
@@ -365,7 +365,7 @@ export default function Dashboard() {
               </p>
               <Link 
                 to="/events" 
-                className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#00F59B] text-[#070B12] text-xs font-black uppercase tracking-wider hover:bg-[#22FFAB] transition-colors shadow-[0_0_15px_rgba(0,245,155,0.3)]"
+                className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white text-[#04060A] text-xs font-extrabold uppercase tracking-wider hover:bg-slate-100 transition-colors shadow-[0_4px_18px_rgba(255,255,255,0.2)]"
               >
                 <span>Apri Calendario Completo</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -393,7 +393,7 @@ export default function Dashboard() {
                 <span>Da saldare</span>
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30 shadow-[0_0_8px_rgba(0,245,155,0.25)]">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#38BDF8]/15 text-[#38BDF8] border border-[#2A7EA2]/30 shadow-[0_0_8px_rgba(56,189,248,0.25)]">
                 <Check className="w-3 h-3 stroke-[3px]" />
                 <span>In regola</span>
               </span>
@@ -407,7 +407,7 @@ export default function Dashboard() {
             </h3>
             <p className="text-xs text-text-secondary mt-1 flex items-center justify-between">
               <span>{myFines.length === 0 ? 'Tutto pagato' : `${myFines.length} multe da pagare`}</span>
-              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 group-hover:text-[#00F59B] transition-all" />
+              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 group-hover:text-[#38BDF8] transition-all" />
             </p>
           </div>
         </Link>
@@ -448,13 +448,13 @@ export default function Dashboard() {
         {/* Widget 3: Percentuale Presenze */}
         <Link 
           to="/stats" 
-          className="saas-card bg-[#0F1726] p-4 md:p-5 flex flex-col justify-between hover:border-[#00F59B]/40 active:scale-[0.99] transition-all group shadow-md"
+          className="saas-card bg-[#0F1726] p-4 md:p-5 flex flex-col justify-between hover:border-[#2A7EA2]/40 active:scale-[0.99] transition-all group shadow-md"
         >
           <div className="flex justify-between items-start mb-3">
-            <div className="w-9 h-9 rounded-xl bg-[#00F59B]/10 flex items-center justify-center text-[#00F59B] border border-[#00F59B]/25 group-hover:scale-105 transition-transform shadow-[0_0_12px_rgba(0,245,155,0.15)]">
+            <div className="w-9 h-9 rounded-xl bg-[#38BDF8]/10 flex items-center justify-center text-[#38BDF8] border border-[#2A7EA2]/25 group-hover:scale-105 transition-transform shadow-[0_0_12px_rgba(56,189,248,0.15)]">
               <UserCheck className="h-5 w-5" />
             </div>
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30 shadow-[0_0_8px_rgba(0,245,155,0.2)]">
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#38BDF8]/15 text-[#38BDF8] border border-[#2A7EA2]/30 shadow-[0_0_8px_rgba(56,189,248,0.2)]">
               <span>Stagione 26/27</span>
             </span>
           </div>
@@ -466,16 +466,16 @@ export default function Dashboard() {
                 94%
               </h3>
               <div className="flex items-end gap-1 h-5 pb-0.5">
-                <span className="w-1.5 h-2 rounded-sm bg-[#00F59B]/40"></span>
-                <span className="w-1.5 h-3 rounded-sm bg-[#00F59B]/60"></span>
-                <span className="w-1.5 h-4.5 rounded-sm bg-[#00F59B] shadow-[0_0_6px_rgba(0,245,155,0.6)]"></span>
-                <span className="w-1.5 h-5 rounded-sm bg-[#00F59B] shadow-[0_0_8px_rgba(0,245,155,0.8)]"></span>
-                <span className="w-1.5 h-4 rounded-sm bg-[#00F59B] shadow-[0_0_6px_rgba(0,245,155,0.6)]"></span>
+                <span className="w-1.5 h-2 rounded-sm bg-[#38BDF8]/40"></span>
+                <span className="w-1.5 h-3 rounded-sm bg-[#38BDF8]/60"></span>
+                <span className="w-1.5 h-4.5 rounded-sm bg-[#38BDF8] shadow-[0_0_6px_rgba(56,189,248,0.6)]"></span>
+                <span className="w-1.5 h-5 rounded-sm bg-[#38BDF8] shadow-[0_0_8px_rgba(56,189,248,0.8)]"></span>
+                <span className="w-1.5 h-4 rounded-sm bg-[#38BDF8] shadow-[0_0_6px_rgba(56,189,248,0.6)]"></span>
               </div>
             </div>
             <p className="text-xs text-text-secondary mt-1 flex items-center justify-between">
               <span>Ottima continuità</span>
-              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 group-hover:text-[#00F59B] transition-all" />
+              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 group-hover:text-[#38BDF8] transition-all" />
             </p>
           </div>
         </Link>
@@ -489,18 +489,18 @@ export default function Dashboard() {
         <motion.div variants={itemVariants} className="lg:col-span-2 space-y-3.5">
           <div className="flex items-center justify-between px-1">
             <h2 className="text-xs font-black text-text-tertiary uppercase tracking-wider flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00F59B]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]"></span>
               <span>Ultime dallo Spogliatoio</span>
             </h2>
-            <span className="text-[11px] font-mono text-[#00F59B] flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00F59B] animate-ping"></span> In tempo reale
+            <span className="text-[11px] font-mono text-[#38BDF8] flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-ping"></span> In tempo reale
             </span>
           </div>
 
           <div className="saas-card bg-[#0F1726] divide-y divide-white/5 overflow-hidden shadow-md">
             
             <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-[#162238]/60 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-[#00F59B]/10 border border-[#00F59B]/25 flex items-center justify-center text-[#00F59B] shrink-0 shadow-[0_0_10px_rgba(0,245,155,0.15)]">
+              <div className="w-8 h-8 rounded-full bg-[#38BDF8]/10 border border-[#2A7EA2]/25 flex items-center justify-center text-[#38BDF8] shrink-0 shadow-[0_0_10px_rgba(56,189,248,0.15)]">
                 <Check className="w-4 h-4 stroke-[2.5px]" />
               </div>
               <div className="flex-1 min-w-0">
@@ -512,7 +512,7 @@ export default function Dashboard() {
             </div>
 
             <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-[#162238]/60 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-[#00F59B]/15 border border-[#00F59B]/30 flex items-center justify-center text-[#00F59B] shrink-0 shadow-[0_0_10px_rgba(0,245,155,0.2)]">
+              <div className="w-8 h-8 rounded-full bg-[#38BDF8]/15 border border-[#2A7EA2]/30 flex items-center justify-center text-[#38BDF8] shrink-0 shadow-[0_0_10px_rgba(56,189,248,0.2)]">
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <div className="flex-1 min-w-0">
@@ -565,7 +565,7 @@ export default function Dashboard() {
                 <Euro className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" />
                 <span>Regolamento Multe</span>
               </div>
-              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:text-[#00F59B] transition-colors" />
+              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:text-[#38BDF8] transition-colors" />
             </Link>
 
             <Link 
@@ -573,10 +573,10 @@ export default function Dashboard() {
               className="flex items-center justify-between p-3 rounded-xl hover:bg-[#162238] border border-transparent hover:border-white/10 transition-all text-xs font-bold text-text-primary group"
             >
               <div className="flex items-center gap-2.5">
-                <CalendarIcon className="w-4 h-4 text-[#00F59B] group-hover:scale-110 transition-transform" />
+                <CalendarIcon className="w-4 h-4 text-[#38BDF8] group-hover:scale-110 transition-transform" />
                 <span>Calendario Convocazioni</span>
               </div>
-              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:text-[#00F59B] transition-colors" />
+              <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:text-[#38BDF8] transition-colors" />
             </Link>
 
             <Link 
@@ -592,7 +592,7 @@ export default function Dashboard() {
 
             <div className="pt-2 border-t border-white/5">
               <div className="p-3 rounded-xl bg-[#070B12] border border-white/5 flex items-start gap-2.5">
-                <Sparkles className="w-4 h-4 text-[#00F59B] shrink-0 mt-0.5" />
+                <Sparkles className="w-4 h-4 text-[#38BDF8] shrink-0 mt-0.5" />
                 <p className="text-[11px] text-text-secondary leading-relaxed">
                   <strong className="text-[#F8FAFC]">Volley AI Coach:</strong> Assistente tattico e motivazionale attivo su tutte le convocazioni.
                 </p>

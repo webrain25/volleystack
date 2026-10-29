@@ -15,7 +15,7 @@ export default function DocumentPage({ title, lastUpdated, children }: { title: 
             <Link to="/login" className="text-sm font-semibold text-text-secondary hover:text-text-primary transition-colors px-4 py-2 hidden sm:block">
               Accedi
             </Link>
-            <Link to="/register" className="bg-gradient-to-r from-[#00F59B] via-[#00DF89] to-[#00C87E] text-[#070B12] px-5 py-2.5 rounded-xl text-sm font-black shadow-[0_0_20px_rgba(0,245,155,0.35)] hover:shadow-[0_0_25px_rgba(0,245,155,0.55)] transition-all">
+            <Link to="/register" className="bg-white hover:bg-slate-100 text-[#04060A] px-5 py-2.5 rounded-xl text-sm font-extrabold shadow-[0_4px_20px_rgba(255,255,255,0.22)] transition-all">
               Inizia Gratis
             </Link>
           </div>

@@ -55,7 +55,7 @@ export default function Login({ inModal = false }: LoginProps) {
         <div className="flex items-center p-1 bg-surface/80 rounded-xl border border-white/5">
           <button
             type="button"
-            className="flex-1 py-2 text-xs font-bold rounded-lg bg-[#00F59B]/15 text-[#00F59B] border border-[#00F59B]/30 shadow-sm transition-all"
+            className="flex-1 py-2 text-xs font-bold rounded-lg bg-[#38BDF8]/15 text-[#38BDF8] border border-[#2A7EA2]/30 shadow-sm transition-all"
           >
             Accedi
           </button>
@@ -88,7 +88,7 @@ export default function Login({ inModal = false }: LoginProps) {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00F59B]/40 focus:border-[#00F59B] transition-all placeholder:text-text-tertiary text-sm"
+                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#2A7EA2] transition-all placeholder:text-text-tertiary text-sm"
                 placeholder="mario@esempio.com"
                 autoComplete="email"
                 required
@@ -108,7 +108,7 @@ export default function Login({ inModal = false }: LoginProps) {
                   e.preventDefault();
                   alert('Contatta il tuo capitano o l\'amministratore di squadra per reimpostare la password.');
                 }}
-                className="text-[11px] font-bold text-[#00F59B] hover:text-[#22FFAB] transition-colors"
+                className="text-[11px] font-bold text-[#38BDF8] hover:text-[#7DD3FC] transition-colors"
               >
                 Password dimenticata?
               </a>
@@ -119,7 +119,7 @@ export default function Login({ inModal = false }: LoginProps) {
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-11 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00F59B]/40 focus:border-[#00F59B] transition-all placeholder:text-text-tertiary text-sm font-mono tracking-wider"
+                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-11 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#2A7EA2] transition-all placeholder:text-text-tertiary text-sm font-mono tracking-wider"
                 placeholder="••••••••"
                 autoComplete="current-password"
                 required
@@ -139,7 +139,7 @@ export default function Login({ inModal = false }: LoginProps) {
           <button
             type="submit"
             disabled={isLoading || !email || !password}
-            className="w-full bg-gradient-to-r from-[#00F59B] via-[#00DF89] to-[#00C87E] hover:from-[#22FFAB] hover:to-[#00DF89] text-[#070B12] font-black py-3.5 rounded-xl transition-all shadow-[0_0_20px_rgba(0,245,155,0.3)] hover:shadow-[0_0_30px_rgba(0,245,155,0.5)] flex justify-center items-center text-sm tracking-wide mt-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.99]"
+            className="w-full bg-white hover:bg-slate-100 text-[#04060A] font-extrabold py-3.5 rounded-xl transition-all shadow-[0_0_20px_rgba(56,189,248,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.32)] flex justify-center items-center text-sm tracking-wide mt-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.99]"
           >
             {isLoading ? (
               <Loader2 className="animate-spin h-5 w-5" />
@@ -154,7 +154,7 @@ export default function Login({ inModal = false }: LoginProps) {
         {/* Footer info */}
         <p className="text-center text-xs text-text-secondary pt-2">
           Non hai ancora un account?{' '}
-          <Link to="/register" className="text-[#00F59B] hover:text-[#22FFAB] font-bold">
+          <Link to="/register" className="text-[#38BDF8] hover:text-[#7DD3FC] font-bold">
             Registrati gratis
           </Link>
         </p>

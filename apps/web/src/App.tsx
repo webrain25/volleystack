@@ -74,7 +74,7 @@ export default function App() {
       <Link 
         to={to} 
         className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors duration-200 ${
-          active ? 'text-[#00F59B]' : 'text-text-tertiary hover:text-text-secondary'
+          active ? 'text-[#38BDF8]' : 'text-text-tertiary hover:text-text-secondary'
         }`}
       >
         <div className="relative flex flex-col items-center justify-center">
@@ -82,7 +82,7 @@ export default function App() {
           {active && (
             <motion.div 
               layoutId="bottom-nav-indicator"
-              className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#00F59B] rounded-full shadow-[0_0_10px_rgba(0,245,155,0.9)]"
+              className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#38BDF8] rounded-full shadow-[0_0_10px_rgba(56,189,248,0.9)]"
             />
           )}
         </div>
@@ -112,29 +112,29 @@ export default function App() {
       </div>
 
       {/* Desktop Top Navbar */}
-      <nav className="hidden md:flex items-center justify-between h-16 w-full bg-[#070B12] border-b border-white/10 sticky top-0 z-40 px-6 transition-all shadow-md">
+      <nav className="hidden md:flex items-center justify-between h-16 w-full bg-[#070B12]/90 backdrop-blur-md border-b border-white/[0.08] sticky top-0 z-40 px-6 transition-all shadow-md">
         <div className="flex items-center">
           <Link to="/dashboard" className="mr-8 transition-transform hover:scale-105">
             <VolleyLogo size="sm" />
           </Link>
           
           <div className="flex items-center space-x-1">
-            <Link to="/dashboard" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/dashboard') && location.pathname === '/dashboard' ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
+            <Link to="/dashboard" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/dashboard') && location.pathname === '/dashboard' ? 'bg-[#0A4059]/25 border border-[#2A7EA2]/40 text-[#38BDF8] shadow-[0_0_14px_rgba(56,189,248,0.2)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
               <Home className="h-4 w-4 flex-shrink-0" /> <span>Home</span>
             </Link>
-            <Link to="/events" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/events') ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
+            <Link to="/events" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/events') ? 'bg-[#0A4059]/25 border border-[#2A7EA2]/40 text-[#38BDF8] shadow-[0_0_14px_rgba(56,189,248,0.2)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
               <Calendar className="h-4 w-4 flex-shrink-0" /> <span>Calendario</span>
             </Link>
-            <Link to="/treasury" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/treasury') ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
+            <Link to="/treasury" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/treasury') ? 'bg-[#0A4059]/25 border border-[#2A7EA2]/40 text-[#38BDF8] shadow-[0_0_14px_rgba(56,189,248,0.2)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
               <WalletCards className="h-4 w-4 flex-shrink-0" /> <span>Tax & Cassa</span>
             </Link>
-            <Link to="/team" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/team') ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
+            <Link to="/team" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/team') ? 'bg-[#0A4059]/25 border border-[#2A7EA2]/40 text-[#38BDF8] shadow-[0_0_14px_rgba(56,189,248,0.2)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
               <Users className="h-4 w-4 flex-shrink-0" /> <span>Squadra</span>
             </Link>
-            <Link to="/pastes" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/pastes') ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
+            <Link to="/pastes" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/pastes') ? 'bg-[#0A4059]/25 border border-[#2A7EA2]/40 text-[#38BDF8] shadow-[0_0_14px_rgba(56,189,248,0.2)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
               <Croissant className="h-4 w-4 flex-shrink-0" /> <span>Paste</span>
             </Link>
-            <Link to="/stats" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/stats') ? 'bg-surface border border-[#00F59B]/40 text-[#00F59B] shadow-[0_0_14px_rgba(0,245,155,0.15)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
+            <Link to="/stats" className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive('/stats') ? 'bg-[#0A4059]/25 border border-[#2A7EA2]/40 text-[#38BDF8] shadow-[0_0_14px_rgba(56,189,248,0.2)]' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'}`}>
               <BarChart2 className="h-4 w-4 flex-shrink-0" /> <span>Statistiche</span>
             </Link>
           </div>
@@ -163,7 +163,7 @@ export default function App() {
       {/* Main Content Area */}
       <main className="flex-1 relative min-h-screen pb-20 md:pb-0 overflow-y-auto">
         {/* TopBar (Mobile Header) */}
-        <header className="md:hidden sticky top-0 z-30 h-14 bg-[#070B12] border-b border-white/10 px-4 flex items-center justify-between shadow-sm">
+        <header className="md:hidden sticky top-0 z-30 h-14 bg-[#070B12]/90 backdrop-blur-md border-b border-white/[0.08] px-4 flex items-center justify-between shadow-sm">
           <Link to="/dashboard" className="flex items-center transition-transform hover:scale-105">
             <VolleyLogo size="sm" />
           </Link>
@@ -212,7 +212,7 @@ export default function App() {
       </main>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="md:hidden fixed bottom-0 w-full h-16 bg-[#070B12] border-t border-white/10 z-50 px-2 pb-safe shadow-2xl">
+      <nav className="md:hidden fixed bottom-0 w-full h-16 bg-[#070B12]/95 backdrop-blur-lg border-t border-white/[0.08] z-50 px-2 pb-safe shadow-2xl">
         <div className="flex items-center justify-around h-full">
           <BottomNavItem to="/dashboard" icon={Home} label="Home" />
           <BottomNavItem to="/events" icon={Calendar} label="Eventi" />

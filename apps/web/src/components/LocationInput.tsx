@@ -108,7 +108,7 @@ export function LocationInput({ value, onChange, placeholder = "Es. Palestra Via
               onClick={() => handleSelect(s)}
               className="p-3 hover:bg-surface-hover cursor-pointer border-b border-border/20 last:border-0 flex items-start transition-colors"
             >
-              <MapPin className="h-4 w-4 text-[#00F59B] mt-0.5 shrink-0 mr-2" />
+              <MapPin className="h-4 w-4 text-[#38BDF8] mt-0.5 shrink-0 mr-2" />
               <span className="text-xs text-text-primary line-clamp-2 leading-relaxed">
                 {s.properties.name && <span className="font-semibold">{s.properties.name}</span>}
                 {s.properties.name && (s.properties.street || s.properties.city) && ', '}
