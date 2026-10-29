@@ -6,6 +6,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Inline Theme Initializer to prevent FOUC / flash of light theme -->
+    <script>
+      (function() {
+        try {
+          var t = localStorage.getItem('volleystack-theme');
+          var theme = t ? JSON.parse(t).state?.theme : 'dark';
+          if (theme === 'dark' || !theme) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch(e) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
     <title>VolleyStack — Il Gestionale Spogliatoio Volley</title>
 
     <!-- Brand Kit 09 Official Favicon & Icons -->
