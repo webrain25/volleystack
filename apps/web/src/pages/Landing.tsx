@@ -95,12 +95,12 @@ export default function Landing() {
               Accedi
             </Link>
 
-            {/* Apple Monolith Luxury Button (Desktop & Tablet) */}
+            {/* Apple Monolith Luxury Button (Desktop & Tablet) - Fluid Aura Glow */}
             <Link
               to="/register"
-              className="hidden sm:inline-flex items-center justify-center bg-[#0A4059] hover:bg-[#072d3f] text-white dark:bg-white dark:text-[#04060A] dark:hover:bg-neutral-100 px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-black tracking-tight shadow-[0_4px_18px_rgba(10,64,89,0.25)] dark:shadow-[0_4px_20px_rgba(255,255,255,0.22)] hover:shadow-[0_6px_25px_rgba(10,64,89,0.35)] dark:hover:shadow-[0_6px_25px_rgba(255,255,255,0.35)] active:scale-[0.98] transition-all shrink-0"
+              className="group relative hidden sm:inline-flex items-center justify-center px-5 sm:px-6 py-2 sm:py-2.5 rounded-full overflow-hidden border border-[#0A4059]/40 dark:border-[#38BDF8]/40 bg-[#0A4059] dark:bg-[#0A4059]/40 hover:bg-[#072d3f] dark:hover:bg-[#0A4059]/70 text-white font-black text-xs sm:text-sm tracking-tight transition-all duration-500 hover:border-[#38BDF8] shadow-[0_4px_18px_rgba(10,64,89,0.25)] dark:shadow-[0_0_20px_rgba(56,189,248,0.25)] hover:shadow-[0_6px_25px_rgba(56,189,248,0.4)] active:scale-[0.98] shrink-0 before:absolute before:w-12 before:h-12 before:content-[''] before:right-1 before:top-0 before:z-0 before:bg-[#0284C7] before:rounded-full before:blur-md before:transition-all before:duration-500 group-hover:before:right-8 group-hover:before:-bottom-3 group-hover:before:blur-lg group-hover:before:[box-shadow:0_0_20px_10px_#0284C7] after:absolute after:z-0 after:w-16 after:h-16 after:content-[''] after:bg-[#38BDF8]/60 after:right-4 after:top-0 after:rounded-full after:blur-md after:transition-all after:duration-500 group-hover:after:-right-2 group-hover:after:top-1 group-hover:after:bg-[#38BDF8]/90"
             >
-              <span>Inizia Gratis</span>
+              <span className="relative z-10">Inizia Gratis</span>
             </Link>
           </div>
         </header>
@@ -125,9 +125,11 @@ export default function Landing() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none mx-auto">
               <Link
                 to="/register"
-                className="w-full sm:w-auto inline-flex items-center justify-center bg-[#0A4059] hover:bg-[#072d3f] text-white dark:bg-white dark:text-[#04060A] dark:hover:bg-neutral-100 font-black px-6 sm:px-9 py-3 sm:py-4 rounded-full text-sm sm:text-base shadow-[0_10px_30px_rgba(10,64,89,0.25)] dark:shadow-[0_10px_35px_rgba(255,255,255,0.25)] hover:shadow-[0_12px_45px_rgba(10,64,89,0.35)] dark:hover:shadow-[0_12px_45px_rgba(255,255,255,0.4)] hover:scale-105 active:scale-95 transition-all text-center"
+                className="group relative w-full sm:w-auto inline-flex items-center justify-center px-7 sm:px-9 py-3.5 sm:py-4 rounded-full overflow-hidden border border-[#0A4059]/40 dark:border-[#38BDF8]/40 bg-[#0A4059] dark:bg-[#0A4059]/40 hover:bg-[#072d3f] dark:hover:bg-[#0A4059]/70 text-white font-black text-sm sm:text-base tracking-wide transition-all duration-500 hover:border-[#38BDF8] shadow-[0_10px_30px_rgba(10,64,89,0.25)] dark:shadow-[0_0_25px_rgba(56,189,248,0.25)] hover:shadow-[0_12px_40px_rgba(56,189,248,0.45)] hover:scale-[1.02] active:scale-[0.98] text-center before:absolute before:w-20 before:h-20 before:content-[''] before:right-2 before:top-1 before:z-0 before:bg-[#0284C7] before:rounded-full before:blur-xl before:transition-all before:duration-500 group-hover:before:right-16 group-hover:before:-bottom-6 group-hover:before:blur-2xl group-hover:before:[box-shadow:0_0_30px_20px_#0284C7] after:absolute after:z-0 after:w-28 after:h-28 after:content-[''] after:bg-[#38BDF8]/60 after:right-8 after:top-1 after:rounded-full after:blur-xl after:transition-all after:duration-500 group-hover:after:-right-4 group-hover:after:top-2 group-hover:after:bg-[#38BDF8]/80"
               >
-                Crea la tua Squadra <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="relative z-10 flex items-center justify-center">
+                  Crea la tua Squadra <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
               </Link>
               <Link
                 to="/login"
