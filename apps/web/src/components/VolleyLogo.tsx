@@ -44,9 +44,9 @@ export default function VolleyLogo({
   }[logoType][size];
 
   const logoSrc = {
-    horizontal: isDark ? '/brand/VolleyStack_09_horizontal_dark.svg' : '/brand/VolleyStack_09_horizontal_color.svg',
-    symbol: isDark ? '/brand/VolleyStack_09_symbol_dark.svg' : '/brand/VolleyStack_09_symbol_color.svg',
-    vertical: isDark ? '/brand/VolleyStack_09_vertical_dark.svg' : '/brand/VolleyStack_09_vertical_color.svg',
+    horizontal: isDark ? '/brand/VolleyStack_09_horizontal_dark.png' : '/brand/VolleyStack_09_horizontal_color.png',
+    symbol: isDark ? '/brand/VolleyStack_09_symbol_dark.png' : '/brand/VolleyStack_09_symbol_color.png',
+    vertical: isDark ? '/brand/VolleyStack_09_vertical_dark.png' : '/brand/VolleyStack_09_vertical_color.png',
   }[logoType];
 
   return (
