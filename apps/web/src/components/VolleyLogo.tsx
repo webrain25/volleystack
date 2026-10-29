@@ -24,10 +24,10 @@ export default function VolleyLogo({
   // Height scaling per size and variant (44px official recommended height for standard header)
   const heightClasses = {
     horizontal: {
-      sm: 'h-7 sm:h-8',
-      md: 'h-9 sm:h-11 md:h-[44px]',
-      lg: 'h-12 sm:h-14 md:h-16',
-      xl: 'h-16 sm:h-20',
+      sm: 'h-5 sm:h-7',
+      md: 'h-6 sm:h-9 md:h-[42px]',
+      lg: 'h-11 sm:h-14 md:h-16',
+      xl: 'h-15 sm:h-20',
     },
     symbol: {
       sm: 'h-7 w-7 sm:h-8 sm:w-8',
