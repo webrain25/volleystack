@@ -112,8 +112,8 @@ export default function Landing() {
           <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
             {/* Monumental Headline */}
             <h1 className="font-['Outfit',sans-serif] text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-950 dark:text-white mb-4 sm:mb-6 max-w-4xl leading-[1.14] sm:leading-[1.04]">
-              Tutto il tuo spogliatoio{' '}
-              <span className="bg-gradient-to-r from-[#0284C7] via-[#0EA5E9] to-[#38BDF8] bg-clip-text text-transparent block sm:inline-block">
+              Tutto il tuo spogliatoio.<br className="hidden sm:inline" />
+              <span className="bg-gradient-to-b from-slate-950 via-slate-800 to-slate-500 dark:from-white dark:via-white/95 dark:to-white/40 bg-clip-text text-transparent block mt-1.5 sm:mt-0 text-2xl sm:text-5xl md:text-6xl lg:text-7xl">
                 in un'unica app.
               </span>
             </h1>
