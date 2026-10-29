@@ -112,16 +112,16 @@ export default function Landing() {
           <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
             {/* Monumental Headline */}
             <h1 className="font-['Outfit',sans-serif] text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-950 dark:text-white mb-4 sm:mb-6 max-w-4xl leading-[1.14] sm:leading-[1.04]">
-              Tutto il tuo spogliatoio.<br className="hidden sm:inline" />
+              Tutto il tuo spogliatoio<br className="hidden sm:inline" />
               <span className="bg-gradient-to-b from-slate-950 via-slate-800 to-slate-500 dark:from-white dark:via-white/95 dark:to-white/40 bg-clip-text text-transparent block mt-1.5 sm:mt-0 text-2xl sm:text-5xl md:text-6xl lg:text-7xl">
-                in un'unica app.
+                in un'unica app
               </span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-sm sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-6 sm:mb-10 max-w-2xl leading-relaxed px-1 sm:px-0 font-normal">
               Convocazioni, presenze, cassa multe e turno delle paste.<br className="hidden sm:inline" />
-              Semplice, trasparente e sincronizzato con il calendario della tua squadra.
+              Semplice, trasparente e sincronizzato con il calendario della tua squadra
             </p>
 
             {/* CTAs - Apple Monolith Luxury Button vs Translucent Pill */}
@@ -156,7 +156,7 @@ export default function Landing() {
               </div>
               <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Cassa & Satispay</h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Multe assegnate con 1 tap dal capitano, visibili a tutti e saldate all'istante tramite QR code Satispay personale.
+                Multe assegnate con 1 tap dal capitano, visibili a tutti e saldate all'istante tramite QR code Satispay personale
               </p>
             </div>
 
@@ -167,7 +167,7 @@ export default function Landing() {
               </div>
               <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Presenze Istantanee</h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Convocazioni partite e allenamenti confermate in 3 secondi dallo smartphone. Chi c'è, chi salta e chi è in ritardo.
+                Convocazioni partite e allenamenti confermate in 3 secondi dallo smartphone: chi c'è, chi salta e chi è in ritardo
               </p>
             </div>
 
@@ -178,7 +178,7 @@ export default function Landing() {
               </div>
               <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Calendario Gare & Partite</h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Gare, orari di convocazione, palazzetti e indirizzi sempre aggiornati per tutta la squadra.
+                Gare, orari di convocazione, palazzetti e indirizzi sempre aggiornati per tutta la squadra
               </p>
             </div>
           </div>
@@ -187,17 +187,6 @@ export default function Landing() {
         {/* Live Interactive Dashboard Preview Mockup */}
         <section className="relative z-20 max-w-5xl mx-auto px-3 sm:px-6 mb-16 sm:mb-24 md:mb-32 w-full">
           <div className="relative rounded-2xl sm:rounded-3xl p-1 bg-gradient-to-b from-slate-300/60 dark:from-white/15 via-slate-200/30 dark:via-white/5 to-transparent shadow-xl dark:shadow-[0_25px_80px_rgba(0,0,0,0.8)] w-full overflow-hidden">
-            {/* Floating Status Badges - large screens */}
-            <div className="hidden lg:flex absolute -top-5 -left-4 z-30 items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/95 dark:bg-[#091322]/95 border border-slate-200 dark:border-[#38BDF8]/40 shadow-lg dark:shadow-[0_10px_30px_rgba(56,189,248,0.2)] backdrop-blur-md">
-              <Zap className="h-4 w-4 text-[#0284C7] dark:text-[#38BDF8]" />
-              <span className="text-xs font-black text-slate-900 dark:text-white">Calendario Gare & Convocazioni</span>
-            </div>
-
-            <div className="hidden lg:flex absolute -bottom-5 -right-4 z-30 items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/95 dark:bg-[#091322]/95 border border-slate-200 dark:border-[#38BDF8]/40 shadow-lg dark:shadow-[0_10px_30px_rgba(56,189,248,0.2)] backdrop-blur-md">
-              <CheckCircle2 className="h-4 w-4 text-[#0284C7] dark:text-[#38BDF8]" />
-              <span className="text-xs font-black text-slate-900 dark:text-white">14 Convocati • Tutti Presenti</span>
-            </div>
-
             {/* Inner Glass Workspace Window */}
             <div className="rounded-[16px] sm:rounded-[22px] bg-slate-50/95 dark:bg-[#070E1A]/95 border border-slate-200 dark:border-white/10 backdrop-blur-2xl overflow-hidden p-4 sm:p-6 md:p-8 text-left">
               {/* Window Header */}
@@ -319,10 +308,10 @@ export default function Landing() {
         <section className="py-10 sm:py-16 md:py-20 max-w-6xl mx-auto px-4 sm:px-6 mb-16 sm:mb-24 w-full">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight mb-3 sm:mb-4 text-slate-950 dark:text-white">
-              Progettato per chi vive la pallavolo ogni settimana.
+              Progettato per chi vive la pallavolo ogni settimana
             </h2>
             <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-base md:text-lg">
-              Basta con i fogli volanti, i messaggi persi nelle chat di gruppo e i conti a penna. Con VolleyStack hai tutto lo spogliatoio sotto controllo in un unico posto.
+              Basta con i fogli volanti, i messaggi persi nelle chat di gruppo e i conti a penna: con VolleyStack hai tutto lo spogliatoio sotto controllo in un unico posto
             </p>
           </div>
 
@@ -334,7 +323,7 @@ export default function Landing() {
               </div>
               <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-slate-950 dark:text-white">Partite, Allenamenti e Presenze</h3>
               <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
-                Segna chi c'è e chi salta con un tocco. Il mister e il capitano sanno sempre con precisione chi sarà in palestra.
+                Segna chi c'è e chi salta con un tocco: mister e capitano sanno sempre chi sarà in palestra
               </p>
             </div>
 
@@ -345,7 +334,7 @@ export default function Landing() {
               </div>
               <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-slate-950 dark:text-white">Cassa Multe & Satispay</h3>
               <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
-                Ritardi, ginocchiere dimenticate o cartellini. Ognuno vede le proprie multe e il tesoriere tiene i conti in ordine senza discussioni.
+                Ritardi, ginocchiere dimenticate o cartellini: ognuno vede le proprie multe e la cassa è sempre in ordine
               </p>
             </div>
 
@@ -389,7 +378,7 @@ export default function Landing() {
               </div>
               <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-slate-950 dark:text-white">Gare e Campionati</h3>
               <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
-                Date, orari di fischio d'inizio e palazzetti sempre aggiornati senza dover copiare o riscrivere nulla a mano nelle chat.
+                Date, orari di fischio d'inizio e palazzetti sempre aggiornati senza dover copiare o riscrivere nulla a mano nelle chat
               </p>
             </div>
           </div>
@@ -402,7 +391,7 @@ export default function Landing() {
               Pronto a organizzare il tuo spogliatoio?
             </h2>
             <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg md:text-xl mb-8 sm:mb-10 max-w-2xl mx-auto px-2">
-              Bastano due minuti per creare la squadra e riunire tutto il tuo spogliatoio. Zero costi, zero complicazioni.
+              Bastano due minuti per creare la squadra e riunire tutto il tuo spogliatoio: zero costi, zero complicazioni
             </p>
             <Link
               to="/register"
