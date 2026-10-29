@@ -95,10 +95,12 @@ export default function Landing() {
               Accedi
             </Link>
 
-            {/* Apple Monolith Luxury Button (Desktop & Tablet) - Fluid Aura Glow */}
+                        {/* Luxury CTA Button - High Contrast */}
             <Link
               to="/register"
-              className="group relative hidden sm:inline-flex items-center justify-center px-5 sm:px-6 py-2 sm:py-2.5 rounded-full overflow-hidden border border-[#0A4059]/40 dark:border-[#38BDF8]/40 bg-[#0A4059] dark:bg-[#0A4059]/40 hover:bg-[#072d3f] dark:hover:bg-[#0A4059]/70 text-white font-black text-xs sm:text-sm tracking-tight transition-all duration-500 hover:border-[#38BDF8] shadow-[0_4px_18px_rgba(10,64,89,0.25)] dark:shadow-[0_0_20px_rgba(56,189,248,0.25)] hover:shadow-[0_6px_25px_rgba(56,189,248,0.4)] active:scale-[0.98] shrink-0 before:absolute before:w-12 before:h-12 before:content-[''] before:right-1 before:top-0 before:z-0 before:bg-[#0284C7] before:rounded-full before:blur-md before:transition-all before:duration-500 group-hover:before:right-8 group-hover:before:-bottom-3 group-hover:before:blur-lg group-hover:before:[box-shadow:0_0_20px_10px_#0284C7] after:absolute after:z-0 after:w-16 after:h-16 after:content-[''] after:bg-[#38BDF8]/60 after:right-4 after:top-0 after:rounded-full after:blur-md after:transition-all after:duration-500 group-hover:after:-right-2 group-hover:after:top-1 group-hover:after:bg-[#38BDF8]/90"
+              className="group relative hidden sm:inline-flex items-center justify-center px-5 sm:px-6 py-2 sm:py-2.5 rounded-full overflow-hidden border border-[#7DD3FC]/50 dark:border-[#38BDF8] bg-[#0A4059] dark:bg-gradient-to-r dark:from-[#38BDF8] dark:to-[#0EA5E9] text-white dark:text-[#030712] font-black text-xs sm:text-sm tracking-tight transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_4px_18px_rgba(10,64,89,0.25)] dark:shadow-[0_0_25px_rgba(56,189,248,0.5)] shrink-0
+                before:absolute before:w-12 before:h-12 before:content-[''] before:right-0 before:top-0 before:z-0 before:bg-white/40 before:rounded-full before:blur-md before:transition-all before:duration-500 group-hover:before:right-8 group-hover:before:-bottom-3 group-hover:before:blur-lg
+                after:absolute after:z-0 after:w-16 after:h-16 after:content-[''] after:bg-[#0284C7]/50 after:right-4 after:top-0 after:rounded-full after:blur-md after:transition-all after:duration-500 group-hover:after:-right-2 group-hover:after:top-1"
             >
               <span className="relative z-10">Inizia Gratis</span>
             </Link>
@@ -123,9 +125,11 @@ export default function Landing() {
 
             {/* CTAs - Apple Monolith Luxury Button vs Translucent Pill */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none mx-auto">
-              <Link
+                            <Link
                 to="/register"
-                className="group relative w-full sm:w-auto inline-flex items-center justify-center px-7 sm:px-9 py-3.5 sm:py-4 rounded-full overflow-hidden border border-[#0A4059]/40 dark:border-[#38BDF8]/40 bg-[#0A4059] dark:bg-[#0A4059]/40 hover:bg-[#072d3f] dark:hover:bg-[#0A4059]/70 text-white font-black text-sm sm:text-base tracking-wide transition-all duration-500 hover:border-[#38BDF8] shadow-[0_10px_30px_rgba(10,64,89,0.25)] dark:shadow-[0_0_25px_rgba(56,189,248,0.25)] hover:shadow-[0_12px_40px_rgba(56,189,248,0.45)] hover:scale-[1.02] active:scale-[0.98] text-center before:absolute before:w-20 before:h-20 before:content-[''] before:right-2 before:top-1 before:z-0 before:bg-[#0284C7] before:rounded-full before:blur-xl before:transition-all before:duration-500 group-hover:before:right-16 group-hover:before:-bottom-6 group-hover:before:blur-2xl group-hover:before:[box-shadow:0_0_30px_20px_#0284C7] after:absolute after:z-0 after:w-28 after:h-28 after:content-[''] after:bg-[#38BDF8]/60 after:right-8 after:top-1 after:rounded-full after:blur-xl after:transition-all after:duration-500 group-hover:after:-right-4 group-hover:after:top-2 group-hover:after:bg-[#38BDF8]/80"
+                className="group relative w-full sm:w-auto inline-flex items-center justify-center px-8 sm:px-10 py-3.5 sm:py-4 rounded-full overflow-hidden border border-[#7DD3FC]/50 dark:border-[#7DD3FC] bg-[#0A4059] dark:bg-gradient-to-r dark:from-[#38BDF8] dark:via-[#0EA5E9] dark:to-[#0284C7] hover:bg-[#072d3f] dark:hover:from-[#7DD3FC] dark:hover:to-[#0EA5E9] text-white dark:text-[#030712] font-black text-sm sm:text-base tracking-tight shadow-[0_10px_30px_rgba(10,64,89,0.3)] dark:shadow-[0_0_35px_rgba(56,189,248,0.5)] hover:shadow-[0_12px_45px_rgba(56,189,248,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 text-center
+                  before:absolute before:w-20 before:h-20 before:content-[''] before:right-0 before:top-0 before:z-0 before:bg-white/40 before:rounded-full before:blur-xl before:transition-all before:duration-500 group-hover:before:right-16 group-hover:before:-bottom-4 group-hover:before:blur-2xl
+                  after:absolute after:z-0 after:w-24 after:h-24 after:content-[''] after:bg-[#0284C7]/40 after:right-8 after:top-1 after:rounded-full after:blur-xl after:transition-all after:duration-500 group-hover:after:-right-4 group-hover:after:top-2"
               >
                 <span className="relative z-10 flex items-center justify-center">
                   Crea la tua Squadra <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1" />
