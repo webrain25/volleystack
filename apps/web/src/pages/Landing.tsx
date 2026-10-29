@@ -117,7 +117,7 @@ export default function Landing() {
 
             {/* Subtitle */}
             <p className="text-sm sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-6 sm:mb-10 max-w-2xl leading-relaxed px-1 sm:px-0 font-normal">
-              Convocazioni, presenze, cassa multe e turno delle paste.<br className="hidden sm:inline" />
+              Convocazioni, presenze, cassa multe e turno delle paste<br className="hidden sm:inline" />
               Semplice, trasparente e sincronizzato con il calendario della tua squadra
             </p>
 
