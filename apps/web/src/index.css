@@ -39,6 +39,7 @@
 
   /* Custom Font */
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-outfit: "Outfit", system-ui, -apple-system, sans-serif;
 }
 
 @layer base {
@@ -229,4 +230,25 @@
   .saas-card, .saas-btn-primary, .saas-btn-secondary, .saas-input {
     transition: none !important;
   }
+}
+
+/* 3D Flip Card Engine */
+.perspective-1000 {
+  perspective: 1200px;
+}
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+.flip-card-inner {
+  transition: transform 0.65s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+.flip-card-inner.is-flipped {
+  transform: rotateY(180deg);
 }

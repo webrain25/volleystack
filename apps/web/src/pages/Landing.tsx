@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Activity,
   ArrowRight,
   Calendar,
-  CheckCircle2,
   Moon,
   Sun,
   Trophy,
@@ -20,10 +19,39 @@ import Register from './Register';
 import VolleyLogo from '../components/VolleyLogo';
 import { useThemeStore } from '../store/useThemeStore';
 
+const PILLARS = [
+  {
+    id: 'cassa',
+    title: 'CASSA & SATISPAY',
+    badge: 'CASSA MULTE',
+    description: "Multe assegnate con 1 tap dal capitano, visibili a tutti e saldate all'istante tramite QR code Satispay personale",
+  },
+  {
+    id: 'presenze',
+    title: 'PRESENZE ISTANTANEE',
+    badge: 'CONVOCAZIONI',
+    description: "Convocazioni partite e allenamenti confermate in 3 secondi dallo smartphone: chi c'è, chi salta e chi è in ritardo",
+  },
+  {
+    id: 'calendario',
+    title: 'CALENDARIO GARE',
+    badge: 'GARE & PARTITE',
+    description: 'Gare, orari di convocazione, palazzetti e indirizzi sempre aggiornati per tutta la squadra',
+  },
+];
+
 export default function Landing() {
   const location = useLocation();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useThemeStore();
+  const [flippedCards, setFlippedCards] = useState<Record<string, boolean>>({});
+
+  const toggleCardFlip = (id: string) => {
+    setFlippedCards((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -143,41 +171,67 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* 3-PILLAR SHOWCASE FRAME */}
+        {/* 3-PILLAR 3D FLIP CARDS SHOWCASE */}
         <section className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 mb-16 sm:mb-24 w-full">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-            {/* Pillar 1 */}
-            <div className="p-6 rounded-2xl bg-white/90 dark:bg-[#091322]/70 border border-slate-200 dark:border-white/10 backdrop-blur-xl shadow-lg dark:shadow-xl flex flex-col gap-3 group hover:border-[#38BDF8]/40 transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-[#2A7EA2]/15 dark:bg-[#2A7EA2]/20 border border-[#2A7EA2]/40 flex items-center justify-center text-[#0284C7] dark:text-[#38BDF8]">
-                <Wallet className="w-5 h-5" />
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Cassa & Satispay</h3>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Multe assegnate con 1 tap dal capitano, visibili a tutti e saldate all'istante tramite QR code Satispay personale
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+            {PILLARS.map((pillar) => {
+              const isFlipped = !!flippedCards[pillar.id];
+              return (
+                <div
+                  key={pillar.id}
+                  className="perspective-1000 h-60 sm:h-64 w-full cursor-pointer select-none"
+                  onClick={() => toggleCardFlip(pillar.id)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      toggleCardFlip(pillar.id);
+                    }
+                  }}
+                  aria-label={`${pillar.title} - Tocca per scoprire i dettagli`}
+                >
+                  <div
+                    className={`flip-card-inner relative w-full h-full transform-style-3d ${
+                      isFlipped ? 'is-flipped' : ''
+                    }`}
+                  >
+                    {/* Front Face: ONLY Centered Title + Iridescent Holographic Sports Aura */}
+                    <div className="absolute inset-0 w-full h-full backface-hidden rounded-2xl p-[2px] bg-gradient-to-br from-[#38BDF8] via-[#0284C7] to-[#0A4059] shadow-[0_15px_40px_rgba(2,132,199,0.2)] hover:shadow-[0_20px_50px_rgba(56,189,248,0.35)] transition-all duration-300">
+                      <div className="w-full h-full rounded-[14px] bg-[#050C16] p-6 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+                        <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-[#38BDF8]/10 blur-xl pointer-events-none group-hover:bg-[#38BDF8]/20 transition-all" />
 
-            {/* Pillar 2 */}
-            <div className="p-6 rounded-2xl bg-white/90 dark:bg-[#091322]/70 border border-slate-200 dark:border-white/10 backdrop-blur-xl shadow-lg dark:shadow-xl flex flex-col gap-3 group hover:border-[#38BDF8]/40 transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-[#2A7EA2]/15 dark:bg-[#2A7EA2]/20 border border-[#2A7EA2]/40 flex items-center justify-center text-[#0284C7] dark:text-[#38BDF8]">
-                <CheckCircle2 className="w-5 h-5" />
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Presenze Istantanee</h3>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Convocazioni partite e allenamenti confermate in 3 secondi dallo smartphone: chi c'è, chi salta e chi è in ritardo
-              </p>
-            </div>
+                        <h3 className="font-outfit text-2xl sm:text-3xl font-black uppercase tracking-wide text-white drop-shadow-sm px-2 leading-tight">
+                          {pillar.title}
+                        </h3>
 
-            {/* Pillar 3 */}
-            <div className="p-6 rounded-2xl bg-white/90 dark:bg-[#091322]/70 border border-slate-200 dark:border-white/10 backdrop-blur-xl shadow-lg dark:shadow-xl flex flex-col gap-3 group hover:border-[#38BDF8]/40 transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-[#2A7EA2]/15 dark:bg-[#2A7EA2]/20 border border-[#2A7EA2]/40 flex items-center justify-center text-[#0284C7] dark:text-[#38BDF8]">
-                <Calendar className="w-5 h-5" />
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Calendario Gare & Partite</h3>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Gare, orari di convocazione, palazzetti e indirizzi sempre aggiornati per tutta la squadra
-              </p>
-            </div>
+                        <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-[#38BDF8] bg-[#0284C7]/20 px-3.5 py-1 rounded-full border border-[#38BDF8]/30 shadow-sm group-hover:scale-105 group-hover:border-[#38BDF8]/60 transition-all">
+                          <span>Gira la carta</span>
+                          <span className="text-xs">↻</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Back Face: Description in 3D */}
+                    <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-2xl p-[2px] bg-gradient-to-br from-[#0284C7] to-[#38BDF8] shadow-[0_20px_60px_rgba(56,189,248,0.35)]">
+                      <div className="w-full h-full rounded-[14px] bg-[#07192D] p-6 flex flex-col items-center justify-center text-center">
+                        <span className="font-outfit text-[10px] sm:text-[11px] font-black uppercase text-[#38BDF8] tracking-widest mb-2 px-2.5 py-0.5 rounded-full bg-[#38BDF8]/15 border border-[#38BDF8]/30">
+                          {pillar.badge}
+                        </span>
+
+                        <p className="text-xs sm:text-sm font-semibold text-slate-100 leading-relaxed max-w-xs">
+                          {pillar.description}
+                        </p>
+
+                        <span className="mt-4 text-[11px] font-bold text-slate-300/80 hover:text-white flex items-center gap-1 transition-colors">
+                          ↺ Gira di nuovo
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
