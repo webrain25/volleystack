@@ -97,13 +97,13 @@ export default function Landing() {
           loop
           muted
           playsInline
-          poster="/backgrounds/court.jpg"
-          className="w-full h-full object-cover object-center opacity-25 dark:opacity-35 filter contrast-125 saturate-75 transition-opacity duration-700 pointer-events-none"
+          poster="/backgrounds/volleyball_poster.jpg"
+          className="w-full h-full object-cover object-center opacity-75 dark:opacity-85 filter contrast-110 saturate-100 transition-opacity duration-700 pointer-events-none"
         >
           <source src="/volleyball_bg.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/85 via-[#F8FAFC]/90 to-[#F8FAFC] dark:from-[#03060B]/85 dark:via-[#03060B]/75 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(248,250,252,0.6)_80%)] dark:bg-[radial-gradient(circle_at_center,transparent_0%,rgba(3,6,11,0.75)_80%)] pointer-events-none" />
+        {/* Soft atmospheric gradient: ensures header & bottom readability while keeping the court & players vivid */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/75 via-[#F8FAFC]/45 to-[#F8FAFC] dark:from-[#03060B]/60 dark:via-[#03060B]/20 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
       </div>
 
       {/* Main Page Layout */}
@@ -154,7 +154,7 @@ export default function Landing() {
         <section className="relative pt-6 pb-12 sm:pt-12 sm:pb-18 md:pt-16 md:pb-22 px-4 sm:px-6 w-full overflow-hidden">
           <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
             {/* Monumental Headline */}
-            <h1 className="font-['Outfit',sans-serif] text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-950 dark:text-white mb-4 sm:mb-6 max-w-4xl leading-[1.14] sm:leading-[1.04]">
+            <h1 className="font-['Outfit',sans-serif] text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-950 dark:text-white mb-4 sm:mb-6 max-w-4xl leading-[1.14] sm:leading-[1.04] drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)]">
               Tutto il tuo spogliatoio<br className="hidden sm:inline" />
               <span className="bg-gradient-to-b from-slate-950 via-slate-800 to-slate-500 dark:from-white dark:via-white/95 dark:to-white/40 bg-clip-text text-transparent block mt-1.5 sm:mt-0 text-2xl sm:text-5xl md:text-6xl lg:text-7xl">
                 in un'unica app
@@ -162,7 +162,7 @@ export default function Landing() {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-sm sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-6 sm:mb-10 max-w-2xl leading-relaxed px-1 sm:px-0 font-normal">
+            <p className="text-sm sm:text-lg md:text-xl text-slate-600 dark:text-slate-200 mb-6 sm:mb-10 max-w-2xl leading-relaxed px-1 sm:px-0 font-medium drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
               Convocazioni, presenze, cassa multe e turno delle paste<br className="hidden sm:inline" />
               Semplice, trasparente e sincronizzato con il calendario della tua squadra
             </p>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="it" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Visibilità Video Sfondo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { background-color: #03060B; color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="p-8 space-y-10">
+
+  <div class="text-center max-w-xl mx-auto">
+    <h1 class="text-3xl font-black mb-2">Regolazione Visibilità Video Sfondo</h1>
+    <p class="text-slate-400 text-sm">Confronto livelli di presenza video con testo ad alto contrasto</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+
+    <!-- Option 1: 55% Visibility -->
+    <div class="relative h-[480px] rounded-3xl overflow-hidden border border-white/15 p-6 flex flex-col justify-center items-center text-center shadow-2xl">
+      <video autoPlay loop muted playsInline class="absolute inset-0 w-full h-full object-cover opacity-60 filter contrast-110 saturate-90">
+        <source src="/volleyball_bg.mp4" type="video/mp4">
+      </video>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#03060B]/75 via-[#03060B]/45 to-[#03060B]"></div>
+      
+      <div class="relative z-10">
+        <span class="px-3 py-1 rounded-full bg-[#0A4059]/60 border border-[#2A7EA2]/50 text-[#38BDF8] text-[11px] font-bold mb-3 inline-block">
+          LIVELLO 1 • MEDIO (55% VISIBILE)
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-2 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+          Tutto il tuo spogliatoio<br><span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70">in un'unica app</span>
+        </h2>
+        <p class="text-xs text-slate-200 max-w-xs mx-auto mb-6 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] font-medium">
+          Convocazioni, presenze, cassa multe e turno delle paste in tempo reale
+        </p>
+        <button class="px-6 py-3 rounded-full bg-gradient-to-r from-[#38BDF8] to-[#0284C7] text-[#030712] font-black text-xs shadow-lg">
+          Crea la tua Squadra →
+        </button>
+      </div>
+    </div>
+
+    <!-- Option 2: 75% Visibility (Vivo & Impattante) -->
+    <div class="relative h-[480px] rounded-3xl overflow-hidden border-2 border-[#38BDF8]/40 p-6 flex flex-col justify-center items-center text-center shadow-2xl">
+      <video autoPlay loop muted playsInline class="absolute inset-0 w-full h-full object-cover opacity-75 filter contrast-115 saturate-100">
+        <source src="/volleyball_bg.mp4" type="video/mp4">
+      </video>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#03060B]/65 via-[#03060B]/30 to-[#03060B]"></div>
+      
+      <div class="relative z-10">
+        <span class="px-3 py-1 rounded-full bg-[#0A4059]/80 border border-[#38BDF8]/60 text-[#38BDF8] text-[11px] font-black mb-3 inline-block shadow-md">
+          LIVELLO 2 • VIVO & DINAMICO (75%)
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-2 drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)]">
+          Tutto il tuo spogliatoio<br><span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/80">in un'unica app</span>
+        </h2>
+        <p class="text-xs text-slate-100 max-w-xs mx-auto mb-6 drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] font-medium">
+          Convocazioni, presenze, cassa multe e turno delle paste in tempo reale
+        </p>
+        <button class="px-6 py-3 rounded-full bg-gradient-to-r from-[#38BDF8] to-[#0284C7] text-[#030712] font-black text-xs shadow-lg">
+          Crea la tua Squadra →
+        </button>
+      </div>
+    </div>
+
+    <!-- Option 3: 90% Visibility (Cinema Intenso) -->
+    <div class="relative h-[480px] rounded-3xl overflow-hidden border border-white/15 p-6 flex flex-col justify-center items-center text-center shadow-2xl">
+      <video autoPlay loop muted playsInline class="absolute inset-0 w-full h-full object-cover opacity-90 filter contrast-120 saturate-105">
+        <source src="/volleyball_bg.mp4" type="video/mp4">
+      </video>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#03060B]/55 via-black/20 to-[#03060B]"></div>
+      
+      <div class="relative z-10">
+        <span class="px-3 py-1 rounded-full bg-black/70 border border-white/20 text-[#38BDF8] text-[11px] font-bold mb-3 inline-block backdrop-blur-md">
+          LIVELLO 3 • CINEMA DIRETTO (90%)
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-2 drop-shadow-[0_4px_25px_rgba(0,0,0,1)]">
+          Tutto il tuo spogliatoio<br><span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/80">in un'unica app</span>
+        </h2>
+        <p class="text-xs text-white max-w-xs mx-auto mb-6 drop-shadow-[0_2px_12px_rgba(0,0,0,1)] font-medium">
+          Convocazioni, presenze, cassa multe e turno delle paste in tempo reale
+        </p>
+        <button class="px-6 py-3 rounded-full bg-gradient-to-r from-[#38BDF8] to-[#0284C7] text-[#030712] font-black text-xs shadow-lg">
+          Crea la tua Squadra →
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
