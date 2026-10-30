@@ -122,7 +122,7 @@ const GUIDES_DATA: Guide[] = [
       },
       {
         title: '3. Registra i pagamenti e monitora la cassa',
-        desc: 'Quando il compagno salda al tesoriere (in contanti, Satispay o bonifico), basta un clic su "Segna come pagata" per accreditare la cassa comune.',
+        desc: 'Quando il compagno salda al tesoriere (in contanti o bonifico), basta un clic su "Segna come pagata" per accreditare la cassa comune.',
         tag: 'Cassa comune'
       },
       {

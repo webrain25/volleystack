@@ -107,7 +107,7 @@ const FAQ_DATA: FAQItem[] = [
     id: 'salda-multa',
     category: 'Cassa & Multe',
     question: 'Come viene registrato il pagamento di una multa?',
-    answer: 'Quando un giocatore paga la quota o la multa al tesoriere (in contanti, Satispay o bonifico), il tesoriere clicca su "Segna come pagata". Il saldo in sospeso si azzera e i fondi confluiscono subito nel totale della cassa comune.',
+    answer: 'Quando un giocatore paga la quota o la multa al tesoriere (in contanti o bonifico), il tesoriere clicca su "Segna come pagata". Il saldo in sospeso si azzera e i fondi confluiscono subito nel totale della cassa comune.',
     highlight: 'Gestione immediata per contanti, bonifico o app di pagamento.'
   },
 

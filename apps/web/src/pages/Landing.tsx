@@ -22,9 +22,9 @@ import { useThemeStore } from '../store/useThemeStore';
 const PILLARS = [
   {
     id: 'cassa',
-    title: 'CASSA & SATISPAY',
+    title: 'CASSA & MULTE',
     badge: 'CASSA MULTE',
-    description: "Multe assegnate con 1 tap dal capitano, visibili a tutti e saldate all'istante tramite QR code Satispay personale",
+    description: "Multe assegnate con 1 tap dal capitano, visibili a tutti e fondo cassa squadra sempre trasparente e aggiornato",
   },
   {
     id: 'presenze',
@@ -284,7 +284,7 @@ export default function Landing() {
               <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-[#2A7EA2]/15 dark:bg-[#2A7EA2]/20 border border-[#2A7EA2]/40 flex items-center justify-center mb-5 sm:mb-6 text-[#0284C7] dark:text-[#38BDF8]">
                 <Wallet className="h-5 w-5 sm:h-6 sm:w-6" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-slate-950 dark:text-white">Cassa Multe & Satispay</h3>
+              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-slate-950 dark:text-white">Cassa Squadra & Multe</h3>
               <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
                 Ritardi, ginocchiere dimenticate o cartellini: ognuno vede le proprie multe e la cassa è sempre in ordine
               </p>
