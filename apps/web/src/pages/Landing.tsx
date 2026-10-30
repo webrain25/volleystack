@@ -204,11 +204,6 @@ export default function Landing() {
                         <h3 className="font-outfit text-2xl sm:text-3xl font-black uppercase tracking-wide text-white drop-shadow-sm px-2 leading-tight">
                           {pillar.title}
                         </h3>
-
-                        <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-[#38BDF8] bg-[#0284C7]/20 px-3.5 py-1 rounded-full border border-[#38BDF8]/30 shadow-sm group-hover:scale-105 group-hover:border-[#38BDF8]/60 transition-all">
-                          <span>Gira la carta</span>
-                          <span className="text-xs">↻</span>
-                        </span>
                       </div>
                     </div>
 
@@ -222,10 +217,6 @@ export default function Landing() {
                         <p className="text-xs sm:text-sm font-semibold text-slate-100 leading-relaxed max-w-xs">
                           {pillar.description}
                         </p>
-
-                        <span className="mt-4 text-[11px] font-bold text-slate-300/80 hover:text-white flex items-center gap-1 transition-colors">
-                          ↺ Gira di nuovo
-                        </span>
                       </div>
                     </div>
                   </div>
