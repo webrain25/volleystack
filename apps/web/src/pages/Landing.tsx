@@ -91,13 +91,19 @@ export default function Landing() {
         {/* Soft Conic/Radial Glow from top center */}
         <div className="absolute -top-[120px] left-1/2 -translate-x-1/2 w-[90vw] max-w-[1100px] h-[550px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(56,189,248,0.18)_0%,rgba(10,64,89,0.05)_45%,transparent_75%)] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(42,126,162,0.22)_0%,rgba(10,64,89,0.08)_45%,transparent_75%)] pointer-events-none transition-colors duration-300" />
 
-        {/* Real Volleyball Court Background with subtle atmospheric blend */}
-        <img
-          src="/backgrounds/court.jpg"
-          alt="Campo di Pallavolo"
-          className="w-full h-full object-cover object-center filter brightness-[0.9] dark:brightness-[0.35] contrast-[1.05] dark:contrast-[1.15] opacity-10 dark:opacity-20 transition-opacity duration-300"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/80 via-[#F8FAFC]/92 to-[#F8FAFC] dark:from-[#03060B]/70 dark:via-[#03060B]/85 dark:to-[#03060B] z-0 transition-colors duration-300" />
+        {/* Real Volleyball Action Video Background (Opzione C - Trasparenza Cinematica) */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/backgrounds/court.jpg"
+          className="w-full h-full object-cover object-center opacity-25 dark:opacity-35 filter contrast-125 saturate-75 transition-opacity duration-700 pointer-events-none"
+        >
+          <source src="/volleyball_bg.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/85 via-[#F8FAFC]/90 to-[#F8FAFC] dark:from-[#03060B]/85 dark:via-[#03060B]/75 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(248,250,252,0.6)_80%)] dark:bg-[radial-gradient(circle_at_center,transparent_0%,rgba(3,6,11,0.75)_80%)] pointer-events-none" />
       </div>
 
       {/* Main Page Layout */}
