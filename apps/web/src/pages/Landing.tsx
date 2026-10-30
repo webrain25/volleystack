@@ -1,15 +1,9 @@
 import { useEffect, useState } from 'react';
 import {
-  Activity,
   ArrowRight,
-  Calendar,
   Moon,
   Sun,
-  Trophy,
-  Users,
-  Wallet,
   X,
-  Zap,
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -19,24 +13,42 @@ import Register from './Register';
 import VolleyLogo from '../components/VolleyLogo';
 import { useThemeStore } from '../store/useThemeStore';
 
-const PILLARS = [
-  {
-    id: 'cassa',
-    title: 'CASSA & MULTE',
-    badge: 'CASSA MULTE',
-    description: "Multe assegnate con 1 tap dal capitano, visibili a tutti e fondo cassa squadra sempre trasparente e aggiornato",
-  },
+const FEATURES = [
   {
     id: 'presenze',
-    title: 'PRESENZE ISTANTANEE',
-    badge: 'CONVOCAZIONI',
-    description: "Convocazioni partite e allenamenti confermate in 3 secondi dallo smartphone: chi c'è, chi salta e chi è in ritardo",
+    title: 'PARTITE & ALLENAMENTI',
+    badge: 'PRESENZE & CONVOCAZIONI',
+    description: "Segna chi c'è e chi salta con un tocco: mister e capitano sanno sempre chi sarà in palestra",
+  },
+  {
+    id: 'cassa',
+    title: 'CASSA SQUADRA & MULTE',
+    badge: 'FONDO CASSA',
+    description: 'Ritardi, ginocchiere dimenticate o cartellini: ognuno vede le proprie multe e la cassa è sempre in ordine',
+  },
+  {
+    id: 'paste',
+    title: 'IL TURNO DELLE PASTE',
+    badge: 'TRADIZIONE SPOGLIATOIO',
+    description: "Compleanni, esordi in campo o una schiacciata finita dritta sull'asta: assegna il turno dolci e ricorda a tutti chi porta la colazione",
+  },
+  {
+    id: 'statistiche',
+    title: 'CLASSIFICHE & STATS',
+    badge: 'NUMERI & RECORD',
+    description: 'Scopri chi è il più multato della stagione, chi non salta mai un allenamento e i numeri della tua squadra nel campionato',
+  },
+  {
+    id: 'invito',
+    title: 'INVITO RAPIDO SQUADRA',
+    badge: 'ACCESSO CON CODICE',
+    description: "Mister, capitano o giocatore: condividi un semplice codice di 6 lettere nella chat di squadra per far entrare tutti all'istante",
   },
   {
     id: 'calendario',
-    title: 'CALENDARIO GARE',
-    badge: 'GARE & PARTITE',
-    description: 'Gare, orari di convocazione, palazzetti e indirizzi sempre aggiornati per tutta la squadra',
+    title: 'GARE & CAMPIONATI',
+    badge: 'CALENDARIO SQUADRA',
+    description: "Date, orari di fischio d'inizio e palazzetti sempre aggiornati senza dover copiare o riscrivere nulla a mano nelle chat",
   },
 ];
 
@@ -171,61 +183,6 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* 3-PILLAR 3D FLIP CARDS SHOWCASE */}
-        <section className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 mb-16 sm:mb-24 w-full">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-            {PILLARS.map((pillar) => {
-              const isFlipped = !!flippedCards[pillar.id];
-              return (
-                <div
-                  key={pillar.id}
-                  className="perspective-1000 h-60 sm:h-64 w-full cursor-pointer select-none"
-                  onClick={() => toggleCardFlip(pillar.id)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      toggleCardFlip(pillar.id);
-                    }
-                  }}
-                  aria-label={`${pillar.title} - Tocca per scoprire i dettagli`}
-                >
-                  <div
-                    className={`flip-card-inner relative w-full h-full transform-style-3d ${
-                      isFlipped ? 'is-flipped' : ''
-                    }`}
-                  >
-                    {/* Front Face: ONLY Centered Title + Iridescent Holographic Sports Aura */}
-                    <div className="absolute inset-0 w-full h-full backface-hidden rounded-2xl p-[2px] bg-gradient-to-br from-[#38BDF8] via-[#0284C7] to-[#0A4059] shadow-[0_15px_40px_rgba(2,132,199,0.2)] hover:shadow-[0_20px_50px_rgba(56,189,248,0.35)] transition-all duration-300">
-                      <div className="w-full h-full rounded-[14px] bg-[#050C16] p-6 flex flex-col items-center justify-center text-center relative overflow-hidden group">
-                        <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-[#38BDF8]/10 blur-xl pointer-events-none group-hover:bg-[#38BDF8]/20 transition-all" />
-
-                        <h3 className="font-outfit text-2xl sm:text-3xl font-black uppercase tracking-wide text-white drop-shadow-sm px-2 leading-tight">
-                          {pillar.title}
-                        </h3>
-                      </div>
-                    </div>
-
-                    {/* Back Face: Description in 3D */}
-                    <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-2xl p-[2px] bg-gradient-to-br from-[#0284C7] to-[#38BDF8] shadow-[0_20px_60px_rgba(56,189,248,0.35)]">
-                      <div className="w-full h-full rounded-[14px] bg-[#07192D] p-6 flex flex-col items-center justify-center text-center">
-                        <span className="font-outfit text-[10px] sm:text-[11px] font-black uppercase text-[#38BDF8] tracking-widest mb-2 px-2.5 py-0.5 rounded-full bg-[#38BDF8]/15 border border-[#38BDF8]/30">
-                          {pillar.badge}
-                        </span>
-
-                        <p className="text-xs sm:text-sm font-semibold text-slate-100 leading-relaxed max-w-xs">
-                          {pillar.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
         {/* Social Proof Metrics Bar */}
         <section className="py-12 sm:py-14 border-y border-slate-200 dark:border-white/10 bg-slate-100/70 dark:bg-[#060D18]/70 backdrop-blur-xl mb-16 sm:mb-24 w-full transition-colors duration-200">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
@@ -268,71 +225,55 @@ export default function Landing() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {/* Feature 1 */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-white/90 dark:bg-[#081220]/60 border border-slate-200 dark:border-white/10 hover:border-[#38BDF8]/40 transition-all duration-300 shadow-sm dark:shadow-none">
-              <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-[#2A7EA2]/15 dark:bg-[#2A7EA2]/20 border border-[#2A7EA2]/40 flex items-center justify-center mb-5 sm:mb-6 text-[#0284C7] dark:text-[#38BDF8]">
-                <Calendar className="h-5 w-5 sm:h-6 sm:w-6" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-slate-950 dark:text-white">Partite, Allenamenti e Presenze</h3>
-              <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
-                Segna chi c'è e chi salta con un tocco: mister e capitano sanno sempre chi sarà in palestra
-              </p>
-            </div>
+            {FEATURES.map((feature) => {
+              const isFlipped = !!flippedCards[feature.id];
+              return (
+                <div
+                  key={feature.id}
+                  className="perspective-1000 h-56 sm:h-64 w-full cursor-pointer select-none"
+                  onClick={() => toggleCardFlip(feature.id)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      toggleCardFlip(feature.id);
+                    }
+                  }}
+                  aria-label={`${feature.title} - Tocca per scoprire i dettagli`}
+                >
+                  <div
+                    className={`flip-card-inner relative w-full h-full transform-style-3d ${
+                      isFlipped ? 'is-flipped' : ''
+                    }`}
+                  >
+                    {/* Front Face: ONLY Centered Title + Iridescent Holographic Sports Aura */}
+                    <div className="absolute inset-0 w-full h-full backface-hidden rounded-2xl p-[2px] bg-gradient-to-br from-[#38BDF8] via-[#0284C7] to-[#0A4059] shadow-[0_15px_40px_rgba(2,132,199,0.2)] hover:shadow-[0_20px_50px_rgba(56,189,248,0.35)] transition-all duration-300">
+                      <div className="w-full h-full rounded-[14px] bg-[#050C16] p-6 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+                        <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-[#38BDF8]/10 blur-xl pointer-events-none group-hover:bg-[#38BDF8]/20 transition-all" />
 
-            {/* Feature 2 */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-white/90 dark:bg-[#081220]/60 border border-slate-200 dark:border-white/10 hover:border-[#38BDF8]/40 transition-all duration-300 shadow-sm dark:shadow-none">
-              <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-[#2A7EA2]/15 dark:bg-[#2A7EA2]/20 border border-[#2A7EA2]/40 flex items-center justify-center mb-5 sm:mb-6 text-[#0284C7] dark:text-[#38BDF8]">
-                <Wallet className="h-5 w-5 sm:h-6 sm:w-6" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-slate-950 dark:text-white">Cassa Squadra & Multe</h3>
-              <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
-                Ritardi, ginocchiere dimenticate o cartellini: ognuno vede le proprie multe e la cassa è sempre in ordine
-              </p>
-            </div>
+                        <h3 className="font-outfit text-xl sm:text-2xl md:text-3xl font-black uppercase tracking-wide text-white drop-shadow-sm px-2 leading-tight">
+                          {feature.title}
+                        </h3>
+                      </div>
+                    </div>
 
-            {/* Feature 3 */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-white/90 dark:bg-[#081220]/60 border border-slate-200 dark:border-white/10 hover:border-[#38BDF8]/40 transition-all duration-300 shadow-sm dark:shadow-none">
-              <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-[#2A7EA2]/15 dark:bg-[#2A7EA2]/20 border border-[#2A7EA2]/40 flex items-center justify-center mb-5 sm:mb-6 text-[#0284C7] dark:text-[#38BDF8]">
-                <Activity className="h-5 w-5 sm:h-6 sm:w-6" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-slate-950 dark:text-white">Il Turno delle Paste</h3>
-              <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
-                Compleanni, esordi in campo o una schiacciata finita dritta sull'asta: assegna il turno dolci e ricorda a tutti chi deve portare la colazione!
-              </p>
-            </div>
+                    {/* Back Face: Description in 3D */}
+                    <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-2xl p-[2px] bg-gradient-to-br from-[#0284C7] to-[#38BDF8] shadow-[0_20px_60px_rgba(56,189,248,0.35)]">
+                      <div className="w-full h-full rounded-[14px] bg-[#07192D] p-6 flex flex-col items-center justify-center text-center">
+                        <span className="font-outfit text-[10px] sm:text-[11px] font-black uppercase text-[#38BDF8] tracking-widest mb-2.5 px-3 py-0.5 rounded-full bg-[#38BDF8]/15 border border-[#38BDF8]/30">
+                          {feature.badge}
+                        </span>
 
-            {/* Feature 4 */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-white/90 dark:bg-[#081220]/60 border border-slate-200 dark:border-white/10 hover:border-[#38BDF8]/40 transition-all duration-300 shadow-sm dark:shadow-none">
-              <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-[#2A7EA2]/15 dark:bg-[#2A7EA2]/20 border border-[#2A7EA2]/40 flex items-center justify-center mb-5 sm:mb-6 text-[#0284C7] dark:text-[#38BDF8]">
-                <Trophy className="h-5 w-5 sm:h-6 sm:w-6" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-slate-950 dark:text-white">Classifiche e Statistiche</h3>
-              <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
-                Scopri chi è il più multato della stagione, chi non salta mai un allenamento e i numeri della tua squadra nel campionato.
-              </p>
-            </div>
-
-            {/* Feature 5 */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-white/90 dark:bg-[#081220]/60 border border-slate-200 dark:border-white/10 hover:border-[#38BDF8]/40 transition-all duration-300 shadow-sm dark:shadow-none">
-              <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-[#2A7EA2]/15 dark:bg-[#2A7EA2]/20 border border-[#2A7EA2]/40 flex items-center justify-center mb-5 sm:mb-6 text-[#0284C7] dark:text-[#38BDF8]">
-                <Users className="h-5 w-5 sm:h-6 sm:w-6" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-slate-950 dark:text-white">Invito Rapido con Codice</h3>
-              <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
-                Mister, capitano o giocatore. Condividi un semplice codice di 6 lettere nella chat di squadra per far entrare tutti all'istante.
-              </p>
-            </div>
-
-            {/* Feature 6 */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-white/90 dark:bg-[#081220]/60 border border-slate-200 dark:border-white/10 hover:border-[#38BDF8]/40 transition-all duration-300 shadow-sm dark:shadow-none">
-              <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-[#2A7EA2]/15 dark:bg-[#2A7EA2]/20 border border-[#2A7EA2]/40 flex items-center justify-center mb-5 sm:mb-6 text-[#0284C7] dark:text-[#38BDF8]">
-                <Zap className="h-5 w-5 sm:h-6 sm:w-6" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-slate-950 dark:text-white">Gare e Campionati</h3>
-              <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
-                Date, orari di fischio d'inizio e palazzetti sempre aggiornati senza dover copiare o riscrivere nulla a mano nelle chat
-              </p>
-            </div>
+                        <p className="text-xs sm:text-sm font-semibold text-slate-100 leading-relaxed max-w-xs">
+                          {feature.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
