@@ -97,13 +97,13 @@ export default function Landing() {
           loop
           muted
           playsInline
-          poster="/backgrounds/volleyball_poster.jpg"
-          className="w-full h-full object-cover object-center opacity-75 dark:opacity-85 filter contrast-110 saturate-100 transition-opacity duration-700 pointer-events-none"
+          poster="/backgrounds/volleyball_arena_poster.jpg"
+          className="w-full h-full object-cover object-center opacity-70 dark:opacity-75 filter contrast-110 saturate-95 transition-opacity duration-700 pointer-events-none"
         >
-          <source src="/volleyball_bg.mp4" type="video/mp4" />
+          <source src="/volleyball_arena_bg.mp4" type="video/mp4" />
         </video>
         {/* Soft atmospheric gradient: ensures header & bottom readability while keeping the court & players vivid */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/75 via-[#F8FAFC]/45 to-[#F8FAFC] dark:from-[#03060B]/60 dark:via-[#03060B]/20 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/80 via-[#F8FAFC]/50 to-[#F8FAFC] dark:from-[#03060B]/75 dark:via-[#03060B]/35 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
       </div>
 
       {/* Main Page Layout */}
