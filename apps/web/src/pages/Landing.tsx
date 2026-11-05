@@ -91,19 +91,19 @@ export default function Landing() {
         {/* Soft Conic/Radial Glow from top center */}
         <div className="absolute -top-[120px] left-1/2 -translate-x-1/2 w-[90vw] max-w-[1100px] h-[550px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(56,189,248,0.18)_0%,rgba(10,64,89,0.05)_45%,transparent_75%)] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(42,126,162,0.22)_0%,rgba(10,64,89,0.08)_45%,transparent_75%)] pointer-events-none transition-colors duration-300" />
 
-        {/* Real Volleyball Action Video Background (Italvolley - Partita Nazionale Italiana in Palazzetto) */}
+        {/* Real Volleyball Action Video Background (Italvolley Maschile - Partita Nazionale Italiana in Palazzetto) */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          poster="/backgrounds/volleyball_italia_poster.jpg"
-          className="w-full h-full object-cover object-center opacity-40 dark:opacity-50 filter contrast-105 saturate-90 transition-opacity duration-700 pointer-events-none"
+          poster="/backgrounds/volleyball_italia_men_poster.jpg"
+          className="w-full h-full object-cover object-center opacity-30 dark:opacity-35 filter contrast-105 saturate-90 transition-opacity duration-700 pointer-events-none"
         >
-          <source src="/volleyball_italia_bg.mp4" type="video/mp4" />
+          <source src="/volleyball_italia_men_bg.mp4" type="video/mp4" />
         </video>
         {/* Soft atmospheric gradient: ensures header & bottom readability while keeping the court & players vivid */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/85 via-[#F8FAFC]/65 to-[#F8FAFC] dark:from-[#03060B]/85 dark:via-[#03060B]/55 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/90 via-[#F8FAFC]/75 to-[#F8FAFC] dark:from-[#03060B]/90 dark:via-[#03060B]/70 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
       </div>
 
       {/* Main Page Layout */}
@@ -253,28 +253,22 @@ export default function Landing() {
                       isFlipped ? 'is-flipped' : ''
                     }`}
                   >
-                    {/* Front Face: ONLY Centered Title + Iridescent Holographic Sports Aura */}
-                    <div className="absolute inset-0 w-full h-full backface-hidden rounded-2xl p-[2px] bg-gradient-to-br from-[#38BDF8] via-[#0284C7] to-[#0A4059] shadow-[0_15px_40px_rgba(2,132,199,0.2)] hover:shadow-[0_20px_50px_rgba(56,189,248,0.35)] transition-all duration-300">
-                      <div className="w-full h-full rounded-[14px] bg-[#050C16] p-6 flex flex-col items-center justify-center text-center relative overflow-hidden group">
-                        <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-[#38BDF8]/10 blur-xl pointer-events-none group-hover:bg-[#38BDF8]/20 transition-all" />
-
-                        <h3 className="font-outfit text-xl sm:text-2xl md:text-3xl font-black uppercase tracking-wide text-white drop-shadow-sm px-2 leading-tight">
-                          {feature.title}
-                        </h3>
-                      </div>
+                    {/* Front Face: Exact matching style from user mockup with electric blue neon border */}
+                    <div className="absolute inset-0 w-full h-full backface-hidden rounded-[22px] border-2 border-[#0091FF] dark:border-[#38BDF8] bg-[#030914] shadow-[0_0_20px_rgba(0,145,255,0.3)] hover:shadow-[0_0_30px_rgba(56,189,248,0.5)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
+                      <h3 className="font-outfit text-xl sm:text-2xl md:text-3xl font-black uppercase tracking-wide text-white drop-shadow-md px-2 leading-tight">
+                        {feature.title}
+                      </h3>
                     </div>
 
-                    {/* Back Face: Description in 3D */}
-                    <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-2xl p-[2px] bg-gradient-to-br from-[#0284C7] to-[#38BDF8] shadow-[0_20px_60px_rgba(56,189,248,0.35)]">
-                      <div className="w-full h-full rounded-[14px] bg-[#07192D] p-6 flex flex-col items-center justify-center text-center">
-                        <span className="font-outfit text-[10px] sm:text-[11px] font-black uppercase text-[#38BDF8] tracking-widest mb-2.5 px-3 py-0.5 rounded-full bg-[#38BDF8]/15 border border-[#38BDF8]/30">
-                          {feature.badge}
-                        </span>
+                    {/* Back Face: Exact matching style from user mockup with electric blue pill badge + description */}
+                    <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-[22px] border-2 border-[#0091FF] dark:border-[#38BDF8] bg-[#030914] shadow-[0_0_25px_rgba(0,145,255,0.4)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
+                      <span className="font-outfit text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#38BDF8] bg-[#0284C7]/20 border border-[#0091FF]/60 px-4 py-1 rounded-full mb-3 shadow-[0_0_10px_rgba(56,189,248,0.2)]">
+                        {feature.badge}
+                      </span>
 
-                        <p className="text-xs sm:text-sm font-semibold text-slate-100 leading-relaxed max-w-xs">
-                          {feature.description}
-                        </p>
-                      </div>
+                      <p className="text-xs sm:text-sm md:text-base font-medium text-slate-100 leading-relaxed max-w-xs text-center">
+                        {feature.description}
+                      </p>
                     </div>
                   </div>
                 </div>
