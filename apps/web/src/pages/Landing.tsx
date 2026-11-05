@@ -91,19 +91,19 @@ export default function Landing() {
         {/* Soft Conic/Radial Glow from top center */}
         <div className="absolute -top-[120px] left-1/2 -translate-x-1/2 w-[90vw] max-w-[1100px] h-[550px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(56,189,248,0.18)_0%,rgba(10,64,89,0.05)_45%,transparent_75%)] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(42,126,162,0.22)_0%,rgba(10,64,89,0.08)_45%,transparent_75%)] pointer-events-none transition-colors duration-300" />
 
-        {/* Real Volleyball Action Video Background (Opzione C - Trasparenza Cinematica) */}
+        {/* Real Volleyball Action Video Background (Italvolley - Partita Nazionale Italiana in Palazzetto) */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          poster="/backgrounds/volleyball_arena_poster.jpg"
-          className="w-full h-full object-cover object-center opacity-70 dark:opacity-75 filter contrast-110 saturate-95 transition-opacity duration-700 pointer-events-none"
+          poster="/backgrounds/volleyball_italia_poster.jpg"
+          className="w-full h-full object-cover object-center opacity-40 dark:opacity-50 filter contrast-105 saturate-90 transition-opacity duration-700 pointer-events-none"
         >
-          <source src="/volleyball_arena_bg.mp4" type="video/mp4" />
+          <source src="/volleyball_italia_bg.mp4" type="video/mp4" />
         </video>
         {/* Soft atmospheric gradient: ensures header & bottom readability while keeping the court & players vivid */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/80 via-[#F8FAFC]/50 to-[#F8FAFC] dark:from-[#03060B]/75 dark:via-[#03060B]/35 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/85 via-[#F8FAFC]/65 to-[#F8FAFC] dark:from-[#03060B]/85 dark:via-[#03060B]/55 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
       </div>
 
       {/* Main Page Layout */}
