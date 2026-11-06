@@ -98,12 +98,12 @@ export default function Landing() {
           muted
           playsInline
           poster="/backgrounds/volleyball_italia_men_poster.jpg"
-          className="w-full h-full object-cover object-center opacity-15 dark:opacity-35 filter contrast-110 saturate-85 dark:saturate-90 transition-opacity duration-700 pointer-events-none"
+          className="w-full h-full object-cover object-center opacity-45 dark:opacity-40 filter contrast-105 saturate-90 transition-opacity duration-700 pointer-events-none"
         >
           <source src="/volleyball_italia_men_bg.mp4" type="video/mp4" />
         </video>
-        {/* Atmospheric gradient: high contrast & crystal clear readability in light mode, deep arena aura in dark mode */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/96 via-[#F8FAFC]/88 to-[#F8FAFC] dark:from-[#03060B]/90 dark:via-[#03060B]/70 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
+        {/* Atmospheric gradient: high contrast & crystal clear readability in light mode while keeping video vibrant & clearly visible */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/65 via-[#F8FAFC]/45 to-[#F8FAFC]/80 dark:from-[#03060B]/90 dark:via-[#03060B]/70 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
       </div>
 
       {/* Main Page Layout */}
@@ -154,15 +154,15 @@ export default function Landing() {
         <section className="relative pt-6 pb-12 sm:pt-12 sm:pb-18 md:pt-16 md:pb-22 px-4 sm:px-6 w-full overflow-hidden">
           <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
             {/* Monumental Headline */}
-            <h1 className="font-['Outfit',sans-serif] text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-[#040E1E] dark:text-white mb-4 sm:mb-6 max-w-4xl leading-[1.14] sm:leading-[1.04] drop-shadow-none dark:drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)]">
+            <h1 className="font-['Outfit',sans-serif] text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-[#040E1E] dark:text-white mb-4 sm:mb-6 max-w-4xl leading-[1.14] sm:leading-[1.04] drop-shadow-[0_2px_12px_rgba(255,255,255,0.9)] dark:drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)]">
               Tutto il tuo spogliatoio<br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-[#0A4059] via-[#0284C7] to-[#0369A1] dark:bg-gradient-to-b dark:from-white dark:via-white/95 dark:to-white/40 bg-clip-text text-transparent block mt-1.5 sm:mt-0 text-2xl sm:text-5xl md:text-6xl lg:text-7xl">
+              <span className="bg-gradient-to-r from-[#005187] via-[#0284C7] to-[#0070BA] dark:bg-gradient-to-b dark:from-white dark:via-white/95 dark:to-white/40 bg-clip-text text-transparent block mt-1.5 sm:mt-0 text-2xl sm:text-5xl md:text-6xl lg:text-7xl">
                 in un'unica app
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-sm sm:text-lg md:text-xl text-slate-700 dark:text-slate-200 mb-6 sm:mb-10 max-w-2xl leading-relaxed px-1 sm:px-0 font-medium drop-shadow-none dark:drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
+            <p className="text-sm sm:text-lg md:text-xl text-slate-900 dark:text-slate-200 mb-6 sm:mb-10 max-w-2xl leading-relaxed px-1 sm:px-0 font-bold drop-shadow-[0_1px_8px_rgba(255,255,255,0.95)] dark:drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
               Convocazioni, presenze, cassa multe e turno delle paste<br className="hidden sm:inline" />
               Semplice, trasparente e sincronizzato con il calendario della tua squadra
             </p>
@@ -254,19 +254,19 @@ export default function Landing() {
                     }`}
                   >
                     {/* Front Face: Exact matching style from user mockup with electric blue neon border, adapted in negative for light mode */}
-                    <div className="absolute inset-0 w-full h-full backface-hidden rounded-[22px] border-2 border-[#0091FF] bg-white dark:bg-[#030914] shadow-[0_10px_30px_rgba(0,145,255,0.14),0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_16px_40px_rgba(0,145,255,0.25)] dark:shadow-[0_0_22px_rgba(0,145,255,0.32)] dark:hover:shadow-[0_0_32px_rgba(0,145,255,0.55)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
+                    <div className="absolute inset-0 w-full h-full backface-hidden rounded-[22px] border-2 border-[#0091FF] bg-white/95 dark:bg-[#030914] backdrop-blur-md shadow-[0_12px_32px_rgba(0,145,255,0.18),0_4px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_40px_rgba(0,145,255,0.28)] dark:shadow-[0_0_22px_rgba(0,145,255,0.32)] dark:hover:shadow-[0_0_32px_rgba(0,145,255,0.55)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
                       <h3 className="font-outfit text-xl sm:text-2xl md:text-3xl font-black uppercase tracking-wide text-slate-950 dark:text-white drop-shadow-none dark:drop-shadow-md px-2 leading-tight">
                         {feature.title}
                       </h3>
                     </div>
 
                     {/* Back Face: Exact matching style from user mockup with electric blue pill badge + description, adapted in negative for light mode */}
-                    <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-[22px] border-2 border-[#0091FF] bg-slate-50 dark:bg-[#030914] shadow-[0_10px_30px_rgba(0,145,255,0.18)] dark:shadow-[0_0_25px_rgba(0,145,255,0.4)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
+                    <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-[22px] border-2 border-[#0091FF] bg-[#F0F9FF]/95 dark:bg-[#030914] backdrop-blur-md shadow-[0_12px_32px_rgba(0,145,255,0.2)] dark:shadow-[0_0_25px_rgba(0,145,255,0.4)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
                       <span className="font-outfit text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#0284C7] dark:text-[#38BDF8] bg-[#E0F2FE] dark:bg-[#072545] border border-[#0091FF]/60 dark:border-[#0091FF] px-4 py-1 rounded-full mb-3 shadow-[0_2px_8px_rgba(0,145,255,0.12)] dark:shadow-[0_0_12px_rgba(0,145,255,0.25)]">
                         {feature.badge}
                       </span>
 
-                      <p className="text-xs sm:text-sm md:text-base font-medium text-slate-800 dark:text-slate-100 leading-relaxed max-w-xs text-center">
+                      <p className="text-xs sm:text-sm md:text-base font-semibold text-slate-900 dark:text-slate-100 leading-relaxed max-w-xs text-center">
                         {feature.description}
                       </p>
                     </div>
