@@ -98,12 +98,12 @@ export default function Landing() {
           muted
           playsInline
           poster="/backgrounds/volleyball_italia_men_poster.jpg"
-          className="w-full h-full object-cover object-center opacity-30 dark:opacity-35 filter contrast-105 saturate-90 transition-opacity duration-700 pointer-events-none"
+          className="w-full h-full object-cover object-center opacity-15 dark:opacity-35 filter contrast-110 saturate-85 dark:saturate-90 transition-opacity duration-700 pointer-events-none"
         >
           <source src="/volleyball_italia_men_bg.mp4" type="video/mp4" />
         </video>
-        {/* Soft atmospheric gradient: ensures header & bottom readability while keeping the court & players vivid */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/90 via-[#F8FAFC]/75 to-[#F8FAFC] dark:from-[#03060B]/90 dark:via-[#03060B]/70 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
+        {/* Atmospheric gradient: high contrast & crystal clear readability in light mode, deep arena aura in dark mode */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/96 via-[#F8FAFC]/88 to-[#F8FAFC] dark:from-[#03060B]/90 dark:via-[#03060B]/70 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
       </div>
 
       {/* Main Page Layout */}
@@ -133,15 +133,15 @@ export default function Landing() {
 
             <Link
               to="/login"
-              className="text-xs sm:text-sm font-bold text-slate-700 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white transition-all px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-slate-200/60 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10"
+              className="text-xs sm:text-sm font-bold text-slate-800 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white transition-all px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/80 hover:bg-white dark:bg-transparent dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 shadow-sm dark:shadow-none"
             >
               Accedi
             </Link>
 
-                        {/* Luxury CTA Button - High Contrast */}
+            {/* Luxury CTA Button - High Contrast */}
             <Link
               to="/register"
-              className="group relative hidden sm:inline-flex items-center justify-center px-5 sm:px-6 py-2 sm:py-2.5 rounded-full overflow-hidden border border-[#7DD3FC]/50 dark:border-[#38BDF8] bg-[#0A4059] dark:bg-gradient-to-r dark:from-[#38BDF8] dark:to-[#0EA5E9] text-white dark:text-[#030712] font-black text-xs sm:text-sm tracking-tight transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_4px_18px_rgba(10,64,89,0.25)] dark:shadow-[0_0_25px_rgba(56,189,248,0.5)] shrink-0
+              className="group relative hidden sm:inline-flex items-center justify-center px-5 sm:px-6 py-2 sm:py-2.5 rounded-full overflow-hidden border border-[#0A4059] dark:border-[#38BDF8] bg-[#0A4059] dark:bg-gradient-to-r dark:from-[#38BDF8] dark:to-[#0EA5E9] text-white dark:text-[#030712] font-black text-xs sm:text-sm tracking-tight transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_4px_18px_rgba(10,64,89,0.25)] dark:shadow-[0_0_25px_rgba(56,189,248,0.5)] shrink-0
                 before:absolute before:w-12 before:h-12 before:content-[''] before:right-0 before:top-0 before:z-0 before:bg-white/40 before:rounded-full before:blur-md before:transition-all before:duration-500 group-hover:before:right-8 group-hover:before:-bottom-3 group-hover:before:blur-lg
                 after:absolute after:z-0 after:w-16 after:h-16 after:content-[''] after:bg-[#0284C7]/50 after:right-4 after:top-0 after:rounded-full after:blur-md after:transition-all after:duration-500 group-hover:after:-right-2 group-hover:after:top-1"
             >
@@ -154,24 +154,24 @@ export default function Landing() {
         <section className="relative pt-6 pb-12 sm:pt-12 sm:pb-18 md:pt-16 md:pb-22 px-4 sm:px-6 w-full overflow-hidden">
           <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
             {/* Monumental Headline */}
-            <h1 className="font-['Outfit',sans-serif] text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-950 dark:text-white mb-4 sm:mb-6 max-w-4xl leading-[1.14] sm:leading-[1.04] drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)]">
+            <h1 className="font-['Outfit',sans-serif] text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-[#040E1E] dark:text-white mb-4 sm:mb-6 max-w-4xl leading-[1.14] sm:leading-[1.04] drop-shadow-none dark:drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)]">
               Tutto il tuo spogliatoio<br className="hidden sm:inline" />
-              <span className="bg-gradient-to-b from-slate-950 via-slate-800 to-slate-500 dark:from-white dark:via-white/95 dark:to-white/40 bg-clip-text text-transparent block mt-1.5 sm:mt-0 text-2xl sm:text-5xl md:text-6xl lg:text-7xl">
+              <span className="bg-gradient-to-r from-[#0A4059] via-[#0284C7] to-[#0369A1] dark:bg-gradient-to-b dark:from-white dark:via-white/95 dark:to-white/40 bg-clip-text text-transparent block mt-1.5 sm:mt-0 text-2xl sm:text-5xl md:text-6xl lg:text-7xl">
                 in un'unica app
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-sm sm:text-lg md:text-xl text-slate-600 dark:text-slate-200 mb-6 sm:mb-10 max-w-2xl leading-relaxed px-1 sm:px-0 font-medium drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
+            <p className="text-sm sm:text-lg md:text-xl text-slate-700 dark:text-slate-200 mb-6 sm:mb-10 max-w-2xl leading-relaxed px-1 sm:px-0 font-medium drop-shadow-none dark:drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
               Convocazioni, presenze, cassa multe e turno delle paste<br className="hidden sm:inline" />
               Semplice, trasparente e sincronizzato con il calendario della tua squadra
             </p>
 
             {/* CTAs - Apple Monolith Luxury Button vs Translucent Pill */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none mx-auto">
-                            <Link
+              <Link
                 to="/register"
-                className="group relative w-full sm:w-auto inline-flex items-center justify-center px-8 sm:px-10 py-3.5 sm:py-4 rounded-full overflow-hidden border border-[#7DD3FC]/50 dark:border-[#7DD3FC] bg-[#0A4059] dark:bg-gradient-to-r dark:from-[#38BDF8] dark:via-[#0EA5E9] dark:to-[#0284C7] hover:bg-[#072d3f] dark:hover:from-[#7DD3FC] dark:hover:to-[#0EA5E9] text-white dark:text-[#030712] font-black text-sm sm:text-base tracking-tight shadow-[0_10px_30px_rgba(10,64,89,0.3)] dark:shadow-[0_0_35px_rgba(56,189,248,0.5)] hover:shadow-[0_12px_45px_rgba(56,189,248,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 text-center
+                className="group relative w-full sm:w-auto inline-flex items-center justify-center px-8 sm:px-10 py-3.5 sm:py-4 rounded-full overflow-hidden border border-[#0A4059] dark:border-[#7DD3FC] bg-[#0A4059] hover:bg-[#072d3f] dark:bg-gradient-to-r dark:from-[#38BDF8] dark:via-[#0EA5E9] dark:to-[#0284C7] dark:hover:from-[#7DD3FC] dark:hover:to-[#0EA5E9] text-white dark:text-[#030712] font-black text-sm sm:text-base tracking-tight shadow-[0_10px_30px_rgba(10,64,89,0.3)] dark:shadow-[0_0_35px_rgba(56,189,248,0.5)] hover:shadow-[0_12px_45px_rgba(56,189,248,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 text-center
                   before:absolute before:w-20 before:h-20 before:content-[''] before:right-0 before:top-0 before:z-0 before:bg-white/40 before:rounded-full before:blur-xl before:transition-all before:duration-500 group-hover:before:right-16 group-hover:before:-bottom-4 group-hover:before:blur-2xl
                   after:absolute after:z-0 after:w-24 after:h-24 after:content-[''] after:bg-[#0284C7]/40 after:right-8 after:top-1 after:rounded-full after:blur-xl after:transition-all after:duration-500 group-hover:after:-right-4 group-hover:after:top-2"
               >
@@ -181,7 +181,7 @@ export default function Landing() {
               </Link>
               <Link
                 to="/login"
-                className="w-full sm:w-auto inline-flex items-center justify-center bg-[#0A4059]/10 hover:bg-[#0A4059]/20 dark:bg-[#0A4059]/20 dark:hover:bg-[#0A4059]/35 border border-[#2A7EA2]/40 text-[#0A4059] dark:text-[#38BDF8] px-5 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base font-bold transition-all active:scale-95 shadow-sm text-center backdrop-blur-md"
+                className="w-full sm:w-auto inline-flex items-center justify-center bg-white hover:bg-slate-50 dark:bg-[#0A4059]/20 dark:hover:bg-[#0A4059]/35 border border-slate-300 hover:border-slate-400 dark:border-[#2A7EA2]/40 text-slate-800 hover:text-slate-950 dark:text-[#38BDF8] px-5 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base font-bold transition-all active:scale-95 shadow-sm text-center backdrop-blur-md"
               >
                 Accedi allo Spogliatoio
               </Link>
@@ -190,29 +190,29 @@ export default function Landing() {
         </section>
 
         {/* Social Proof Metrics Bar */}
-        <section className="py-12 sm:py-14 border-y border-slate-200 dark:border-white/10 bg-slate-100/70 dark:bg-[#060D18]/70 backdrop-blur-xl mb-16 sm:mb-24 w-full transition-colors duration-200">
+        <section className="py-12 sm:py-14 border-y border-slate-200 dark:border-white/10 bg-white/80 dark:bg-[#060D18]/70 backdrop-blur-xl mb-16 sm:mb-24 w-full transition-colors duration-200 shadow-sm dark:shadow-none">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
             <div>
               <div className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-950 dark:text-white tracking-tight mb-1">0 €</div>
-              <div className="text-[11px] sm:text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
+              <div className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
                 Gratis per tutta la squadra
               </div>
             </div>
             <div>
               <div className="text-2xl sm:text-4xl md:text-5xl font-black text-[#0284C7] dark:text-[#38BDF8] tracking-tight mb-1">1 Click</div>
-              <div className="text-[11px] sm:text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
+              <div className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
                 Importa gare e calendari
               </div>
             </div>
             <div>
               <div className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-950 dark:text-white tracking-tight mb-1">100%</div>
-              <div className="text-[11px] sm:text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
+              <div className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
                 Trasparenza sulla Cassa
               </div>
             </div>
             <div>
               <div className="text-2xl sm:text-4xl md:text-5xl font-black text-[#0284C7] dark:text-[#38BDF8] tracking-tight mb-1">H24</div>
-              <div className="text-[11px] sm:text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
+              <div className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
                 Da smartphone, tablet e PC
               </div>
             </div>
@@ -225,7 +225,7 @@ export default function Landing() {
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight mb-3 sm:mb-4 text-slate-950 dark:text-white">
               Progettato per chi vive la pallavolo ogni settimana
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-base md:text-lg">
+            <p className="text-slate-700 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-base md:text-lg font-medium">
               Basta con i fogli volanti, i messaggi persi nelle chat di gruppo e i conti a penna: con VolleyStack hai tutto lo spogliatoio sotto controllo in un unico posto
             </p>
           </div>
@@ -253,20 +253,20 @@ export default function Landing() {
                       isFlipped ? 'is-flipped' : ''
                     }`}
                   >
-                    {/* Front Face: Exact matching style from user mockup with electric blue neon border */}
-                    <div className="absolute inset-0 w-full h-full backface-hidden rounded-[22px] border-2 border-[#0091FF] bg-[#030914] shadow-[0_0_22px_rgba(0,145,255,0.32)] hover:shadow-[0_0_32px_rgba(0,145,255,0.55)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
-                      <h3 className="font-outfit text-xl sm:text-2xl md:text-3xl font-black uppercase tracking-wide text-white drop-shadow-md px-2 leading-tight">
+                    {/* Front Face: Exact matching style from user mockup with electric blue neon border, adapted in negative for light mode */}
+                    <div className="absolute inset-0 w-full h-full backface-hidden rounded-[22px] border-2 border-[#0091FF] bg-white dark:bg-[#030914] shadow-[0_10px_30px_rgba(0,145,255,0.14),0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_16px_40px_rgba(0,145,255,0.25)] dark:shadow-[0_0_22px_rgba(0,145,255,0.32)] dark:hover:shadow-[0_0_32px_rgba(0,145,255,0.55)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
+                      <h3 className="font-outfit text-xl sm:text-2xl md:text-3xl font-black uppercase tracking-wide text-slate-950 dark:text-white drop-shadow-none dark:drop-shadow-md px-2 leading-tight">
                         {feature.title}
                       </h3>
                     </div>
 
-                    {/* Back Face: Exact matching style from user mockup with electric blue pill badge + description */}
-                    <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-[22px] border-2 border-[#0091FF] bg-[#030914] shadow-[0_0_25px_rgba(0,145,255,0.4)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
-                      <span className="font-outfit text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#38BDF8] bg-[#072545] border border-[#0091FF] px-4 py-1 rounded-full mb-3 shadow-[0_0_12px_rgba(0,145,255,0.25)]">
+                    {/* Back Face: Exact matching style from user mockup with electric blue pill badge + description, adapted in negative for light mode */}
+                    <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-[22px] border-2 border-[#0091FF] bg-slate-50 dark:bg-[#030914] shadow-[0_10px_30px_rgba(0,145,255,0.18)] dark:shadow-[0_0_25px_rgba(0,145,255,0.4)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
+                      <span className="font-outfit text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#0284C7] dark:text-[#38BDF8] bg-[#E0F2FE] dark:bg-[#072545] border border-[#0091FF]/60 dark:border-[#0091FF] px-4 py-1 rounded-full mb-3 shadow-[0_2px_8px_rgba(0,145,255,0.12)] dark:shadow-[0_0_12px_rgba(0,145,255,0.25)]">
                         {feature.badge}
                       </span>
 
-                      <p className="text-xs sm:text-sm md:text-base font-normal text-slate-100 leading-relaxed max-w-xs text-center">
+                      <p className="text-xs sm:text-sm md:text-base font-medium text-slate-800 dark:text-slate-100 leading-relaxed max-w-xs text-center">
                         {feature.description}
                       </p>
                     </div>
@@ -283,7 +283,7 @@ export default function Landing() {
             <h2 className="font-['Outfit',sans-serif] text-3xl sm:text-5xl md:text-6xl font-black text-slate-950 dark:text-white tracking-tight mb-4 sm:mb-6">
               Pronto a organizzare il tuo spogliatoio?
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg md:text-xl mb-8 sm:mb-10 max-w-2xl mx-auto px-2">
+            <p className="text-slate-700 dark:text-slate-400 text-base sm:text-lg md:text-xl mb-8 sm:mb-10 max-w-2xl mx-auto px-2 font-medium">
               Bastano due minuti per creare la squadra e riunire tutto il tuo spogliatoio: zero costi, zero complicazioni
             </p>
             <Link
