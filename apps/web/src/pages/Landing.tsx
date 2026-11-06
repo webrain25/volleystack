@@ -254,19 +254,19 @@ export default function Landing() {
                     }`}
                   >
                     {/* Front Face: Exact matching style from user mockup with electric blue neon border */}
-                    <div className="absolute inset-0 w-full h-full backface-hidden rounded-[22px] border-2 border-[#0091FF] dark:border-[#38BDF8] bg-[#030914] shadow-[0_0_20px_rgba(0,145,255,0.3)] hover:shadow-[0_0_30px_rgba(56,189,248,0.5)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
+                    <div className="absolute inset-0 w-full h-full backface-hidden rounded-[22px] border-2 border-[#0091FF] bg-[#030914] shadow-[0_0_22px_rgba(0,145,255,0.32)] hover:shadow-[0_0_32px_rgba(0,145,255,0.55)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
                       <h3 className="font-outfit text-xl sm:text-2xl md:text-3xl font-black uppercase tracking-wide text-white drop-shadow-md px-2 leading-tight">
                         {feature.title}
                       </h3>
                     </div>
 
                     {/* Back Face: Exact matching style from user mockup with electric blue pill badge + description */}
-                    <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-[22px] border-2 border-[#0091FF] dark:border-[#38BDF8] bg-[#030914] shadow-[0_0_25px_rgba(0,145,255,0.4)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
-                      <span className="font-outfit text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#38BDF8] bg-[#0284C7]/20 border border-[#0091FF]/60 px-4 py-1 rounded-full mb-3 shadow-[0_0_10px_rgba(56,189,248,0.2)]">
+                    <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-[22px] border-2 border-[#0091FF] bg-[#030914] shadow-[0_0_25px_rgba(0,145,255,0.4)] transition-all duration-300 flex flex-col items-center justify-center p-6 text-center select-none">
+                      <span className="font-outfit text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#38BDF8] bg-[#072545] border border-[#0091FF] px-4 py-1 rounded-full mb-3 shadow-[0_0_12px_rgba(0,145,255,0.25)]">
                         {feature.badge}
                       </span>
 
-                      <p className="text-xs sm:text-sm md:text-base font-medium text-slate-100 leading-relaxed max-w-xs text-center">
+                      <p className="text-xs sm:text-sm md:text-base font-normal text-slate-100 leading-relaxed max-w-xs text-center">
                         {feature.description}
                       </p>
                     </div>
