@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { 
   Activity, 
   Calendar as CalendarIcon, 
@@ -7,7 +7,6 @@ import {
   Croissant, 
   Check, 
   X, 
-  HelpCircle, 
   MapPin, 
   Clock, 
   ArrowRight, 
@@ -28,20 +27,16 @@ export default function Dashboard() {
   const membership = user?.memberships?.[0];
   const teamId = membership?.teamId;
 
-  const queryClient = useQueryClient();
-
   const { data: events, isLoading: eventsLoading } = useQuery({
     queryKey: ['events', teamId],
     queryFn: () => api.get(`/teams/${teamId}/events`).then(res => res.data),
     enabled: !!teamId,
   });
 
-  const rsvp = useMutation({
-    mutationFn: ({ eventId, status }: { eventId: string, status: string }) => 
-      api.post(`/teams/${teamId}/events/${eventId}/rsvp`, { status }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['events', teamId] });
-    }
+  const { data: teamMembers } = useQuery({
+    queryKey: ['team', teamId, 'members'],
+    queryFn: () => api.get(`/teams/${teamId}/members`).then(res => res.data),
+    enabled: !!teamId,
   });
 
   const { data: fines } = useQuery({
@@ -72,13 +67,12 @@ export default function Dashboard() {
   const myPendingPastes = pastes?.filter((p: any) => p.status === 'PENDING' && p.teamMemberId === membership?.id) || [];
   const pasteReminder = myPendingPastes[0];
 
-  // RSVP Status for current user on next event
-  const myRsvpStatus = nextEvent?.rsvps?.find((r: any) => r.teamMemberId === membership?.id)?.status;
+  const isCoachOrAdmin = membership?.roles?.some((r: any) => ['COACH', 'ADMIN', 'OWNER', 'ASSISTANT_COACH'].includes(r.role)) ?? false;
 
-  // Attendance stats for next event
-  const attendingCount = nextEvent?.rsvps?.filter((r: any) => r.status === 'ATTENDING').length || 0;
-  const absentCount = nextEvent?.rsvps?.filter((r: any) => r.status === 'ABSENT').length || 0;
-  const maybeCount = nextEvent?.rsvps?.filter((r: any) => r.status === 'MAYBE').length || 0;
+  // Official attendance & convocations from coach
+  const nextEventAttendance = nextEvent?.attendance || [];
+  const myAttendance = nextEventAttendance.find((a: any) => a.teamMemberId === membership?.id);
+  const convocatiCount = nextEventAttendance.filter((a: any) => a.isPresent).length;
 
   // Formatted date string for today
   const todayFormatted = new Intl.DateTimeFormat('it-IT', { 
@@ -275,82 +269,128 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                {/* RSVP Control Bar - Option B Dominant Volt CTA */}
+                {/* Convocazione / Presenza Info Box (Gestito esclusivamente dallo Staff) */}
                 <div className="pt-2">
-                  <p className="text-[11px] font-black text-text-tertiary uppercase tracking-wider mb-2">
-                    La tua presenza:
-                  </p>
-                  <div className="flex items-center gap-2.5 max-w-md">
-                    {/* Bottone Ci Sono (Electric Volt Dominant) */}
-                    <button 
-                      onClick={() => rsvp.mutate({ eventId: nextEvent.id, status: 'ATTENDING' })}
-                      className={`flex-1 min-h-[44px] px-4 py-2.5 rounded-xl text-xs md:text-sm font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-200 active:scale-95 border ${
-                        myRsvpStatus === 'ATTENDING'
-                          ? 'bg-[#38BDF8] hover:bg-[#0284C7] text-[#070B12] border-[#2A7EA2] shadow-[0_0_25px_rgba(255,255,255,0.22)]'
-                          : 'bg-surface hover:bg-[#38BDF8]/15 text-[#F8FAFC] border-white/10 hover:border-[#2A7EA2]/50 hover:text-[#38BDF8]'
-                      }`}
-                    >
-                      <Check className={`h-4 w-4 stroke-[3px] ${myRsvpStatus === 'ATTENDING' ? 'text-[#04060A]' : 'text-[#38BDF8]'}`} />
-                      <span>Ci sono</span>
-                    </button>
-
-                    {/* Bottone Assente */}
-                    <button 
-                      onClick={() => rsvp.mutate({ eventId: nextEvent.id, status: 'ABSENT' })}
-                      title="Segna Assenza"
-                      className={`h-[44px] px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all duration-150 active:scale-95 border ${
-                        myRsvpStatus === 'ABSENT'
-                          ? 'bg-danger text-white border-danger shadow-[0_0_15px_rgba(239,68,68,0.35)]'
-                          : 'bg-surface hover:bg-danger/10 text-text-secondary hover:text-danger border-white/10 hover:border-danger/30'
-                      }`}
-                    >
-                      <X className="h-4 w-4 stroke-[2.5px]" />
-                      <span className="hidden sm:inline">Assente</span>
-                    </button>
-
-                    {/* Bottone In Dubbio */}
-                    <button 
-                      onClick={() => rsvp.mutate({ eventId: nextEvent.id, status: 'MAYBE' })}
-                      title="Segna In Dubbio"
-                      className={`h-[44px] px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all duration-150 active:scale-95 border ${
-                        myRsvpStatus === 'MAYBE'
-                          ? 'bg-amber-500 text-[#070B12] font-black border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.35)]'
-                          : 'bg-surface hover:bg-amber-500/10 text-text-secondary hover:text-amber-500 border-white/10 hover:border-amber-500/30'
-                      }`}
-                    >
-                      <HelpCircle className="h-4 w-4 stroke-[2.5px]" />
-                      <span className="hidden sm:inline">In dubbio</span>
-                    </button>
-                  </div>
+                  {isCoachOrAdmin ? (
+                    <div>
+                      <p className="text-[11px] font-black text-text-tertiary uppercase tracking-wider mb-2">
+                        Pannello Coach / Staff:
+                      </p>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <Link 
+                          to="/events" 
+                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#38BDF8] hover:bg-[#0284C7] text-[#070B12] text-xs font-black uppercase tracking-wider transition-all duration-200 active:scale-95 shadow-[0_0_20px_rgba(56,189,248,0.4)]"
+                        >
+                          {nextEvent.type === 'MATCH' ? (
+                            <>
+                              <Users className="w-4 h-4 stroke-[2.5]" />
+                              <span>Gestisci Convocati Gara</span>
+                            </>
+                          ) : (
+                            <>
+                              <Check className="w-4 h-4 stroke-[3]" />
+                              <span>Fai Appello Presenze</span>
+                            </>
+                          )}
+                        </Link>
+                        <span className="text-xs text-text-tertiary">
+                          {nextEvent.type === 'MATCH' ? 'Le convocazioni ufficiali le decidi tu' : 'Segna chi è presente in palestra'}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="text-[11px] font-black text-text-tertiary uppercase tracking-wider mb-2">
+                        Il tuo stato convocazione:
+                      </p>
+                      {nextEvent.type === 'MATCH' ? (
+                        myAttendance?.isPresent === true ? (
+                          <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                            <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0">
+                              <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                            </div>
+                            <div>
+                              <p className="text-xs font-black uppercase tracking-wider text-emerald-300">Sei Convocato!</p>
+                              <p className="text-[11px] text-emerald-400/80">Il mister ti ha inserito nella lista ufficiale della partita</p>
+                            </div>
+                          </div>
+                        ) : myAttendance?.isPresent === false ? (
+                          <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700/80 text-slate-300">
+                            <div className="w-8 h-8 rounded-lg bg-slate-700/50 flex items-center justify-center shrink-0">
+                              <X className="w-5 h-5 text-slate-400" />
+                            </div>
+                            <div>
+                              <p className="text-xs font-black uppercase tracking-wider text-slate-300">A Riposo</p>
+                              <p className="text-[11px] text-slate-400">Non convocato per questa gara</p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-surface border border-white/10 text-text-secondary">
+                            <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center shrink-0">
+                              <Clock className="w-5 h-5 text-[#38BDF8]" />
+                            </div>
+                            <div>
+                              <p className="text-xs font-bold uppercase tracking-wider text-text-primary">Convocazioni in attesa</p>
+                              <p className="text-[11px] text-text-tertiary">Il mister pubblicherà a breve la lista convocati</p>
+                            </div>
+                          </div>
+                        )
+                      ) : (
+                        myAttendance?.isPresent === true ? (
+                          <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">
+                            <Check className="w-4 h-4 text-emerald-400 stroke-[3]" />
+                            <span className="text-xs font-bold">Presente all'appello dell'allenamento</span>
+                          </div>
+                        ) : myAttendance?.isPresent === false ? (
+                          <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-danger/15 border border-danger/30 text-danger">
+                            <X className="w-4 h-4 stroke-[2.5]" />
+                            <span className="text-xs font-bold">Segnato assente dal mister</span>
+                          </div>
+                        ) : (
+                          <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-surface border border-white/10 text-text-tertiary">
+                            <Clock className="w-4 h-4 text-[#38BDF8]" />
+                            <span className="text-xs font-medium">In attesa dell'appello presenze</span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Colonna Destra: Roster Status Card */}
-              <div className="lg:w-72 bg-[#070B12]/90 rounded-2xl p-4 md:p-5 border border-white/10 flex flex-col justify-between space-y-3.5 shadow-inner">
+              <div className="lg:w-72 bg-[#070B12]/90 rounded-2xl p-5 border border-white/10 flex flex-col justify-between space-y-4 shadow-inner">
                 <div className="flex items-center justify-between pb-2 border-b border-white/10">
                   <span className="text-[11px] font-black text-text-tertiary uppercase tracking-wider flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]"></span>
-                    <span>{nextEvent.type === 'MATCH' ? 'Convocati Partita' : 'Presenze Allenamento'}</span>
+                    <span>{nextEvent.type === 'MATCH' ? 'Lista Convocati' : 'Presenze Registrate'}</span>
                   </span>
-                  <Link to={`/events`} className="text-[11px] font-bold text-[#38BDF8] hover:underline">
-                    Dettagli
+                  <Link to={`/events`} className="text-[11px] font-bold text-[#38BDF8] hover:underline flex items-center gap-1">
+                    <span>Vedi Roster</span>
+                    <ChevronRight className="w-3 h-3" />
                   </Link>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 text-center py-1">
-                  <div className="bg-[#0F1726] rounded-xl p-3 border border-white/5">
-                    <p className="text-2xl font-black text-[#38BDF8] font-mono leading-none">{attendingCount}</p>
-                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-2">Presenti</p>
+                <div className="bg-[#0F1726] rounded-xl p-4 border border-white/5 flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider">
+                      {nextEvent.type === 'MATCH' ? 'Convocati dal Mister' : 'Presenti in Palestra'}
+                    </p>
+                    <p className="text-2xl font-black text-[#38BDF8] font-mono leading-tight mt-1">
+                      {convocatiCount} <span className="text-xs font-normal text-text-tertiary">/ {teamMembers?.length || '—'} rosa</span>
+                    </p>
                   </div>
-                  <div className="bg-[#0F1726] rounded-xl p-3 border border-white/5">
-                    <p className="text-2xl font-black text-danger font-mono leading-none">{absentCount}</p>
-                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-2">Assenti</p>
-                  </div>
-                  <div className="bg-[#0F1726] rounded-xl p-3 border border-white/5">
-                    <p className="text-2xl font-black text-amber-400 font-mono leading-none">{maybeCount}</p>
-                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-2">In attesa</p>
+                  <div className="w-10 h-10 rounded-xl bg-[#38BDF8]/10 border border-[#2A7EA2]/30 flex items-center justify-center">
+                    <Users className="w-5 h-5 text-[#38BDF8]" />
                   </div>
                 </div>
+
+                <Link 
+                  to="/events" 
+                  className="w-full py-2 px-3 rounded-lg bg-surface hover:bg-surface-hover border border-border text-center text-xs font-bold text-text-secondary hover:text-text-primary transition-colors block"
+                >
+                  {isCoachOrAdmin ? 'Gestisci Elenco' : 'Consulta Lista Convocati'}
+                </Link>
               </div>
 
             </div>

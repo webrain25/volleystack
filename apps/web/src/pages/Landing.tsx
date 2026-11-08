@@ -18,7 +18,7 @@ const FEATURES = [
     id: 'presenze',
     title: 'PARTITE & ALLENAMENTI',
     badge: 'PRESENZE & CONVOCAZIONI',
-    description: "Segna chi c'è e chi salta con un tocco: mister e capitano sanno sempre chi sarà in palestra",
+    description: "Il mister convoca la squadra per le gare e fa l'appello: ogni giocatore sa subito se è convocato per scendere in campo",
   },
   {
     id: 'cassa',

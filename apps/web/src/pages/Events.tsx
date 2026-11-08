@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { CalendarIcon, Plus, MapPin, Clock, X, CheckSquare, Square, ClipboardCheck, Pencil, Loader2, Trophy, Zap } from 'lucide-react';
+import { CalendarIcon, Plus, MapPin, Clock, X, CheckSquare, Square, ClipboardCheck, Pencil, Loader2, Trophy, Zap, Users, ShieldCheck, Check } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { LocationInput } from '../components/LocationInput';
 import { PageHeader } from '../components/PageHeader';
@@ -253,19 +253,12 @@ export default function Events() {
     });
   };
 
-  const rsvp = useMutation({
-    mutationFn: ({ eventId, status }: { eventId: string, status: string }) => 
-      api.post(`/teams/${teamId}/events/${eventId}/rsvp`, { status }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['events', teamId] });
-    }
-  });
-
   const markAttendance = useMutation({
     mutationFn: ({ teamMemberId, isPresent }: { teamMemberId: string, isPresent: boolean }) =>
       api.post(`/teams/${teamId}/events/${attendanceEventId}/attendance`, { teamMemberId, isPresent }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['attendance', teamId, attendanceEventId] });
+      queryClient.invalidateQueries({ queryKey: ['events', teamId] });
     }
   });
 
@@ -603,33 +596,97 @@ export default function Events() {
         </div>
       )}
 
-      {/* Appello Modale */}
+      {/* Appello / Convocazioni Modale */}
       {attendanceEventId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 /60 backdrop-blur-sm animate-in fade-in">
-          <div className="saas-card w-full max-w-md shadow-2xl relative flex flex-col max-h-[80vh]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-in fade-in">
+          <div className="saas-card w-full max-w-md shadow-2xl relative flex flex-col max-h-[85vh]">
             <div className="p-5 border-b border-border dark:border-[#262626] flex justify-between items-center shrink-0">
-               <h2 className="text-lg font-bold text-text-primary  flex items-center">
-                  <ClipboardCheck className="h-5 w-5 mr-2 text-[#38BDF8]" /> Appello Presenze
-               </h2>
-               <button onClick={() => setAttendanceEventId(null)} className="text-text-tertiary hover:text-text-secondary dark:text-text-tertiary dark:hover:text-gray-200 transition-colors">
+               <div>
+                 <h2 className="text-lg font-bold text-text-primary flex items-center">
+                    {events?.find((e: any) => e.id === attendanceEventId)?.type === 'MATCH' ? (
+                      <>
+                        <Users className="h-5 w-5 mr-2 text-[#38BDF8]" /> Convocazioni Partita
+                      </>
+                    ) : (
+                      <>
+                        <ClipboardCheck className="h-5 w-5 mr-2 text-[#38BDF8]" /> Appello Presenze
+                      </>
+                    )}
+                 </h2>
+                 <p className="text-xs text-text-tertiary mt-0.5">
+                   {isAdmin 
+                     ? (events?.find((e: any) => e.id === attendanceEventId)?.type === 'MATCH' 
+                         ? 'Seleziona i giocatori convocati per la gara' 
+                         : 'Segna chi è presente in palestra')
+                     : 'Lista ufficiale decisa dal mister'}
+                 </p>
+               </div>
+               <button onClick={() => setAttendanceEventId(null)} className="text-text-tertiary hover:text-text-secondary dark:hover:text-gray-200 transition-colors p-1 rounded-lg">
                   <X className="h-5 w-5" />
                </button>
             </div>
-            <div className="overflow-y-auto p-2">
+            
+            <div className="overflow-y-auto p-2 divide-y divide-border/20">
                {teamMembers?.map((member: any) => {
                   const isPresent = attendanceData?.find((a: any) => a.teamMemberId === member.id)?.isPresent || false;
+                  const isMatch = events?.find((e: any) => e.id === attendanceEventId)?.type === 'MATCH';
                   return (
-                     <div key={member.id} className="flex items-center justify-between p-3 hover:bg-surface dark:hover:bg-gray-900/50 rounded-lg">
-                        <span className="text-sm font-medium text-text-primary ">{member.user.name || member.user.email}</span>
-                        <button 
-                           onClick={() => markAttendance.mutate({ teamMemberId: member.id, isPresent: !isPresent })}
-                           className="text-text-tertiary hover:text-[#38BDF8] transition-colors p-1"
-                        >
-                           {isPresent ? <CheckSquare className="h-6 w-6 text-[#38BDF8]" /> : <Square className="h-6 w-6" />}
-                        </button>
+                     <div key={member.id} className="flex items-center justify-between p-3 hover:bg-surface-hover/50 rounded-xl transition-colors">
+                        <div className="flex items-center gap-3">
+                          {member.shirtNumber ? (
+                            <span className="w-7 h-7 rounded-lg bg-[#0F1726] border border-white/10 text-xs font-mono font-bold text-[#38BDF8] flex items-center justify-center">
+                              {member.shirtNumber}
+                            </span>
+                          ) : (
+                            <div className="w-7 h-7 rounded-lg bg-surface border border-border text-xs font-bold text-text-tertiary flex items-center justify-center">
+                              {member.user.name?.[0]?.toUpperCase() || '•'}
+                            </div>
+                          )}
+                          <span className="text-sm font-semibold text-text-primary">{member.user.name || member.user.email}</span>
+                        </div>
+                        
+                        {isAdmin ? (
+                          <button 
+                             onClick={() => markAttendance.mutate({ teamMemberId: member.id, isPresent: !isPresent })}
+                             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95 ${
+                               isPresent 
+                                 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-[0_0_12px_rgba(16,185,129,0.25)]' 
+                                 : 'bg-surface hover:bg-surface-hover text-text-tertiary border border-border'
+                             }`}
+                          >
+                             {isPresent ? (
+                               <>
+                                 <CheckSquare className="h-4 w-4 text-emerald-400" />
+                                 <span>{isMatch ? 'Convocato' : 'Presente'}</span>
+                               </>
+                             ) : (
+                               <>
+                                 <Square className="h-4 w-4" />
+                                 <span>{isMatch ? 'A riposo' : 'Assente'}</span>
+                               </>
+                             )}
+                          </button>
+                        ) : (
+                          <span className={`px-2.5 py-1 rounded-md text-xs font-bold ${
+                            isPresent 
+                              ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' 
+                              : 'bg-surface text-text-tertiary border border-border'
+                          }`}>
+                            {isPresent ? (isMatch ? 'Convocato' : 'Presente') : (isMatch ? 'A riposo' : 'Assente')}
+                          </span>
+                        )}
                      </div>
                   );
                })}
+            </div>
+
+            <div className="p-4 border-t border-border flex items-center justify-between text-xs text-text-secondary bg-surface shrink-0">
+              <span className="font-medium">
+                Convocati: <strong className="text-[#38BDF8] font-bold">{attendanceData?.filter((a: any) => a.isPresent).length || 0}</strong> su {teamMembers?.length || 0}
+              </span>
+              <button onClick={() => setAttendanceEventId(null)} className="saas-btn-primary py-1.5 px-4 text-xs font-bold">
+                Chiudi
+              </button>
             </div>
           </div>
         </div>
@@ -680,27 +737,53 @@ export default function Events() {
                   </div>
                 </div>
                 
-                <div className="flex flex-col sm:flex-row items-center gap-2 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                  <div className="flex items-center space-x-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  {isAdmin ? (
                     <button 
-                      onClick={() => rsvp.mutate({ eventId: event.id, status: 'ATTENDING' })}
-                      className="saas-btn-secondary py-1.5 px-3 text-xs bg-transparent hover:bg-[#38BDF8]/15 hover:text-[#38BDF8] hover:border-[#2A7EA2]/40"
+                      onClick={() => setAttendanceEventId(event.id)}
+                      className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center hover:border-[#2A7EA2]/40 hover:text-[#38BDF8] active:scale-95"
                     >
-                      Presente
+                      {event.type === 'MATCH' ? (
+                        <>
+                          <Users className="h-3.5 w-3.5 mr-1.5 text-[#38BDF8]" />
+                          <span>Convocazioni ({event.attendance?.filter((a: any) => a.isPresent).length || 0})</span>
+                        </>
+                      ) : (
+                        <>
+                          <ClipboardCheck className="h-3.5 w-3.5 mr-1.5 text-[#38BDF8]" />
+                          <span>Appello ({event.attendance?.filter((a: any) => a.isPresent).length || 0})</span>
+                        </>
+                      )}
                     </button>
-                    <button 
-                      onClick={() => rsvp.mutate({ eventId: event.id, status: 'ABSENT' })}
-                      className="saas-btn-secondary py-1.5 px-3 text-xs bg-transparent hover:bg-danger/10 hover:text-danger hover:border-danger/30"
-                    >
-                      Assente
-                    </button>
-                  </div>
-                  <button 
-                    onClick={() => setAttendanceEventId(event.id)}
-                    className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center hover:border-[#2A7EA2]/40 hover:text-[#38BDF8]"
-                  >
-                    <ClipboardCheck className="h-3.5 w-3.5 mr-1" /> Appello
-                  </button>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      {event.type === 'MATCH' ? (
+                        event.attendance?.find((a: any) => a.teamMemberId === user?.memberships?.[0]?.id)?.isPresent ? (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+                            <ShieldCheck className="h-3.5 w-3.5" /> Convocato
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-surface text-text-tertiary border border-border">
+                            A riposo
+                          </span>
+                        )
+                      ) : (
+                        event.attendance?.find((a: any) => a.teamMemberId === user?.memberships?.[0]?.id)?.isPresent ? (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                            <Check className="h-3.5 w-3.5" /> Presente
+                          </span>
+                        ) : null
+                      )}
+                      
+                      <button 
+                        onClick={() => setAttendanceEventId(event.id)}
+                        className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center text-text-secondary hover:text-text-primary"
+                      >
+                        <Users className="h-3.5 w-3.5 mr-1.5 text-[#38BDF8]" />
+                        <span>Lista ({event.attendance?.filter((a: any) => a.isPresent).length || 0})</span>
+                      </button>
+                    </div>
+                  )}
 
                   {isAdmin && (
                     <button
