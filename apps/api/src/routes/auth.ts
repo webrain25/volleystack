@@ -31,10 +31,26 @@ export default async function authRoutes(fastify: FastifyInstance) {
         passwordHash,
         name,
       },
+      include: {
+        memberships: {
+          include: {
+            team: true,
+            roles: true,
+          },
+        },
+      },
     });
 
     const token = fastify.jwt.sign({ id: user.id, email: user.email });
-    return reply.status(201).send({ token, user: { id: user.id, email: user.email, name: user.name } });
+    return reply.status(201).send({
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        memberships: user.memberships || [],
+      },
+    });
   });
 
   fastify.post('/login', async (request, reply) => {
@@ -45,23 +61,41 @@ export default async function authRoutes(fastify: FastifyInstance) {
 
     const parsed = loginSchema.safeParse(request.body);
     if (!parsed.success) {
-      return reply.status(400).send({ error: 'Invalid input' });
+      return reply.status(400).send({ error: 'Input non valido' });
     }
 
     const { email, password } = parsed.data;
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        memberships: {
+          include: {
+            team: true,
+            roles: true,
+          },
+        },
+      },
+    });
     if (!user) {
-      return reply.status(401).send({ error: 'Invalid credentials' });
+      return reply.status(401).send({ error: 'Credenziali non valide' });
     }
 
     const valid = await bcrypt.compare(password, user.passwordHash);
     if (!valid) {
-      return reply.status(401).send({ error: 'Invalid credentials' });
+      return reply.status(401).send({ error: 'Credenziali non valide' });
     }
 
     const token = fastify.jwt.sign({ id: user.id, email: user.email });
-    return reply.send({ token, user: { id: user.id, email: user.email, name: user.name } });
+    return reply.send({
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        memberships: user.memberships || [],
+      },
+    });
   });
 
   fastify.get('/me', { onRequest: [fastify.authenticate] }, async (request, reply) => {

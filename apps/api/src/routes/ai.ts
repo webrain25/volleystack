@@ -128,8 +128,10 @@ export default async function aiRoutes(fastify: FastifyInstance) {
       const replyText = await generateWithGemini(parsedBody.data.message, { systemInstruction });
       return reply.send({ reply: replyText });
     } catch (err: any) {
-      fastify.log.error(err);
-      return reply.status(500).send({ error: 'Errore assistente Gemini', details: err.message });
+      fastify.log.warn({ err }, 'Gemini assistant fallback activated');
+      return reply.send({ 
+        reply: "Al momento la linea con il coach virtuale è disturbata dal tifo del palazzetto! Riprova tra pochi istanti con un'altra domanda." 
+      });
     }
   });
 }

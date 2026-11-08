@@ -1,9 +1,10 @@
 /**
- * Client for Google Gemini API (Free Tier / Generative Language API)
+ * Client for Google Gemini API (Google Generative AI / Gemini API)
  */
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const DEFAULT_MODEL = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+const DEFAULT_MODEL = process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite';
+const FALLBACK_MODELS = ['gemini-3.8-flash', 'gemini-flash-latest'];
 const BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/models';
 
 export interface GeminiGenerateOptions {
@@ -22,49 +23,62 @@ export async function generateWithGemini(
     throw new Error('GEMINI_API_KEY non configurata nelle variabili d\'ambiente.');
   }
 
-  const model = options.model || DEFAULT_MODEL;
-  const url = `${BASE_URL}/${model}:generateContent`;
+  const primaryModel = options.model || DEFAULT_MODEL;
+  const modelsToTry = [
+    primaryModel,
+    ...FALLBACK_MODELS.filter((m) => m !== primaryModel),
+  ];
 
-  const payload: any = {
-    contents: [
-      {
-        parts: [{ text: prompt }]
+  let lastError: Error | null = null;
+
+  for (const model of modelsToTry) {
+    try {
+      const url = `${BASE_URL}/${model}:generateContent?key=${apiKey}`;
+
+      const payload: any = {
+        contents: [
+          {
+            parts: [{ text: prompt }],
+          },
+        ],
+        generationConfig: {
+          temperature: options.temperature ?? 0.7,
+          maxOutputTokens: options.maxOutputTokens ?? 1000,
+        },
+      };
+
+      if (options.systemInstruction) {
+        payload.systemInstruction = {
+          parts: [{ text: options.systemInstruction }],
+        };
       }
-    ],
-    generationConfig: {
-      temperature: options.temperature ?? 0.7,
-      maxOutputTokens: options.maxOutputTokens ?? 1000
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(`Errore chiamata Gemini (${model} HTTP ${response.status}): ${errorBody}`);
+      }
+
+      const data = (await response.json()) as any;
+      const generatedText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (generatedText) {
+        return generatedText.trim();
+      }
+    } catch (err: any) {
+      lastError = err;
+      // Continue to next fallback model
     }
-  };
-
-  if (options.systemInstruction) {
-    payload.systemInstruction = {
-      parts: [{ text: options.systemInstruction }]
-    };
   }
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-goog-api-key': apiKey
-    },
-    body: JSON.stringify(payload)
-  });
-
-  if (!response.ok) {
-    const errorBody = await response.text();
-    throw new Error(`Errore chiamata Gemini API (${response.status}): ${errorBody}`);
-  }
-
-  const data = (await response.json()) as any;
-  const generatedText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-  if (!generatedText) {
-    throw new Error('Nessun contenuto restituito da Gemini.');
-  }
-
-  return generatedText.trim();
+  throw lastError || new Error('Nessun contenuto restituito da Gemini.');
 }
 
 /**
@@ -82,7 +96,17 @@ export async function generatePasteReason(playerName?: string, customHint?: stri
   if (playerName) prompt += ` Nome giocatore: ${playerName}.`;
   if (customHint) prompt += ` Spunto/episodio: ${customHint}.`;
 
-  return generateWithGemini(prompt, { systemInstruction, temperature: 0.9, maxOutputTokens: 200 });
+  try {
+    return await generateWithGemini(prompt, { systemInstruction, temperature: 0.8, maxOutputTokens: 200 });
+  } catch {
+    const fallbackReasons = [
+      `Schiacciata finita dritta sull'asta con fischio arbitrale: ${playerName ? playerName + ' porta' : 'tocca portare'} le paste per farsi perdonare dallo spogliatoio!`,
+      `Battuta al salto finita in tribuna tra i seggiolini: colazione offerta al prossimo allenamento per riconquistare la fiducia del mister!`,
+      `Invasione netta a rete a mani basse: la commissione tecnica decreta 1kg di paste fresche per la squadra!`,
+      `Palla d'attacco lisciata in pipe sotto lo sguardo allibito del coach: debito paste confermato!`
+    ];
+    return fallbackReasons[Math.floor(Math.random() * fallbackReasons.length)];
+  }
 }
 
 /**
@@ -97,14 +121,14 @@ export async function generateAnnouncementDraft(topic: string, details?: string)
   let prompt = `Argomento dell'annuncio: ${topic}.`;
   if (details) prompt += ` Dettagli aggiuntivi: ${details}.`;
 
-  const raw = await generateWithGemini(prompt, { systemInstruction, temperature: 0.6, maxOutputTokens: 600 });
   try {
+    const raw = await generateWithGemini(prompt, { systemInstruction, temperature: 0.6, maxOutputTokens: 600 });
     const cleaned = raw.replace(/```json/gi, '').replace(/```/g, '').trim();
     return JSON.parse(cleaned);
   } catch {
     return {
       title: topic,
-      content: raw
+      content: details || `Comunicazione importante per tutta la squadra: ${topic}. Si prega di prenderne visione!`
     };
   }
 }
@@ -127,5 +151,11 @@ export async function generateCoachSpeech(context: {
     (context.opponent ? `Avversario: ${context.opponent}. ` : '') +
     (context.notes ? `Note/focus tattico: ${context.notes}` : '');
 
-  return generateWithGemini(prompt, { systemInstruction, temperature: 0.8, maxOutputTokens: 350 });
+  try {
+    return await generateWithGemini(prompt, { systemInstruction, temperature: 0.8, maxOutputTokens: 350 });
+  } catch {
+    return context.eventType === 'MATCH'
+      ? `Ragazzi, oggi si entra in campo a testa alta e con gli occhi di chi ha fame. Ogni palla che tocca terra dal nostro lato è una palla persa solo se non ci abbiamo creduto fino all'ultimo tuffo. Copertura a muro, battuta aggressiva e voce: facciamo vedere chi siamo!`
+      : `Massima concentrazione fin dal riscaldamento! Gli automatismi che proviamo oggi sono i punti che faremo sabato in partita. Intensità, grinta e supporto reciproco su ogni scambio!`;
+  }
 }

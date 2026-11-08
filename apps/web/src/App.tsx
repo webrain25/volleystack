@@ -17,6 +17,7 @@ import Footer from './components/Footer';
 import VolleyLogo from './components/VolleyLogo';
 import { useAuthStore } from './store/authStore';
 import { useThemeStore } from './store/useThemeStore';
+import { api } from './lib/api';
 import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -29,7 +30,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { token, user, logout } = useAuthStore();
+  const { token, user, logout, setAuth } = useAuthStore();
   const location = useLocation();
 
   const { theme, toggleTheme } = useThemeStore();
@@ -41,6 +42,20 @@ export default function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [theme]);
+
+  // Keep user profile & team memberships synced with backend
+  useEffect(() => {
+    if (token) {
+      api
+        .get('/auth/me')
+        .then((res) => {
+          if (res.data) {
+            setAuth(token, res.data);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [token, setAuth]);
 
   const isActive = (path: string) => location.pathname.startsWith(path);
 

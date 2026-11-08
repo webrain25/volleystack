@@ -53,8 +53,12 @@ export default function Events() {
         eventType: event.type
       });
       setCoachSpeech(res.data?.speech || 'Grinta e determinazione! Tutti uniti su ogni pallone!');
-    } catch (err: any) {
-      setCoachSpeech('Errore durante la generazione del discorso: ' + (err.response?.data?.details || err.message));
+    } catch {
+      setCoachSpeech(
+        event.type === 'MATCH'
+          ? "Ragazzi, oggi si entra in campo a testa alta e con gli occhi di chi ha fame. Ogni palla che tocca terra dal nostro lato è una palla persa solo se non ci abbiamo creduto fino all'ultimo tuffo. Copertura a muro, battuta aggressiva e voce: facciamo vedere chi siamo!"
+          : "Massima concentrazione fin dal riscaldamento! Gli automatismi che proviamo oggi sono i punti che faremo sabato in partita. Intensità, grinta e supporto reciproco su ogni scambio!"
+      );
     } finally {
       setIsGeneratingSpeech(false);
     }

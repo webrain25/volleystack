@@ -24,7 +24,22 @@ export default function Login({ inModal = false }: LoginProps) {
     setIsLoading(true);
     try {
       const response = await api.post('/auth/login', { email, password });
-      setAuth(response.data.token, response.data.user);
+      const token = response.data.token;
+      let userObj = response.data.user;
+
+      // Ensure full memberships hydration
+      try {
+        const meRes = await api.get('/auth/me', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (meRes.data?.memberships) {
+          userObj = meRes.data;
+        }
+      } catch (meErr) {
+        console.warn('Could not refresh full user profile on login', meErr);
+      }
+
+      setAuth(token, userObj);
       navigate('/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.error || 'Errore durante il login');

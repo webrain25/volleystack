@@ -25,8 +25,22 @@ export default function Register({ inModal = false }: RegisterProps) {
     setIsLoading(true);
     try {
       const response = await api.post('/auth/register', { name, email, password });
-      setAuth(response.data.token, response.data.user);
-      navigate('/dashboard');
+      const token = response.data.token;
+      let userObj = response.data.user;
+
+      try {
+        const meRes = await api.get('/auth/me', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (meRes.data) {
+          userObj = meRes.data;
+        }
+      } catch (meErr) {
+        console.warn('Could not refresh full user profile on register', meErr);
+      }
+
+      setAuth(token, userObj);
+      navigate('/team');
     } catch (err: any) {
       setError(err.response?.data?.error || 'Errore durante la registrazione');
     } finally {

@@ -1,12 +1,14 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { CopyIcon, CheckCircle2, Users, UserPlus, Edit2, Check, X, Shield, Plus } from 'lucide-react';
+import { CopyIcon, CheckCircle2, Users, UserPlus, Edit2, Check, X, Shield, Plus, AlertCircle } from 'lucide-react';
 import { api } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
 import { PageHeader } from '../components/PageHeader';
 import { motion } from 'framer-motion';
 
 export default function Team() {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { user, setAuth, token } = useAuthStore();
   const [copied, setCopied] = useState(false);
@@ -36,6 +38,7 @@ export default function Team() {
     onSuccess: async () => {
       const userRes = await api.get('/auth/me');
       setAuth(token!, userRes.data);
+      navigate('/dashboard');
     }
   });
 
@@ -44,6 +47,7 @@ export default function Team() {
     onSuccess: async () => {
       const userRes = await api.get('/auth/me');
       setAuth(token!, userRes.data);
+      navigate('/dashboard');
     }
   });
 
@@ -146,12 +150,18 @@ export default function Team() {
                   <option value="ASSISTANT_COACH">Vice Allenatore</option>
                   <option value="TREASURER">Dirigente / Tesoriere</option>
                 </select>
+                {createTeam.isError && (
+                  <div className="p-3 bg-danger/10 text-danger border border-danger/20 text-xs rounded-xl flex items-center font-medium animate-in fade-in">
+                    <AlertCircle className="w-4 h-4 mr-2 shrink-0" />
+                    <span>{(createTeam.error as any)?.response?.data?.error || 'Errore durante la creazione della squadra'}</span>
+                  </div>
+                )}
                 <button 
                   onClick={() => createTeam.mutate({ name: teamName, role: creatorRole })}
-                  disabled={!teamName || createTeam.isPending}
+                  disabled={!teamName.trim() || createTeam.isPending}
                   className="saas-btn-primary w-full py-3 mt-2"
                 >
-                  {createTeam.isPending ? 'Creazione...' : 'Crea Squadra'}
+                  {createTeam.isPending ? 'Creazione in corso...' : 'Crea Squadra'}
                 </button>
               </div>
             </div>
@@ -167,14 +177,24 @@ export default function Team() {
               <div className="space-y-4">
                 <input 
                   type="text" 
-                  placeholder="ES: DEMO12" 
+                  placeholder="ES: VOLLEY26" 
                   value={joinCode}
                   onChange={(e) => setJoinCode(e.target.value)}
                   className="saas-input uppercase"
                 />
+                {joinTeam.isError && (
+                  <div className="p-3 bg-danger/10 text-danger border border-danger/20 text-xs rounded-xl flex items-center font-medium animate-in fade-in">
+                    <AlertCircle className="w-4 h-4 mr-2 shrink-0" />
+                    <span>
+                      {(joinTeam.error as any)?.response?.status === 404
+                        ? 'Codice non valido o squadra inesistente'
+                        : (joinTeam.error as any)?.response?.data?.error || 'Errore durante l\'accesso alla squadra'}
+                    </span>
+                  </div>
+                )}
                 <button 
-                  onClick={() => joinTeam.mutate(joinCode)}
-                  disabled={!joinCode || joinTeam.isPending}
+                  onClick={() => joinTeam.mutate(joinCode.trim().toUpperCase())}
+                  disabled={!joinCode.trim() || joinTeam.isPending}
                   className="saas-btn-secondary w-full py-3"
                 >
                   {joinTeam.isPending ? 'Verifica in corso...' : 'Entra in Squadra'}
