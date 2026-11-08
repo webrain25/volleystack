@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { CalendarIcon, Plus, MapPin, Clock, X, CheckSquare, Square, ClipboardCheck, Pencil, Sparkles, Loader2, Quote, Copy, Check, Trophy, Zap } from 'lucide-react';
+import { CalendarIcon, Plus, MapPin, Clock, X, CheckSquare, Square, ClipboardCheck, Pencil, Loader2, Trophy, Zap } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { LocationInput } from '../components/LocationInput';
 import { PageHeader } from '../components/PageHeader';
@@ -37,32 +37,6 @@ export default function Events() {
   const [fipavGirone, setFipavGirone] = useState('');
   const [fipavTeam, setFipavTeam] = useState('');
   const [attendanceEventId, setAttendanceEventId] = useState<string | null>(null);
-  const [coachEvent, setCoachEvent] = useState<any | null>(null);
-  const [coachSpeech, setCoachSpeech] = useState<string>('');
-  const [isGeneratingSpeech, setIsGeneratingSpeech] = useState(false);
-  const [hasCopiedSpeech, setHasCopiedSpeech] = useState(false);
-
-  const handleOpenCoachSpeech = async (event: any) => {
-    setCoachEvent(event);
-    setCoachSpeech('');
-    setIsGeneratingSpeech(true);
-    setHasCopiedSpeech(false);
-    try {
-      const res = await api.post(`/teams/${teamId}/ai/coach-speech`, {
-        eventId: event.id,
-        eventType: event.type
-      });
-      setCoachSpeech(res.data?.speech || 'Grinta e determinazione! Tutti uniti su ogni pallone!');
-    } catch {
-      setCoachSpeech(
-        event.type === 'MATCH'
-          ? "Ragazzi, oggi si entra in campo a testa alta e con gli occhi di chi ha fame. Ogni palla che tocca terra dal nostro lato è una palla persa solo se non ci abbiamo creduto fino all'ultimo tuffo. Copertura a muro, battuta aggressiva e voce: facciamo vedere chi siamo!"
-          : "Massima concentrazione fin dal riscaldamento! Gli automatismi che proviamo oggi sono i punti che faremo sabato in partita. Intensità, grinta e supporto reciproco su ogni scambio!"
-      );
-    } finally {
-      setIsGeneratingSpeech(false);
-    }
-  };
 
   const { data: events, isLoading } = useQuery({
     queryKey: ['events', teamId],
@@ -660,91 +634,6 @@ export default function Events() {
           </div>
         </div>
       )}
-
-      {/* Coach AI Modale */}
-      {coachEvent && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm animate-in fade-in">
-          <div className="saas-card w-full max-w-lg shadow-2xl relative flex flex-col p-6 animate-in slide-in-from-bottom-4 border-purple-200 dark:border-purple-900/50">
-            <button 
-              onClick={() => setCoachEvent(null)} 
-              className="absolute top-4 right-4 text-text-tertiary hover:text-text-secondary dark:hover:text-gray-200 transition-colors"
-            >
-              <X className="h-5 w-5" />
-            </button>
-
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="font-bold text-lg text-text-primary flex items-center gap-2">
-                  Coach AI — Discorso di Squadra
-                  <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-purple-100 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300">
-                    Gemini 3.8
-                  </span>
-                </h3>
-                <p className="text-xs text-text-tertiary">
-                  Per l'evento: <span className="font-semibold text-text-secondary">{coachEvent.title}</span>
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/30 rounded-xl p-4 my-2 relative">
-              <Quote className="h-8 w-8 text-purple-200 dark:text-purple-900/40 absolute -top-2 -left-2 -z-0 opacity-50" />
-              {isGeneratingSpeech ? (
-                <div className="py-8 flex flex-col items-center justify-center text-purple-600 dark:text-purple-400 space-y-3">
-                  <Loader2 className="h-6 w-6 animate-spin" />
-                  <p className="text-xs font-medium">Il Coach AI sta preparando il discorso motivazionale...</p>
-                </div>
-              ) : (
-                <p className="text-sm text-text-primary whitespace-pre-line leading-relaxed italic relative z-10">
-                  "{coachSpeech}"
-                </p>
-              )}
-            </div>
-
-            <div className="flex items-center justify-between pt-4 mt-2 border-t border-border/50 dark:border-[#262626]">
-              <button
-                onClick={() => handleOpenCoachSpeech(coachEvent)}
-                disabled={isGeneratingSpeech}
-                className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center text-purple-600 hover:text-purple-700"
-              >
-                <Sparkles className="h-3.5 w-3.5 mr-1" /> Rigenera
-              </button>
-              
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(coachSpeech);
-                    setHasCopiedSpeech(true);
-                    setTimeout(() => setHasCopiedSpeech(false), 2000);
-                  }}
-                  disabled={isGeneratingSpeech || !coachSpeech}
-                  className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center"
-                >
-                  {hasCopiedSpeech ? (
-                    <>
-                      <Check className="h-3.5 w-3.5 mr-1 text-emerald-500" /> Copiato!
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3.5 w-3.5 mr-1" /> Copia Discorso
-                    </>
-                  )}
-                </button>
-                <button
-                  onClick={() => setCoachEvent(null)}
-                  className="saas-btn-primary py-1.5 px-4 text-xs bg-purple-600 hover:bg-purple-500"
-                >
-                  Chiudi
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-
       
       <div className="saas-card overflow-hidden">
         {isLoading ? (
@@ -811,14 +700,6 @@ export default function Events() {
                     className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center hover:border-[#2A7EA2]/40 hover:text-[#38BDF8]"
                   >
                     <ClipboardCheck className="h-3.5 w-3.5 mr-1" /> Appello
-                  </button>
-
-                  <button 
-                    onClick={() => handleOpenCoachSpeech(event)}
-                    className="saas-btn-secondary py-1.5 px-3 text-xs flex items-center text-purple-400 hover:text-purple-300 border-purple-500/30"
-                    title="Discorso motivazionale Coach con Gemini AI"
-                  >
-                    <Sparkles className="h-3.5 w-3.5 mr-1 text-purple-400" /> Coach AI
                   </button>
 
                   {isAdmin && (

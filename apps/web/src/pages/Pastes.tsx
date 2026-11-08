@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Gift, Plus, CheckCircle2, X, Sparkles, Loader2, Croissant } from 'lucide-react';
+import { Gift, Plus, CheckCircle2, X, Croissant } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -38,37 +38,9 @@ export default function Pastes() {
     enabled: !!teamId,
   });
 
-  const [isGeneratingAi, setIsGeneratingAi] = useState(false);
-
-  const { register, handleSubmit, formState: { errors }, reset, setValue, watch, control } = useForm<PasteForm>({
+  const { register, handleSubmit, formState: { errors }, reset, control } = useForm<PasteForm>({
     resolver: zodResolver(pasteSchema),
   });
-
-  const selectedMemberId = watch('teamMemberId');
-
-  const handleGenerateAiReason = async () => {
-    try {
-      setIsGeneratingAi(true);
-      const res = await api.post(`/teams/${teamId}/ai/paste-reason`, {
-        teamMemberId: selectedMemberId || undefined
-      });
-      if (res.data?.reason) {
-        setValue('reason', res.data.reason, { shouldValidate: true });
-      }
-    } catch {
-      // Local graceful fallback in case of temporary network or API blips
-      const localFallbacks = [
-        "Schiacciata finita dritta sull'asta con fischio arbitrale: debito paste confermato!",
-        "Battuta al salto finita direttamente in tribuna: colazione offerta al prossimo allenamento!",
-        "Invasione netta a rete a mani basse: la squadra decreta 1kg di paste fresche!",
-        "Palla d'attacco lisciata in pipe sotto lo sguardo del mister: debito paste per lo spogliatoio!"
-      ];
-      const randomReason = localFallbacks[Math.floor(Math.random() * localFallbacks.length)];
-      setValue('reason', randomReason, { shouldValidate: true });
-    } finally {
-      setIsGeneratingAi(false);
-    }
-  };
 
   const assignPaste = useMutation({
     mutationFn: (data: PasteForm) => api.post(`/teams/${teamId}/pastes`, data),
@@ -134,28 +106,10 @@ export default function Pastes() {
               </div>
               
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="block text-xs font-semibold text-text-secondary dark:text-text-tertiary uppercase tracking-wider">
-                    Motivazione
-                  </label>
-                  <button
-                    type="button"
-                    onClick={handleGenerateAiReason}
-                    disabled={isGeneratingAi}
-                    className="inline-flex items-center text-xs font-semibold text-pink-600 hover:text-pink-500 dark:text-pink-400 dark:hover:text-pink-300 transition-colors disabled:opacity-50"
-                  >
-                    {isGeneratingAi ? (
-                      <>
-                        <Loader2 className="h-3 w-3 mr-1 animate-spin" /> Generazione...
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="h-3 w-3 mr-1" /> Suggerisci con Gemini AI
-                      </>
-                    )}
-                  </button>
-                </div>
-                <input {...register('reason')} className="saas-input" placeholder="Es. Battuta in rete o invasione colossale" />
+                <label className="block text-xs font-semibold text-text-secondary dark:text-text-tertiary uppercase tracking-wider mb-2">
+                  Motivazione
+                </label>
+                <input {...register('reason')} className="saas-input" placeholder="Es. Compleanno, esordio o battuta sull'asta" />
                 {errors.reason && <p className="text-red-500 dark:text-accent-500 text-xs mt-1">{errors.reason.message}</p>}
               </div>
 
