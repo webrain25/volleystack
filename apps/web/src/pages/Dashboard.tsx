@@ -81,6 +81,86 @@ export default function Dashboard() {
     month: 'long' 
   }).format(new Date());
 
+  // Real Attendance Calculation
+  const pastEvents = events?.filter((e: any) => new Date(e.date) <= new Date()) || [];
+  const myPastAttendances = pastEvents.map((e: any) => 
+    e.attendance?.find((a: any) => a.teamMemberId === membership?.id)
+  ).filter(Boolean);
+
+  let attendancePercentage: number | null = null;
+  if (myPastAttendances.length > 0) {
+    const presentCount = myPastAttendances.filter((a: any) => a.isPresent).length;
+    attendancePercentage = Math.round((presentCount / myPastAttendances.length) * 100);
+  }
+
+  // Relative Time Helper (Italian)
+  const formatRelativeTime = (dateString?: string) => {
+    if (!dateString) return 'Recentemente';
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    if (diffMs < 0) return 'In programma';
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMinutes / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMinutes < 1) return 'Poco fa';
+    if (diffMinutes < 60) return `${diffMinutes}m fa`;
+    if (diffHours < 24) return `${diffHours}h fa`;
+    if (diffDays === 1) return 'Ieri';
+    if (diffDays < 7) return `${diffDays} giorni fa`;
+    return date.toLocaleDateString('it-IT', { day: 'numeric', month: 'short' });
+  };
+
+  // Dynamic Activity Feed aggregation (Zero Mock / 100% Real Production)
+  const pasteActivities = (pastes || []).map((p: any) => ({
+    id: `paste-${p.id}`,
+    icon: Croissant,
+    colorClass: 'bg-[#FF4D94]/15 border-[#FF4D94]/30 text-[#FF4D94]',
+    actor: p.teamMember?.user?.name || 'Un compagno',
+    text: p.status === 'DELIVERED' 
+      ? 'ha portato le paste per la squadra' 
+      : 'ha un debito paste aperto',
+    detail: p.reason ? `· ${p.reason}` : '',
+    time: formatRelativeTime(p.assignedAt || p.createdAt),
+    timestamp: new Date(p.assignedAt || p.createdAt || 0).getTime(),
+  }));
+
+  const fineActivities = (fines || []).map((f: any) => ({
+    id: `fine-${f.id}`,
+    icon: AlertCircle,
+    colorClass: f.status === 'PAID' 
+      ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400' 
+      : 'bg-amber-500/15 border-amber-500/30 text-amber-400',
+    actor: f.teamMember?.user?.name || 'Un compagno',
+    text: f.status === 'PAID' 
+      ? 'ha saldato la multa di cassa' 
+      : 'ha ricevuto una sanzione',
+    detail: `· ${f.reasonSnapshot || f.fineRule?.reason || 'Regolamento'} (€ ${(f.amountCents / 100).toFixed(2)})`,
+    time: formatRelativeTime(f.issuedAt || f.createdAt),
+    timestamp: new Date(f.issuedAt || f.createdAt || 0).getTime(),
+  }));
+
+  const eventActivities = (events || []).map((e: any) => {
+    const isPast = new Date(e.date) <= new Date();
+    return {
+      id: `event-${e.id}`,
+      icon: CalendarIcon,
+      colorClass: e.type === 'MATCH'
+        ? 'bg-amber-500/15 border-amber-500/30 text-amber-400'
+        : 'bg-[#38BDF8]/15 border-[#2A7EA2]/30 text-[#38BDF8]',
+      actor: e.title,
+      text: isPast ? 'completato in calendario' : 'in programma',
+      detail: `· ${new Date(e.date).toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short' })}`,
+      time: formatRelativeTime(e.date),
+      timestamp: new Date(e.date).getTime(),
+    };
+  });
+
+  const recentActivities = [...pasteActivities, ...fineActivities, ...eventActivities]
+    .sort((a, b) => b.timestamp - a.timestamp)
+    .slice(0, 5);
+
   // Countdown Helper
   const getEventTimeLeft = (eventDate: string) => {
     const diffMs = new Date(eventDate).getTime() - new Date().getTime();
@@ -503,18 +583,22 @@ export default function Dashboard() {
             <p className="text-[11px] font-black text-text-tertiary uppercase tracking-wider">Presenze Stagione</p>
             <div className="flex items-baseline justify-between mt-1">
               <h3 className="text-xl md:text-2xl font-black text-[#F8FAFC] tracking-tight font-mono">
-                94%
+                {attendancePercentage !== null ? `${attendancePercentage}%` : '—'}
               </h3>
               <div className="flex items-end gap-1 h-5 pb-0.5">
-                <span className="w-1.5 h-2 rounded-sm bg-[#38BDF8]/40"></span>
-                <span className="w-1.5 h-3 rounded-sm bg-[#38BDF8]/60"></span>
-                <span className="w-1.5 h-4.5 rounded-sm bg-[#38BDF8] shadow-[0_0_6px_rgba(56,189,248,0.6)]"></span>
-                <span className="w-1.5 h-5 rounded-sm bg-[#38BDF8] shadow-[0_0_8px_rgba(56,189,248,0.8)]"></span>
-                <span className="w-1.5 h-4 rounded-sm bg-[#38BDF8] shadow-[0_0_6px_rgba(56,189,248,0.6)]"></span>
+                <span className={`w-1.5 h-2 rounded-sm ${attendancePercentage !== null && attendancePercentage >= 20 ? 'bg-[#38BDF8]/40' : 'bg-white/10'}`}></span>
+                <span className={`w-1.5 h-3 rounded-sm ${attendancePercentage !== null && attendancePercentage >= 40 ? 'bg-[#38BDF8]/60' : 'bg-white/10'}`}></span>
+                <span className={`w-1.5 h-4.5 rounded-sm ${attendancePercentage !== null && attendancePercentage >= 60 ? 'bg-[#38BDF8] shadow-[0_0_6px_rgba(56,189,248,0.6)]' : 'bg-white/10'}`}></span>
+                <span className={`w-1.5 h-5 rounded-sm ${attendancePercentage !== null && attendancePercentage >= 80 ? 'bg-[#38BDF8] shadow-[0_0_8px_rgba(56,189,248,0.8)]' : 'bg-white/10'}`}></span>
+                <span className={`w-1.5 h-4 rounded-sm ${attendancePercentage !== null && attendancePercentage >= 90 ? 'bg-[#38BDF8] shadow-[0_0_6px_rgba(56,189,248,0.6)]' : 'bg-white/10'}`}></span>
               </div>
             </div>
             <p className="text-xs text-text-secondary mt-1 flex items-center justify-between">
-              <span>Ottima continuità</span>
+              <span>
+                {attendancePercentage !== null 
+                  ? (attendancePercentage >= 80 ? 'Ottima continuità' : 'Frequenza parziale') 
+                  : 'In attesa del 1° appello'}
+              </span>
               <ChevronRight className="w-3.5 h-3.5 text-text-tertiary group-hover:translate-x-0.5 group-hover:text-[#38BDF8] transition-all" />
             </p>
           </div>
@@ -538,55 +622,34 @@ export default function Dashboard() {
           </div>
 
           <div className="saas-card bg-[#0F1726] divide-y divide-white/5 overflow-hidden shadow-md">
-            
-            <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-[#162238]/60 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-[#38BDF8]/10 border border-[#2A7EA2]/25 flex items-center justify-center text-[#38BDF8] shrink-0 shadow-[0_0_10px_rgba(56,189,248,0.15)]">
-                <Check className="w-4 h-4 stroke-[2.5px]" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs md:text-sm text-text-primary font-medium truncate">
-                  <span className="font-bold text-[#F8FAFC]">Marco</span> ha confermato la presenza al prossimo allenamento
+            {recentActivities.length > 0 ? (
+              recentActivities.map((act) => {
+                const Icon = act.icon;
+                return (
+                  <div key={act.id} className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-[#162238]/60 transition-colors">
+                    <div className={`w-8 h-8 rounded-full border flex items-center justify-center shrink-0 shadow-sm ${act.colorClass}`}>
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs md:text-sm text-text-primary font-medium truncate">
+                        <span className="font-bold text-[#F8FAFC]">{act.actor}</span> {act.text} <span className="text-text-tertiary">{act.detail}</span>
+                      </p>
+                      <p className="text-[11px] font-mono text-text-tertiary mt-0.5">{act.time}</p>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="p-6 md:p-8 text-center flex flex-col items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center mb-2.5 text-[#38BDF8]">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <p className="text-xs md:text-sm font-bold text-text-primary">Nessuna attività recente</p>
+                <p className="text-[11px] md:text-xs text-text-tertiary mt-1 max-w-sm">
+                  Le multe, i turni paste e le convocazioni registrate compariranno qui in tempo reale per tutta la squadra.
                 </p>
-                <p className="text-[11px] font-mono text-text-tertiary mt-0.5">2 ore fa</p>
               </div>
-            </div>
-
-            <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-[#162238]/60 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-[#38BDF8]/15 border border-[#2A7EA2]/30 flex items-center justify-center text-[#38BDF8] shrink-0 shadow-[0_0_10px_rgba(56,189,248,0.2)]">
-                <ShieldCheck className="w-4 h-4" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs md:text-sm text-text-primary font-medium truncate">
-                  Il Tesoriere ha registrato il saldo quota di <span className="font-bold text-[#F8FAFC]">Luca</span>
-                </p>
-                <p className="text-[11px] font-mono text-text-tertiary mt-0.5">Ieri alle 19:40</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-[#162238]/60 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-danger/15 border border-danger/30 flex items-center justify-center text-danger shrink-0 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                <AlertCircle className="w-4 h-4" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs md:text-sm text-text-primary font-medium truncate">
-                  Nuova multa assegnata a <span className="font-bold text-[#F8FAFC]">Andrea</span> · Ritardo allenamento
-                </p>
-                <p className="text-[11px] font-mono text-text-tertiary mt-0.5">2 giorni fa</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3.5 p-3.5 md:p-4 hover:bg-[#162238]/60 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-[#FF4D94]/15 border border-[#FF4D94]/30 flex items-center justify-center text-[#FF4D94] shrink-0 shadow-[0_0_10px_rgba(255,77,148,0.15)]">
-                <Croissant className="w-4 h-4" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs md:text-sm text-text-primary font-medium truncate">
-                  Turno paste per <span className="font-bold text-[#F8FAFC]">Lorenzo</span> · Battuta lisciata
-                </p>
-                <p className="text-[11px] font-mono text-text-tertiary mt-0.5">3 giorni fa</p>
-              </div>
-            </div>
-
+            )}
           </div>
         </motion.div>
 
