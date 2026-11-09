@@ -6,7 +6,7 @@ import {
   X,
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import Footer from '../components/Footer';
 import Login from './Login';
 import Register from './Register';
@@ -59,8 +59,14 @@ export default function Landing() {
   const [flippedCards, setFlippedCards] = useState<Record<string, boolean>>({});
 
   const { scrollYProgress } = useScroll();
-  const backgroundScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.38]);
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '-4%']);
+  // Ultra-fluid spring physics interpolation: eliminates wheel-step stuttering for cinema-grade smooth zoom
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 75,
+    damping: 28,
+    restDelta: 0.0001,
+  });
+  const backgroundScale = useTransform(smoothProgress, [0, 1], [1.02, 1.34]);
+  const backgroundY = useTransform(smoothProgress, [0, 1], ['0%', '-3%']);
 
   const toggleCardFlip = (id: string) => {
     setFlippedCards((prev) => ({
@@ -102,9 +108,9 @@ export default function Landing() {
           style={{
             scale: backgroundScale,
             y: backgroundY,
-            transformOrigin: '50% 50%',
+            transformOrigin: '36% 42%',
           }}
-          className="w-full h-full object-cover object-center opacity-85 dark:opacity-65 filter brightness-95 contrast-105 dark:brightness-[0.75] dark:contrast-115 transition-opacity duration-700 pointer-events-none will-change-transform"
+          className="w-full h-full object-cover object-center opacity-85 dark:opacity-65 filter brightness-95 contrast-105 dark:brightness-[0.75] dark:contrast-115 transition-opacity duration-700 pointer-events-none will-change-transform [backface-visibility:hidden] [transform:translateZ(0)]"
         />
         {/* Atmospheric gradient overlay: guarantees crystal clear contrast & readability in both light & dark modes */}
         <div
