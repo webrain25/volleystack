@@ -283,7 +283,7 @@ export default function Treasury() {
                     {fines.map((fine: any) => (
                       <div key={fine.id} className="p-4 flex justify-between items-center hover:bg-surface dark:hover:bg-gray-900/30 transition-colors">
                         <div>
-                           <span className="text-sm font-bold text-text-primary ">{fine.teamMember.user.name}</span>
+                           <span className="text-sm font-bold text-text-primary ">{fine.teamMember?.user?.name || fine.teamMember?.user?.email || 'Compagno'}</span>
                            <p className="text-xs text-text-tertiary mt-0.5">{fine.reasonSnapshot} - {new Date(fine.issuedAt).toLocaleDateString('it-IT')}</p>
                         </div>
                         <div className="flex flex-col items-end">
@@ -320,7 +320,7 @@ export default function Treasury() {
                     {payments.map((payment: any) => (
                       <div key={payment.id} className="p-4 flex justify-between items-center hover:bg-surface dark:hover:bg-gray-900/30 transition-colors">
                         <div>
-                           <span className="text-sm font-bold text-text-primary ">{payment.teamMember.user.name}</span>
+                           <span className="text-sm font-bold text-text-primary ">{payment.teamMember?.user?.name || payment.teamMember?.user?.email || 'Compagno'}</span>
                            <p className="text-xs text-text-tertiary mt-0.5">{payment.method} - {new Date(payment.declaredAt).toLocaleDateString('it-IT')}</p>
                         </div>
                         <div className="flex items-center space-x-4">
@@ -438,7 +438,7 @@ export default function Treasury() {
                     <select {...registerAssign('teamMemberId')} className="saas-input">
                        <option value="">Seleziona...</option>
                        {members?.map((m: any) => (
-                         <option key={m.id} value={m.id}>{m.user.name}</option>
+                         <option key={m.id} value={m.id}>{m.user?.name || m.user?.email || 'Membro'}</option>
                        ))}
                     </select>
                     {assignErrors.teamMemberId && <p className="text-red-500 text-xs mt-1">{assignErrors.teamMemberId.message}</p>}

@@ -324,11 +324,11 @@ export default function Team() {
               <div key={member.id} className="p-4 md:p-5 flex items-center justify-between hover:bg-surface-hover/50 transition-colors group">
                 <div className="flex items-center space-x-4">
                   <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-bg-primary border border-border flex items-center justify-center text-text-secondary font-bold shadow-inner">
-                    {member.user.name?.[0]?.toUpperCase() || member.user.email[0].toUpperCase()}
+                    {member.user?.name?.[0]?.toUpperCase() || member.user?.email?.[0]?.toUpperCase() || '•'}
                   </div>
                   <div>
-                    <p className="text-sm md:text-base font-semibold text-text-primary">{member.user.name || 'Utente Senza Nome'}</p>
-                    <p className="text-xs text-text-tertiary mt-0.5">{member.user.email}</p>
+                    <p className="text-sm md:text-base font-semibold text-text-primary">{member.user?.name || 'Utente Senza Nome'}</p>
+                    <p className="text-xs text-text-tertiary mt-0.5">{member.user?.email || ''}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2 md:space-x-4">
@@ -342,10 +342,10 @@ export default function Team() {
                       {r.role}
                     </span>
                   ))}
-                  {isOwner && member.userId !== user?.id && !member.user.email.startsWith('ghost_') && (
+                  {isOwner && member.userId !== user?.id && !member.user?.email?.startsWith('ghost_') && (
                     <button 
                       onClick={() => {
-                        if (confirm(`Sei sicuro di voler cedere la proprietà a ${member.user.name}? Perderai tutti i privilegi di Owner.`)) {
+                        if (confirm(`Sei sicuro di voler cedere la proprietà a ${member.user?.name || member.user?.email}? Perderai tutti i privilegi di Owner.`)) {
                           transferOwnership.mutate(member.id);
                         }
                       }}

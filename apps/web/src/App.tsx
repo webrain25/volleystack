@@ -166,7 +166,7 @@ export default function App() {
 
           <Link to="/profile" className="flex items-center hover:bg-surface-hover rounded-xl py-1 px-2 transition-colors cursor-pointer border border-transparent hover:border-border ml-1">
             <div className="h-8 w-8 rounded-full bg-surface border border-border flex items-center justify-center text-sm font-bold text-text-primary">
-              {user?.name?.[0]?.toUpperCase() || user?.email[0].toUpperCase()}
+              {(user?.name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
             </div>
             <div className="ml-2 overflow-hidden hidden lg:block">
               <p className="text-sm font-medium text-text-primary truncate max-w-[100px]">{user?.name || 'Utente'}</p>
@@ -190,7 +190,7 @@ export default function App() {
               <Bell className="h-4 w-4" />
             </button>
             <Link to="/profile" className="h-8 w-8 rounded-full bg-surface border border-border flex items-center justify-center text-xs font-bold active:scale-95 transition-transform cursor-pointer">
-              {user?.name?.[0]?.toUpperCase()}
+              {(user?.name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
             </Link>
           </div>
         </header>

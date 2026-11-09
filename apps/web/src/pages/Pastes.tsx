@@ -21,7 +21,9 @@ type PasteForm = z.infer<typeof pasteSchema>;
 export default function Pastes() {
   const { user } = useAuthStore();
   const teamId = user?.memberships?.[0]?.teamId;
-  const canManage = user?.memberships?.[0]?.roles?.some((r: any) => ['ADMIN', 'ADMIN', 'CAPTAIN'].includes(r.role)) ?? false;
+  const canManage = user?.memberships?.[0]?.roles?.some((r: any) => 
+    ['ADMIN', 'OWNER', 'COACH', 'ASSISTANT_COACH', 'CAPTAIN', 'VICE_CAPTAIN'].includes(r.role)
+  ) ?? false;
   
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
@@ -99,7 +101,7 @@ export default function Pastes() {
                 <select {...register('teamMemberId')} className="saas-input">
                   <option value="">-- Seleziona un giocatore --</option>
                   {teamMembers?.map((member: any) => (
-                    <option key={member.id} value={member.id}>{member.user.name || member.user.email}</option>
+                    <option key={member.id} value={member.id}>{member.user?.name || member.user?.email || 'Membro'}</option>
                   ))}
                 </select>
                 {errors.teamMemberId && <p className="text-red-500 dark:text-accent-500 text-xs mt-1">{errors.teamMemberId.message}</p>}
@@ -151,7 +153,7 @@ export default function Pastes() {
                   {pendingPastes.map((paste: any) => (
                      <div key={paste.id} className="p-4 flex items-center justify-between hover:bg-surface dark:hover:bg-gray-900/30 transition-colors group">
                         <div>
-                           <p className="text-sm font-bold text-text-primary ">{paste.teamMember.user.name}</p>
+                           <p className="text-sm font-bold text-text-primary ">{paste.teamMember?.user?.name || paste.teamMember?.user?.email || 'Compagno'}</p>
                            <p className="text-xs text-text-tertiary">{paste.reason}</p>
                            {paste.deadline && (
                              <p className="text-[10px] font-semibold text-pink-600 mt-1 uppercase tracking-wider">
@@ -193,7 +195,7 @@ export default function Pastes() {
                   {deliveredPastes.map((paste: any) => (
                      <div key={paste.id} className="p-4 flex items-center justify-between hover:bg-surface dark:hover:bg-gray-900/30 transition-colors opacity-75 group-hover:opacity-100">
                         <div>
-                           <p className="text-sm font-bold text-text-primary  line-through decoration-gray-400 dark:decoration-gray-600">{paste.teamMember.user.name}</p>
+                           <p className="text-sm font-bold text-text-primary  line-through decoration-gray-400 dark:decoration-gray-600">{paste.teamMember?.user?.name || paste.teamMember?.user?.email || 'Compagno'}</p>
                            <p className="text-xs text-text-tertiary">{paste.reason}</p>
                         </div>
                         <span className="text-[10px] text-text-tertiary dark:text-text-tertiary font-medium">

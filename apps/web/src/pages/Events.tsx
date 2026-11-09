@@ -639,10 +639,10 @@ export default function Events() {
                             </span>
                           ) : (
                             <div className="w-7 h-7 rounded-lg bg-surface border border-border text-xs font-bold text-text-tertiary flex items-center justify-center">
-                              {member.user.name?.[0]?.toUpperCase() || '•'}
+                              {member.user?.name?.[0]?.toUpperCase() || member.user?.email?.[0]?.toUpperCase() || '•'}
                             </div>
                           )}
-                          <span className="text-sm font-semibold text-text-primary">{member.user.name || member.user.email}</span>
+                          <span className="text-sm font-semibold text-text-primary">{member.user?.name || member.user?.email || 'Membro'}</span>
                         </div>
                         
                         {isAdmin ? (

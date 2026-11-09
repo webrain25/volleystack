@@ -5,6 +5,8 @@ interface User {
   id: string;
   email: string;
   name?: string;
+  avatarUrl?: string | null;
+  phone?: string | null;
   memberships: Array<{
     id: string;
     teamId: string;

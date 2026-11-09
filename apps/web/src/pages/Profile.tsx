@@ -90,7 +90,7 @@ export default function Profile() {
       });
       // Update local store user context
       if (token && user) {
-        setAuth(token, { ...user, name: data.name, email: data.email });
+        setAuth(token, { ...user, name: data.name, email: data.email, avatarUrl: data.avatarUrl });
       }
       setInfoMessage({ text: 'Profilo aggiornato con successo!', type: 'success' });
     } catch (err: any) {
