@@ -214,11 +214,17 @@ export default async function authRoutes(fastify: FastifyInstance) {
             },
           },
         });
-      } else if (!user.avatarUrl && avatarUrl) {
-        // Upgrade avatar if user didn't have one
+      } else {
+        // Account unificato (Merge intelligente):
+        // Se l'utente si era già registrato con la stessa email, unifichiamo l'account
+        // aggiornando foto profilo o dati mancanti senza duplicare l'account
         user = await prisma.user.update({
           where: { id: user.id },
-          data: { avatarUrl },
+          data: {
+            avatarUrl: user.avatarUrl || avatarUrl,
+            name: user.name || name,
+            lastName: user.lastName || lastName,
+          },
           include: {
             memberships: {
               include: {
