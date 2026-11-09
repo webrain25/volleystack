@@ -170,14 +170,9 @@ export default function Register({ inModal = false }: RegisterProps) {
 
           {/* Data di Nascita */}
           <div className="space-y-1">
-            <div className="flex items-center justify-between">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-                Data di Nascita
-              </label>
-              <span className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1">
-                🎂 Compleanno & Paste
-              </span>
-            </div>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+              Data di Nascita
+            </label>
             <div className="relative flex items-center">
               <Calendar className="absolute left-3 w-4 h-4 text-slate-400 pointer-events-none" />
               <input
@@ -188,9 +183,6 @@ export default function Register({ inModal = false }: RegisterProps) {
                 className="w-full bg-slate-50 dark:bg-[#0B132B] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-slate-100 pl-9 pr-3 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2] transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm [color-scheme:light] dark:[color-scheme:dark]"
               />
             </div>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400">
-              Notificherà il tesoriere e la squadra per il tradizionale turno paste di compleanno.
-            </p>
           </div>
 
           {/* Email Field */}

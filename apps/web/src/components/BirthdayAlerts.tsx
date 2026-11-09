@@ -85,10 +85,10 @@ export default function BirthdayAlerts({ members, variant = 'banner', className 
         <div className={`p-4 bg-slate-50 dark:bg-surface/50 border border-slate-200 dark:border-white/10 rounded-2xl ${className}`}>
           <div className="flex items-center gap-2.5 text-slate-700 dark:text-slate-300 font-bold text-sm mb-1">
             <Cake className="w-4 h-4 text-amber-500" />
-            <span>Compleanni & Turno Paste</span>
+            <span>Prossimi Compleanni</span>
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            Nessuna data di nascita registrata per i giocatori. Invitali ad aggiornare il profilo per ricevere i promemoria del turno paste!
+            Nessuna data di nascita registrata per i giocatori.
           </p>
         </div>
       );
@@ -180,13 +180,13 @@ export default function BirthdayAlerts({ members, variant = 'banner', className 
           </div>
           <div>
             <h3 className="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
-              Segnalazione Tesoriere: Compleanni & Turno Paste
+              Segnalazione Tesoriere: Prossimi Compleanni
               <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-md bg-amber-500/20 text-amber-700 dark:text-amber-300">
                 {birthdays.length} registrati
               </span>
             </h3>
             <p className="text-[11px] text-slate-600 dark:text-slate-400">
-              Chi compie gli anni porta le paste per tutta la squadra al prossimo allenamento.
+              Calendario dei compleanni dei compagni di squadra.
             </p>
           </div>
         </div>

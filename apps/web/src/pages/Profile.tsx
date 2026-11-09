@@ -206,10 +206,7 @@ export default function Profile() {
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="block text-xs font-bold text-text-secondary uppercase tracking-wider">Data di Nascita</label>
-                <span className="text-xs text-amber-500 font-semibold flex items-center gap-1">🎂 Compleanno & Paste</span>
-              </div>
+              <label className="block text-xs font-bold text-text-secondary uppercase tracking-wider mb-2">Data di Nascita</label>
               <div className="relative">
                 <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-text-tertiary" />
                 <input
@@ -220,7 +217,6 @@ export default function Profile() {
                   className="w-full bg-surface border border-border text-text-primary pl-10 pr-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/50 focus:border-[#2A7EA2] transition-all [color-scheme:light] dark:[color-scheme:dark]"
                 />
               </div>
-              <p className="text-[11px] text-text-tertiary mt-1">Usata per segnalare il tuo compleanno e il turno paste nello spogliatoio.</p>
             </div>
           </div>
 
