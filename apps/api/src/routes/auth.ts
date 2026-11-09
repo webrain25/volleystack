@@ -1,6 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import bcrypt from 'bcryptjs';
 import z from 'zod';
+import crypto from 'crypto';
 import { prisma } from '../lib/prisma';
 
 export default async function authRoutes(fastify: FastifyInstance) {
@@ -134,5 +135,118 @@ export default async function authRoutes(fastify: FastifyInstance) {
       phone: user.phone,
       memberships: user.memberships
     });
+  });
+
+  // Facebook OAuth Login & Registration
+  fastify.post('/facebook', async (request, reply) => {
+    const fbSchema = z.object({
+      code: z.string().min(1, 'Codice obbligatorio'),
+      redirectUri: z.string().url('Redirect URI non valido'),
+    });
+
+    const parsed = fbSchema.safeParse(request.body);
+    if (!parsed.success) {
+      return reply.status(400).send({ error: 'Codice di autorizzazione Facebook mancante o non valido' });
+    }
+
+    const { code, redirectUri } = parsed.data;
+    const appId = process.env.FACEBOOK_APP_ID || '28923588113936792';
+    const appSecret = process.env.FACEBOOK_APP_SECRET || '6a72985bd22007e4c7992248950f5a2b';
+
+    try {
+      // 1. Exchange authorization code for Facebook access token
+      const tokenUrl = `https://graph.facebook.com/v20.0/oauth/access_token?client_id=${appId}&client_secret=${appSecret}&redirect_uri=${encodeURIComponent(redirectUri)}&code=${encodeURIComponent(code)}`;
+      const tokenRes = await fetch(tokenUrl);
+      const tokenData: any = await tokenRes.json();
+
+      if (!tokenRes.ok || !tokenData.access_token) {
+        fastify.log.error(tokenData, 'Facebook token exchange failed');
+        return reply.status(400).send({ 
+          error: tokenData.error?.message || 'Impossibile completare il login con Facebook. Codice scaduto o autorizzazione rifiutata.' 
+        });
+      }
+
+      // 2. Fetch user profile from Facebook Graph API
+      const profileUrl = `https://graph.facebook.com/v20.0/me?fields=id,name,first_name,last_name,email,picture.type(large)&access_token=${tokenData.access_token}`;
+      const profileRes = await fetch(profileUrl);
+      const fbUser: any = await profileRes.json();
+
+      if (!profileRes.ok || !fbUser.id) {
+        fastify.log.error(fbUser, 'Facebook profile fetch failed');
+        return reply.status(400).send({ error: 'Impossibile ottenere i dati del profilo da Facebook.' });
+      }
+
+      // 3. Email resolution (fallback if user registered on FB with phone only)
+      const email = fbUser.email || `fb_${fbUser.id}@facebook.volleystack.com`;
+      const name = fbUser.name || [fbUser.first_name, fbUser.last_name].filter(Boolean).join(' ') || 'Atleta Volley';
+      const lastName = fbUser.last_name || null;
+      const avatarUrl = fbUser.picture?.data?.url || null;
+
+      // 4. Find existing user or create a new one in Neon Postgres
+      let user = await prisma.user.findUnique({
+        where: { email },
+        include: {
+          memberships: {
+            include: {
+              team: true,
+              roles: true,
+            },
+          },
+        },
+      });
+
+      if (!user) {
+        const passwordHash = await bcrypt.hash(crypto.randomUUID(), 10);
+        user = await prisma.user.create({
+          data: {
+            email,
+            name,
+            lastName,
+            avatarUrl,
+            passwordHash,
+          },
+          include: {
+            memberships: {
+              include: {
+                team: true,
+                roles: true,
+              },
+            },
+          },
+        });
+      } else if (!user.avatarUrl && avatarUrl) {
+        // Upgrade avatar if user didn't have one
+        user = await prisma.user.update({
+          where: { id: user.id },
+          data: { avatarUrl },
+          include: {
+            memberships: {
+              include: {
+                team: true,
+                roles: true,
+              },
+            },
+          },
+        });
+      }
+
+      const token = fastify.jwt.sign({ id: user.id, email: user.email });
+      return reply.send({
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          lastName: user.lastName,
+          birthDate: user.birthDate,
+          avatarUrl: user.avatarUrl,
+          phone: user.phone,
+          memberships: user.memberships || [],
+        },
+      });
+    } catch (err: any) {
+      fastify.log.error(err, 'Unhandled Facebook auth error');
+      return reply.status(500).send({ error: 'Errore interno durante il login con Facebook. Riprova tra poco.' });
+    }
   });
 }

@@ -8,9 +8,25 @@ interface SocialAuthButtonsProps {
 export default function SocialAuthButtons({ mode }: SocialAuthButtonsProps) {
   const [providerNotice, setProviderNotice] = useState<string | null>(null);
 
+  const handleFacebookLogin = () => {
+    const fbAppId = import.meta.env.VITE_FACEBOOK_APP_ID || '28923588113936792';
+    const redirectUri = `${window.location.origin}/auth/facebook/callback`;
+    const fbAuthUrl = `https://www.facebook.com/v20.0/dialog/oauth?client_id=${fbAppId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&scope=email,public_profile&response_type=code`;
+    
+    // Redirect to official Facebook OAuth dialog
+    window.location.href = fbAuthUrl;
+  };
+
   const handleSocialClick = (provider: string) => {
+    if (provider === 'Facebook') {
+      handleFacebookLogin();
+      return;
+    }
+
     setProviderNotice(
-      `L'autenticazione con ${provider} è in fase di abilitazione ufficiale. Per accedere subito in beta, usa la registrazione rapida con email!`
+      `L'autenticazione diretta con ${provider} è in fase di abilitazione. Per Facebook puoi già accedere con 1 click o usare la registrazione rapida con email!`
     );
   };
 

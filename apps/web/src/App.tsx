@@ -13,6 +13,8 @@ import Privacy from './pages/Privacy';
 import CookiePolicy from './pages/CookiePolicy';
 import Support from './pages/Support';
 import Guides from './pages/Guides';
+import DataDeletion from './pages/DataDeletion';
+import FacebookCallback from './pages/FacebookCallback';
 import Footer from './components/Footer';
 import VolleyLogo from './components/VolleyLogo';
 import { useAuthStore } from './store/authStore';
@@ -101,9 +103,11 @@ export default function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Landing />} />
         <Route path="/register" element={<Landing />} />
+        <Route path="/auth/facebook/callback" element={<FacebookCallback />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/cookie-policy" element={<CookiePolicy />} />
+        <Route path="/data-deletion" element={<DataDeletion />} />
         <Route path="/support" element={<Support />} />
         <Route path="/guides" element={<Guides />} />
         <Route path="*" element={<Navigate to="/" />} />
@@ -373,9 +377,11 @@ export default function App() {
               <Route path="/pastes" element={<ProtectedRoute><Pastes /></ProtectedRoute>} />
               <Route path="/stats" element={<ProtectedRoute><Stats /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+              <Route path="/auth/facebook/callback" element={<FacebookCallback />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/cookie-policy" element={<CookiePolicy />} />
+              <Route path="/data-deletion" element={<DataDeletion />} />
               <Route path="/support" element={<Support />} />
               <Route path="/guides" element={<Guides />} />
               <Route path="*" element={<Navigate to="/dashboard" />} />

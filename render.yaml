@@ -19,3 +19,7 @@ services:
         generateValue: true
       - key: GEMINI_API_KEY
         sync: false
+      - key: FACEBOOK_APP_ID
+        value: "28923588113936792"
+      - key: FACEBOOK_APP_SECRET
+        value: "6a72985bd22007e4c7992248950f5a2b"
