@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { api } from '../lib/api';
-import { User, Lock, Save, Camera, Phone, X } from 'lucide-react';
+import { User, Lock, Save, Camera, Phone, X, LogOut } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import Cropper from 'react-easy-crop';
 import { getCroppedImg } from '../lib/cropImage';
 import { PageHeader } from '../components/PageHeader';
 
 export default function Profile() {
-  const { user, setAuth, token } = useAuthStore();
+  const { user, setAuth, token, logout } = useAuthStore();
   const [activeTab, setActiveTab] = useState<'info' | 'password'>('info');
   
   // Info Form
@@ -271,6 +271,26 @@ export default function Profile() {
           </div>
         </form>
       )}
+
+      {/* Session / Logout Card */}
+      <div className="saas-card p-5 sm:p-6 border border-danger/25 bg-danger/[0.04] flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl shadow-sm">
+        <div>
+          <h3 className="text-sm font-bold text-text-primary flex items-center gap-2">
+            <LogOut className="w-4 h-4 text-danger" />
+            <span>Sessione Dispositivo</span>
+          </h3>
+          <p className="text-xs text-text-tertiary mt-1">
+            Esci dallo spogliatoio su questo smartphone o computer.
+          </p>
+        </div>
+        <button
+          onClick={logout}
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-danger/15 hover:bg-danger text-danger hover:text-white border border-danger/30 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
+        >
+          <LogOut className="w-4 h-4" />
+          <span>Esci dall'Account</span>
+        </button>
+      </div>
 
       {/* Cropper Modal */}
       {isCropping && cropImageSrc && (

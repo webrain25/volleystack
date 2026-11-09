@@ -18,7 +18,7 @@ import VolleyLogo from './components/VolleyLogo';
 import { useAuthStore } from './store/authStore';
 import { useThemeStore } from './store/useThemeStore';
 import { api } from './lib/api';
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -34,6 +34,35 @@ export default function App() {
   const location = useLocation();
 
   const { theme, toggleTheme } = useThemeStore();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const desktopMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node;
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(target)) {
+        setMobileMenuOpen(false);
+      }
+      if (desktopMenuRef.current && !desktopMenuRef.current.contains(target)) {
+        setDesktopMenuOpen(false);
+      }
+    };
+    if (mobileMenuOpen || desktopMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [mobileMenuOpen, desktopMenuOpen]);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setDesktopMenuOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -164,14 +193,76 @@ export default function App() {
             <LogOut className="h-4 w-4" />
           </button>
 
-          <Link to="/profile" className="flex items-center hover:bg-surface-hover rounded-xl py-1 px-2 transition-colors cursor-pointer border border-transparent hover:border-border ml-1">
-            <div className="h-8 w-8 rounded-full bg-surface border border-border flex items-center justify-center text-sm font-bold text-text-primary">
-              {(user?.name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
-            </div>
-            <div className="ml-2 overflow-hidden hidden lg:block">
-              <p className="text-sm font-medium text-text-primary truncate max-w-[100px]">{user?.name || 'Utente'}</p>
-            </div>
-          </Link>
+          <div className="relative" ref={desktopMenuRef}>
+            <button
+              onClick={() => setDesktopMenuOpen((prev) => !prev)}
+              className="flex items-center hover:bg-surface-hover rounded-xl py-1 px-2 transition-colors cursor-pointer border border-transparent hover:border-border ml-1"
+              title="Menu Profilo e Logout"
+            >
+              <div className="h-8 w-8 rounded-full bg-[#0A4059] dark:bg-[#38BDF8]/20 border border-[#2A7EA2]/40 flex items-center justify-center text-sm font-bold text-[#38BDF8]">
+                {(user?.name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
+              </div>
+              <div className="ml-2 overflow-hidden hidden lg:block text-left">
+                <p className="text-sm font-medium text-text-primary truncate max-w-[100px]">{user?.name || 'Utente'}</p>
+              </div>
+            </button>
+
+            <AnimatePresence>
+              {desktopMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -6, scale: 0.95 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute right-0 top-12 w-64 bg-[#0F1726] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 divide-y divide-white/10 backdrop-blur-xl"
+                >
+                  <div className="p-3">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-[#38BDF8]/15 border border-[#2A7EA2]/40 text-[#38BDF8] flex items-center justify-center text-sm font-black shadow-inner shrink-0">
+                        {(user?.name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-bold text-[#F8FAFC] truncate">{user?.name || 'Atleta'}</p>
+                        <p className="text-[11px] text-text-tertiary truncate font-mono">{user?.email}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="py-1.5 space-y-0.5">
+                    <Link
+                      to="/profile"
+                      onClick={() => setDesktopMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-text-secondary hover:text-text-primary hover:bg-[#162238] transition-colors"
+                    >
+                      <User className="w-4 h-4 text-[#38BDF8]" />
+                      <span>Il Mio Profilo</span>
+                    </Link>
+                    <Link
+                      to="/team"
+                      onClick={() => setDesktopMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-text-secondary hover:text-text-primary hover:bg-[#162238] transition-colors"
+                    >
+                      <Users className="w-4 h-4 text-[#38BDF8]" />
+                      <span>Rosa Squadra</span>
+                    </Link>
+                  </div>
+
+                  <div className="pt-1.5">
+                    <button
+                      onClick={() => {
+                        setDesktopMenuOpen(false);
+                        logout();
+                      }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold text-danger hover:bg-danger/10 transition-colors cursor-pointer text-left"
+                    >
+                      <LogOut className="w-4 h-4 text-danger shrink-0" />
+                      <span>Esci dallo Spogliatoio (Logout)</span>
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </nav>
 
@@ -189,9 +280,78 @@ export default function App() {
             <button className="h-8 w-8 rounded-full bg-surface border border-border flex items-center justify-center text-text-secondary active:scale-95 transition-transform">
               <Bell className="h-4 w-4" />
             </button>
-            <Link to="/profile" className="h-8 w-8 rounded-full bg-surface border border-border flex items-center justify-center text-xs font-bold active:scale-95 transition-transform cursor-pointer">
-              {(user?.name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
-            </Link>
+            {/* Avatar Profile Button with Logout Dropdown */}
+            <div className="relative" ref={mobileMenuRef}>
+              <button 
+                onClick={() => setMobileMenuOpen((prev) => !prev)}
+                className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-black active:scale-95 transition-all cursor-pointer border ${
+                  mobileMenuOpen 
+                    ? 'bg-[#38BDF8] text-[#070B12] border-[#38BDF8] shadow-[0_0_12px_rgba(56,189,248,0.5)]' 
+                    : 'bg-[#0A4059] dark:bg-[#38BDF8]/20 border border-[#2A7EA2]/40 text-[#38BDF8] shadow-[0_0_8px_rgba(56,189,248,0.2)]'
+                }`}
+                title="Menu Profilo e Logout"
+                aria-label="Profilo e Logout"
+                aria-expanded={mobileMenuOpen}
+              >
+                {(user?.name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
+              </button>
+
+              <AnimatePresence>
+                {mobileMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 top-10 w-64 bg-[#0F1726] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 divide-y divide-white/10 backdrop-blur-xl"
+                  >
+                    <div className="p-3">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-full bg-[#38BDF8]/15 border border-[#2A7EA2]/40 text-[#38BDF8] flex items-center justify-center text-sm font-black shadow-inner shrink-0">
+                          {(user?.name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-bold text-[#F8FAFC] truncate">{user?.name || 'Atleta'}</p>
+                          <p className="text-[11px] text-text-tertiary truncate font-mono">{user?.email}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="py-1.5 space-y-0.5">
+                      <Link
+                        to="/profile"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-text-secondary hover:text-text-primary hover:bg-[#162238] transition-colors"
+                      >
+                        <User className="w-4 h-4 text-[#38BDF8]" />
+                        <span>Il Mio Profilo</span>
+                      </Link>
+                      <Link
+                        to="/team"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-text-secondary hover:text-text-primary hover:bg-[#162238] transition-colors"
+                      >
+                        <Users className="w-4 h-4 text-[#38BDF8]" />
+                        <span>Rosa Squadra</span>
+                      </Link>
+                    </div>
+
+                    <div className="pt-1.5">
+                      <button
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          logout();
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold text-danger hover:bg-danger/10 transition-colors cursor-pointer text-left"
+                      >
+                        <LogOut className="w-4 h-4 text-danger shrink-0" />
+                        <span>Esci dallo Spogliatoio (Logout)</span>
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </header>
 
