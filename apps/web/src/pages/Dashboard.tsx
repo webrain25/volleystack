@@ -260,7 +260,7 @@ export default function Dashboard() {
                           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(nextEvent.location)}`} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="hover:underline font-normal truncate max-w-[280px]"
+                          className="hover:underline font-normal truncate max-w-[200px] sm:max-w-[280px]"
                         >
                           {nextEvent.location}
                         </a>

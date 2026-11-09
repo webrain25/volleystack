@@ -19,19 +19,19 @@ export function PageHeader({ title, description, icon: Icon, actions }: PageHead
     >
       <div className="absolute -top-10 -left-10 w-48 h-48 bg-[#38BDF8]/10 rounded-full blur-[60px] pointer-events-none -z-10"></div>
       
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border/50">
-        <div className="flex items-center gap-4 md:gap-5">
-          <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-surface to-bg-primary border border-[#2A7EA2]/20 flex items-center justify-center shadow-[0_0_15px_rgba(56,189,248,0.15)]">
-            <Icon className="h-6 w-6 md:h-7 md:w-7 text-[#38BDF8]" />
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6 pb-4 md:pb-6 border-b border-border/50">
+        <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
+          <div className="w-11 h-11 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-surface to-bg-primary border border-[#2A7EA2]/20 flex items-center justify-center shadow-[0_0_15px_rgba(56,189,248,0.15)] shrink-0">
+            <Icon className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-[#38BDF8]" />
           </div>
-          <div>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-text-primary">{title}</h1>
-            <p className="text-sm md:text-base text-text-tertiary mt-1 md:mt-2 max-w-lg leading-relaxed">{description}</p>
+          <div className="min-w-0 flex-1">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-text-primary leading-tight truncate sm:overflow-visible">{title}</h1>
+            <p className="text-xs sm:text-sm md:text-base text-text-tertiary mt-0.5 sm:mt-1 md:mt-2 max-w-lg leading-relaxed line-clamp-2 sm:line-clamp-none">{description}</p>
           </div>
         </div>
         
         {actions && (
-          <div className="flex flex-wrap items-center gap-2 md:gap-3">
+          <div className="flex flex-wrap items-center gap-2 md:gap-3 w-full md:w-auto">
             {actions}
           </div>
         )}

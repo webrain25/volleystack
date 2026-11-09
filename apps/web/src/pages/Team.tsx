@@ -215,7 +215,7 @@ export default function Team() {
         description="Gestione roster e membri della squadra."
         icon={Users}
         actions={
-          <div className="saas-card px-5 py-3 flex flex-col justify-center bg-surface-hover min-w-[220px]">
+          <div className="saas-card px-4 sm:px-5 py-2.5 sm:py-3 flex flex-col justify-center bg-surface-hover w-full sm:w-auto sm:min-w-[220px]">
           <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mb-1">Codice Invito</p>
           {isEditingCode ? (
             <div className="flex items-center gap-2 mt-1">

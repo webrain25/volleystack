@@ -274,8 +274,8 @@ export default function Profile() {
 
       {/* Cropper Modal */}
       {isCropping && cropImageSrc && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-bg-primary w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border border-border flex flex-col">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-bg-primary w-full max-w-lg rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-border flex flex-col max-h-[90vh] my-auto box-border">
             <div className="p-4 border-b border-border flex justify-between items-center">
               <h3 className="text-lg font-bold">Ritaglia Immagine</h3>
               <button onClick={() => setIsCropping(false)} className="p-2 bg-surface rounded-full text-text-secondary hover:text-text-primary transition-colors">

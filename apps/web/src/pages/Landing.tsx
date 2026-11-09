@@ -282,43 +282,40 @@ export default function Landing() {
         <Footer />
       </div>
 
-      {/* Centered Auth Modal */}
+      {/* Centered Auth Modal with Safe Area & Mobile Keyboard Responsive Scroll */}
       <AnimatePresence>
         {isAuth && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto overflow-x-hidden min-h-screen">
             {/* Backdrop with Blur */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="fixed inset-0 bg-black/70 dark:bg-black/85 backdrop-blur-md"
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/75 dark:bg-black/85 backdrop-blur-md"
               onClick={closeAuth}
             />
 
             {/* Centered Modal Card */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.94, y: 16 }}
+              initial={{ opacity: 0, scale: 0.94, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 12 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-[440px] my-auto bg-white dark:bg-[#070D18]/95 backdrop-blur-2xl rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-white/10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),0_0_35px_rgba(56,189,248,0.12)] p-4 sm:p-8 z-10 overflow-hidden text-slate-900 dark:text-white"
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-[420px] my-auto bg-white dark:bg-[#070D18] backdrop-blur-2xl rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-white/10 shadow-2xl p-4 sm:p-7 z-10 text-slate-900 dark:text-white max-h-[92vh] overflow-y-auto box-border"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Subtle Ambient Radial Accents */}
-              <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#2A7EA2]/15 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-[#38BDF8]/15 rounded-full blur-3xl pointer-events-none" />
-
               {/* Close Button */}
               <button
                 onClick={closeAuth}
-                className="absolute top-4 right-4 sm:top-5 sm:right-5 z-20 p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 p-1.5 sm:p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
                 title="Chiudi"
+                aria-label="Chiudi finestra"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
 
-              <div className="relative z-10">
+              <div className="relative z-10 w-full">
                 {isLogin ? <Login inModal /> : <Register inModal />}
               </div>
             </motion.div>

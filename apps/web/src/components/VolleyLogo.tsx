@@ -24,22 +24,22 @@ export default function VolleyLogo({
   // Height scaling per size and variant (44px official recommended height for standard header)
   const heightClasses = {
     horizontal: {
-      sm: 'h-5 sm:h-7',
-      md: 'h-6 sm:h-9 md:h-[42px]',
-      lg: 'h-11 sm:h-14 md:h-16',
-      xl: 'h-15 sm:h-20',
+      sm: 'h-5 sm:h-6',
+      md: 'h-6 sm:h-8 md:h-[38px]',
+      lg: 'h-7 sm:h-10 md:h-13',
+      xl: 'h-10 sm:h-14 md:h-18',
     },
     symbol: {
-      sm: 'h-7 w-7 sm:h-8 sm:w-8',
-      md: 'h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11',
-      lg: 'h-12 w-12 sm:h-14 sm:w-14',
-      xl: 'h-16 w-16 sm:h-20 sm:w-20',
+      sm: 'h-6 w-6 sm:h-7 sm:w-7',
+      md: 'h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10',
+      lg: 'h-9 w-9 sm:h-12 sm:w-12 md:h-14 md:w-14',
+      xl: 'h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20',
     },
     vertical: {
-      sm: 'h-16 sm:h-20',
-      md: 'h-24 sm:h-28 md:h-32',
-      lg: 'h-32 sm:h-40 md:h-48',
-      xl: 'h-44 sm:h-56',
+      sm: 'h-12 sm:h-16',
+      md: 'h-16 sm:h-22 md:h-26',
+      lg: 'h-20 sm:h-28 md:h-36',
+      xl: 'h-28 sm:h-40',
     },
   }[logoType][size];
 
@@ -50,7 +50,7 @@ export default function VolleyLogo({
   }[logoType];
 
   return (
-    <div className={`inline-flex items-center select-none shrink-0 relative ${className}`}>
+    <div className={`inline-flex items-center select-none shrink-0 relative max-w-full ${className}`}>
       {glow && (
         <div
           className="absolute -inset-1 bg-[#2A7EA2]/25 blur-md rounded-xl pointer-events-none -z-10"
@@ -60,7 +60,7 @@ export default function VolleyLogo({
       <img
         src={logoSrc}
         alt="VolleyStack"
-        className={`${heightClasses} w-auto object-contain transition-transform duration-200 hover:scale-[1.02]`}
+        className={`${heightClasses} w-auto max-w-full object-contain transition-transform duration-200 hover:scale-[1.02]`}
       />
     </div>
   );

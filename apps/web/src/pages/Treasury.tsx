@@ -158,48 +158,48 @@ export default function Treasury() {
           <>
             <button 
               onClick={() => { setShowPaymentForm(false); setShowRuleForm(false); setShowLedgerForm(true); setShowAssignForm(false); }}
-              className="saas-btn-secondary flex items-center shrink-0"
+              className="saas-btn-secondary flex items-center shrink-0 text-xs sm:text-sm py-2 px-3 sm:px-4"
             >
-              <Landmark className="h-4 w-4 mr-1.5" /> Nuova Transazione
+              <Landmark className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5" /> Nuova Transazione
             </button>
             <button 
               onClick={() => { setShowLedgerForm(false); setShowRuleForm(false); setShowPaymentForm(true); setShowAssignForm(false); }}
-              className="saas-btn-secondary flex items-center hover:border-[#2A7EA2]/40 hover:text-[#38BDF8] shrink-0"
+              className="saas-btn-secondary flex items-center hover:border-[#2A7EA2]/40 hover:text-[#38BDF8] shrink-0 text-xs sm:text-sm py-2 px-3 sm:px-4"
             >
-              <Banknote className="h-4 w-4 mr-1.5" /> Paga Multe
+              <Banknote className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5" /> Paga Multe
             </button>
             <button 
               onClick={() => { setShowLedgerForm(false); setShowRuleForm(false); setShowPaymentForm(false); setShowAssignForm(true); }}
-              className="saas-btn-secondary flex items-center hover:border-amber-500/40 hover:text-amber-400 shrink-0"
+              className="saas-btn-secondary flex items-center hover:border-amber-500/40 hover:text-amber-400 shrink-0 text-xs sm:text-sm py-2 px-3 sm:px-4"
             >
-              <Euro className="h-4 w-4 mr-1.5 text-amber-400" /> Assegna Multa
+              <Euro className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 text-amber-400" /> Assegna Multa
             </button>
             <button 
               onClick={() => { setShowLedgerForm(false); setShowPaymentForm(false); setShowAssignForm(false); setShowRuleForm(true); }}
-              className="saas-btn-volt flex items-center shrink-0"
+              className="saas-btn-volt flex items-center shrink-0 text-xs sm:text-sm py-2 px-3 sm:px-4"
             >
-              <Plus className="h-4 w-4 mr-1.5 stroke-[3px]" /> Nuova Tariffa
+              <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 stroke-[3px]" /> Nuova Tariffa
             </button>
           </>
         }
       />
 
-      <div className="flex flex-wrap gap-1 p-1 bg-[#0F1726]/60 rounded-xl w-fit border border-border">
+      <div className="flex flex-nowrap sm:flex-wrap gap-1 p-1 bg-[#0F1726]/60 rounded-xl w-full sm:w-fit overflow-x-auto max-w-full border border-border scrollbar-none">
         <button 
           onClick={() => setActiveTab('FINES')}
-          className={`px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'FINES' ? 'bg-[#0A4059]/30 border border-[#2A7EA2]/50 text-[#38BDF8] shadow-[0_2px_12px_rgba(10,64,89,0.3)]' : 'text-text-tertiary hover:text-text-primary'}`}
+          className={`px-3 sm:px-4 py-2 rounded-lg text-xs md:text-sm font-bold whitespace-nowrap transition-all ${activeTab === 'FINES' ? 'bg-[#0A4059]/30 border border-[#2A7EA2]/50 text-[#38BDF8] shadow-[0_2px_12px_rgba(10,64,89,0.3)]' : 'text-text-tertiary hover:text-text-primary'}`}
         >
           Multe Assegnate
         </button>
         <button 
           onClick={() => setActiveTab('PAYMENTS')}
-          className={`px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'PAYMENTS' ? 'bg-[#0A4059]/30 border border-[#2A7EA2]/50 text-[#38BDF8] shadow-[0_2px_12px_rgba(10,64,89,0.3)]' : 'text-text-tertiary hover:text-text-primary'}`}
+          className={`px-3 sm:px-4 py-2 rounded-lg text-xs md:text-sm font-bold whitespace-nowrap transition-all ${activeTab === 'PAYMENTS' ? 'bg-[#0A4059]/30 border border-[#2A7EA2]/50 text-[#38BDF8] shadow-[0_2px_12px_rgba(10,64,89,0.3)]' : 'text-text-tertiary hover:text-text-primary'}`}
         >
           Pagamenti
         </button>
         <button 
           onClick={() => setActiveTab('RULES')}
-          className={`px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'RULES' ? 'bg-[#0A4059]/30 border border-[#2A7EA2]/50 text-[#38BDF8] shadow-[0_2px_12px_rgba(10,64,89,0.3)]' : 'text-text-tertiary hover:text-text-primary'}`}
+          className={`px-3 sm:px-4 py-2 rounded-lg text-xs md:text-sm font-bold whitespace-nowrap transition-all ${activeTab === 'RULES' ? 'bg-[#0A4059]/30 border border-[#2A7EA2]/50 text-[#38BDF8] shadow-[0_2px_12px_rgba(10,64,89,0.3)]' : 'text-text-tertiary hover:text-text-primary'}`}
         >
           Tariffario Base
         </button>

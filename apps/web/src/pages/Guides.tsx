@@ -364,7 +364,7 @@ export default function Guides() {
 
       {/* Public Top Navbar */}
       <nav className="relative z-20 w-full bg-[#070B12] border-b border-white/10 sticky top-0 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center transition-transform hover:opacity-95">
             <VolleyLogo size="sm" />
           </Link>

@@ -83,8 +83,8 @@ export default function Pastes() {
       />
 
       {showForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 /60 backdrop-blur-sm animate-in fade-in">
-          <div className="saas-card w-full max-w-md p-6 shadow-2xl relative animate-in slide-in-from-bottom-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-sm animate-in fade-in overflow-y-auto">
+          <div className="saas-card w-full max-w-md p-4 sm:p-6 shadow-2xl relative animate-in slide-in-from-bottom-4 max-h-[90vh] overflow-y-auto my-auto box-border">
             <button onClick={() => setShowForm(false)} className="absolute top-4 right-4 text-text-tertiary hover:text-text-secondary dark:text-text-tertiary dark:hover:text-gray-200 transition-colors">
               <X className="h-5 w-5" />
             </button>

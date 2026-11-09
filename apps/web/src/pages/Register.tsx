@@ -50,18 +50,18 @@ export default function Register({ inModal = false }: RegisterProps) {
 
   const containerClasses = inModal
     ? 'w-full'
-    : 'w-full flex flex-col items-center justify-center p-6 sm:p-12 min-h-screen bg-bg-primary';
+    : 'w-full flex flex-col items-center justify-center p-4 sm:p-12 min-h-screen bg-bg-primary';
 
   return (
     <div className={containerClasses}>
-      <div className="w-full max-w-[420px] mx-auto space-y-6">
+      <div className="w-full max-w-[390px] mx-auto space-y-4 sm:space-y-6">
         {/* Header / Brand */}
         <div className="flex flex-col items-center text-center">
-          <VolleyLogo size="lg" glow={false} className="mb-4" />
-          <h2 className="text-2xl sm:text-3xl font-black text-text-primary tracking-tight">
+          <VolleyLogo size="md" glow={false} className="mb-2 sm:mb-4 max-w-[200px]" />
+          <h2 className="text-xl sm:text-2xl font-black text-text-primary tracking-tight">
             Crea Account
           </h2>
-          <p className="text-text-secondary text-xs sm:text-sm mt-1 max-w-sm">
+          <p className="text-text-secondary text-xs sm:text-sm mt-0.5 sm:mt-1 max-w-sm">
             Unisciti subito alla tua squadra su VolleyStack.
           </p>
         </div>
@@ -103,7 +103,7 @@ export default function Register({ inModal = false }: RegisterProps) {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#2A7EA2] transition-all placeholder:text-text-tertiary text-sm"
+                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-4 py-2.5 sm:py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#2A7EA2] transition-all placeholder:text-text-tertiary text-sm"
                 placeholder="Mario Rossi"
                 autoComplete="name"
                 required
@@ -122,7 +122,7 @@ export default function Register({ inModal = false }: RegisterProps) {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#2A7EA2] transition-all placeholder:text-text-tertiary text-sm"
+                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-4 py-2.5 sm:py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#2A7EA2] transition-all placeholder:text-text-tertiary text-sm"
                 placeholder="mario@esempio.com"
                 autoComplete="email"
                 required
@@ -141,7 +141,7 @@ export default function Register({ inModal = false }: RegisterProps) {
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-11 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#2A7EA2] transition-all placeholder:text-text-tertiary text-sm font-mono tracking-wider"
+                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-11 py-2.5 sm:py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#2A7EA2] transition-all placeholder:text-text-tertiary text-sm font-mono tracking-wider"
                 placeholder="Minimo 6 caratteri"
                 autoComplete="new-password"
                 required
@@ -161,7 +161,7 @@ export default function Register({ inModal = false }: RegisterProps) {
           <button
             type="submit"
             disabled={isLoading || !name || !email || !password}
-            className="w-full bg-white hover:bg-slate-100 text-[#04060A] font-extrabold py-3.5 rounded-xl transition-all shadow-[0_0_20px_rgba(56,189,248,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.32)] flex justify-center items-center text-sm tracking-wide mt-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.99]"
+            className="w-full bg-white hover:bg-slate-100 text-[#04060A] font-extrabold py-3 sm:py-3.5 rounded-xl transition-all shadow-[0_0_20px_rgba(56,189,248,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.32)] flex justify-center items-center text-sm tracking-wide mt-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.99]"
           >
             {isLoading ? (
               <Loader2 className="animate-spin h-5 w-5" />
