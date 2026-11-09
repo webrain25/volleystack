@@ -19,14 +19,35 @@ export default function SocialAuthButtons({ mode }: SocialAuthButtonsProps) {
     window.location.href = fbAuthUrl;
   };
 
+  const handleGoogleLogin = () => {
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!googleClientId) {
+      setProviderNotice(
+        "L'accesso con Google è pronto nel codice! Serve solo inserire il tuo Google Client ID (ottenibile gratis da Google Cloud Console)."
+      );
+      return;
+    }
+    const redirectUri = `${window.location.origin}/auth/google/callback`;
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&response_type=code&scope=openid%20profile%20email&prompt=select_account`;
+
+    window.location.href = googleAuthUrl;
+  };
+
   const handleSocialClick = (provider: string) => {
     if (provider === 'Facebook') {
       handleFacebookLogin();
       return;
     }
 
+    if (provider === 'Google') {
+      handleGoogleLogin();
+      return;
+    }
+
     setProviderNotice(
-      `L'autenticazione diretta con ${provider} è in fase di abilitazione. Per Facebook puoi già accedere con 1 click o usare la registrazione rapida con email!`
+      `L'autenticazione diretta con ${provider} richiede un account sviluppatore Apple a pagamento ($99/anno). Per Facebook puoi già accedere con 1 click o usare la registrazione rapida con email!`
     );
   };
 

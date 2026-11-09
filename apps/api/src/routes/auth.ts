@@ -255,4 +255,136 @@ export default async function authRoutes(fastify: FastifyInstance) {
       return reply.status(500).send({ error: 'Errore interno durante il login con Facebook. Riprova tra poco.' });
     }
   });
+
+  // Google OAuth 2.0 Exchange & Login
+  fastify.post('/google', async (request, reply) => {
+    const schema = z.object({
+      code: z.string(),
+      redirectUri: z.string().url(),
+    });
+
+    const parsed = schema.safeParse(request.body);
+    if (!parsed.success) {
+      return reply.status(400).send({ error: 'Codice di autorizzazione Google mancante o non valido.' });
+    }
+
+    const { code, redirectUri } = parsed.data;
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
+    if (!clientId || !clientSecret) {
+      return reply.status(500).send({ 
+        error: 'Integrazione Google non ancora configurata sul server (GOOGLE_CLIENT_ID o GOOGLE_CLIENT_SECRET mancante).' 
+      });
+    }
+
+    try {
+      // 1. Exchange code for tokens with Google OAuth
+      const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          code,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: redirectUri,
+          grant_type: 'authorization_code',
+        }),
+      });
+
+      const tokenData: any = await tokenRes.json();
+      if (!tokenRes.ok || !tokenData.access_token) {
+        fastify.log.error(tokenData, 'Google token exchange failed');
+        return reply.status(400).send({
+          error: tokenData.error_description || 'Impossibile completare il login con Google. Codice scaduto o rifiutato.',
+        });
+      }
+
+      // 2. Fetch user profile from Google UserInfo
+      const profileRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: { Authorization: `Bearer ${tokenData.access_token}` },
+      });
+      const googleUser: any = await profileRes.json();
+
+      if (!profileRes.ok || !googleUser.email) {
+        fastify.log.error(googleUser, 'Google userinfo fetch failed');
+        return reply.status(400).send({ error: 'Impossibile ottenere i dati del profilo Google.' });
+      }
+
+      const email = googleUser.email.toLowerCase();
+      const name = googleUser.name || googleUser.given_name || 'Atleta Volley';
+      const lastName = googleUser.family_name || null;
+      const avatarUrl = googleUser.picture || null;
+
+      // 3. Find or create/merge user in Neon Postgres
+      let user = await prisma.user.findUnique({
+        where: { email },
+        include: {
+          memberships: {
+            include: {
+              team: true,
+              roles: true,
+            },
+          },
+        },
+      });
+
+      if (!user) {
+        const passwordHash = await bcrypt.hash(crypto.randomUUID(), 10);
+        user = await prisma.user.create({
+          data: {
+            email,
+            name,
+            lastName,
+            avatarUrl,
+            passwordHash,
+          },
+          include: {
+            memberships: {
+              include: {
+                team: true,
+                roles: true,
+              },
+            },
+          },
+        });
+      } else {
+        // Smart merge
+        user = await prisma.user.update({
+          where: { id: user.id },
+          data: {
+            avatarUrl: user.avatarUrl || avatarUrl,
+            name: user.name || name,
+            lastName: user.lastName || lastName,
+          },
+          include: {
+            memberships: {
+              include: {
+                team: true,
+                roles: true,
+              },
+            },
+          },
+        });
+      }
+
+      const token = fastify.jwt.sign({ id: user.id, email: user.email });
+      return reply.send({
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          lastName: user.lastName,
+          birthDate: user.birthDate,
+          avatarUrl: user.avatarUrl,
+          phone: user.phone,
+          memberships: user.memberships || [],
+        },
+      });
+    } catch (err: any) {
+      fastify.log.error(err, 'Unhandled Google auth error');
+      return reply.status(500).send({ error: 'Errore interno durante il login con Google. Riprova tra poco.' });
+    }
+  });
 }
