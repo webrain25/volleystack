@@ -95,16 +95,16 @@ export default function Landing() {
         {/* Soft Conic/Radial Glow from top center */}
         <div className="absolute -top-[120px] left-1/2 -translate-x-1/2 w-[90vw] max-w-[1100px] h-[550px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(56,189,248,0.18)_0%,rgba(10,64,89,0.05)_45%,transparent_75%)] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(42,126,162,0.22)_0%,rgba(10,64,89,0.08)_45%,transparent_75%)] pointer-events-none transition-colors duration-300" />
 
-        {/* Cinematic Locker Room Background with 3D Walk-in Perspective on Scroll */}
+        {/* Cinematic Volleyball Team Locker Room Background with 3D Walk-in Perspective on Scroll */}
         <motion.img
-          src="/backgrounds/locker_room.jpg"
-          alt="Spogliatoio VolleyStack"
+          src="/backgrounds/volleyball_locker_room.jpg"
+          alt="Spogliatoio Squadra Pallavolo VolleyStack"
           style={{
             scale: backgroundScale,
             y: backgroundY,
-            transformOrigin: '60% 48%',
+            transformOrigin: '50% 50%',
           }}
-          className="w-full h-full object-cover object-center opacity-80 dark:opacity-60 filter brightness-95 contrast-105 dark:brightness-[0.72] dark:contrast-115 transition-opacity duration-700 pointer-events-none will-change-transform"
+          className="w-full h-full object-cover object-center opacity-85 dark:opacity-65 filter brightness-95 contrast-105 dark:brightness-[0.75] dark:contrast-115 transition-opacity duration-700 pointer-events-none will-change-transform"
         />
         {/* Atmospheric gradient overlay: guarantees crystal clear contrast & readability in both light & dark modes */}
         <div
@@ -112,8 +112,8 @@ export default function Landing() {
           style={{
             background:
               theme === 'dark'
-                ? 'linear-gradient(to bottom, rgba(3, 6, 11, 0.88) 0%, rgba(3, 6, 11, 0.68) 45%, rgba(3, 6, 11, 0.95) 100%)'
-                : 'linear-gradient(to bottom, rgba(248, 250, 252, 0.88) 0%, rgba(248, 250, 252, 0.65) 45%, rgba(248, 250, 252, 0.92) 100%)',
+                ? 'linear-gradient(to bottom, rgba(3, 6, 11, 0.85) 0%, rgba(3, 6, 11, 0.62) 45%, rgba(3, 6, 11, 0.95) 100%)'
+                : 'linear-gradient(to bottom, rgba(248, 250, 252, 0.85) 0%, rgba(248, 250, 252, 0.60) 45%, rgba(248, 250, 252, 0.90) 100%)',
           }}
         />
       </div>
@@ -166,18 +166,12 @@ export default function Landing() {
         <section className="relative pt-6 pb-12 sm:pt-12 sm:pb-18 md:pt-16 md:pb-22 px-4 sm:px-6 w-full overflow-hidden">
           <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
             {/* Monumental Headline */}
-            <h1 className="font-['Outfit',sans-serif] text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-[#040E1E] dark:text-white mb-4 sm:mb-6 max-w-4xl leading-[1.14] sm:leading-[1.04] drop-shadow-[0_2px_12px_rgba(255,255,255,0.9)] dark:drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)]">
-              Tutto il tuo spogliatoio<br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-[#005187] via-[#0284C7] to-[#0070BA] dark:bg-gradient-to-b dark:from-white dark:via-white/95 dark:to-white/40 bg-clip-text text-transparent block mt-1.5 sm:mt-0 text-2xl sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="font-['Outfit',sans-serif] text-[28px] xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-950 dark:text-white mb-6 sm:mb-8 max-w-4xl leading-[1.12] sm:leading-[1.04]">
+              Tutto il tuo spogliatoio
+              <span className="block mt-2 sm:mt-1 text-[#0284C7] dark:text-[#38BDF8] text-[28px] xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black">
                 in un'unica app
               </span>
             </h1>
-
-            {/* Subtitle */}
-            <p className="text-sm sm:text-lg md:text-xl text-slate-900 dark:text-slate-200 mb-6 sm:mb-10 max-w-2xl leading-relaxed px-1 sm:px-0 font-bold drop-shadow-[0_1px_8px_rgba(255,255,255,0.95)] dark:drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
-              Convocazioni, presenze, cassa multe e turno delle paste<br className="hidden sm:inline" />
-              Semplice, trasparente e sincronizzato con il calendario della tua squadra
-            </p>
 
             {/* CTAs - Apple Monolith Luxury Button vs Translucent Pill */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none mx-auto">
@@ -205,7 +199,7 @@ export default function Landing() {
         {/* Features Grid Section */}
         <section className="py-10 sm:py-16 md:py-20 max-w-6xl mx-auto px-4 sm:px-6 mb-16 sm:mb-24 w-full">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight mb-3 sm:mb-4 text-slate-950 dark:text-white">
+            <h2 className="text-xl sm:text-3xl md:text-5xl font-black tracking-tight mb-3 sm:mb-4 text-slate-950 dark:text-white px-2 leading-tight">
               Progettato per chi vive la pallavolo ogni settimana
             </h2>
             <p className="text-slate-700 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-base md:text-lg font-medium">
