@@ -282,11 +282,11 @@ export default function Landing() {
         <Footer />
       </div>
 
-      {/* Centered Auth Modal with Safe Area & Mobile Keyboard Responsive Scroll */}
+      {/* Centered Auth Modal with Accessible Fullscreen Backdrop & Mobile Responsive Scroll */}
       <AnimatePresence>
         {isAuth && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto overflow-x-hidden min-h-screen">
-            {/* Backdrop with Blur */}
+          <div className="fixed inset-0 z-50 overflow-y-auto">
+            {/* Fullscreen Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -296,29 +296,32 @@ export default function Landing() {
               onClick={closeAuth}
             />
 
-            {/* Centered Modal Card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-[420px] my-auto bg-white dark:bg-[#070D18] backdrop-blur-2xl rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-white/10 shadow-2xl p-4 sm:p-7 z-10 text-slate-900 dark:text-white max-h-[92vh] overflow-y-auto box-border"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Close Button */}
-              <button
-                onClick={closeAuth}
-                className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 p-1.5 sm:p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
-                title="Chiudi"
-                aria-label="Chiudi finestra"
+            {/* Centering Flex Container */}
+            <div className="min-h-full flex items-center justify-center p-3 sm:p-6 relative z-10 pointer-events-none">
+              {/* Modal Card */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 12 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full max-w-[400px] bg-white dark:bg-[#070D18] rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-white/10 shadow-2xl p-5 sm:p-7 text-slate-900 dark:text-white pointer-events-auto relative my-auto box-border"
+                onClick={(e) => e.stopPropagation()}
               >
-                <X className="w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
+                {/* Close Button */}
+                <button
+                  onClick={closeAuth}
+                  className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 z-20 p-1.5 sm:p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
+                  title="Chiudi"
+                  aria-label="Chiudi finestra"
+                >
+                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
+                </button>
 
-              <div className="relative z-10 w-full">
-                {isLogin ? <Login inModal /> : <Register inModal />}
-              </div>
-            </motion.div>
+                <div className="relative z-10 w-full">
+                  {isLogin ? <Login inModal /> : <Register inModal />}
+                </div>
+              </motion.div>
+            </div>
           </div>
         )}
       </AnimatePresence>

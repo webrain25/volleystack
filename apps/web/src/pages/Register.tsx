@@ -54,29 +54,29 @@ export default function Register({ inModal = false }: RegisterProps) {
 
   return (
     <div className={containerClasses}>
-      <div className="w-full max-w-[390px] mx-auto space-y-4 sm:space-y-6">
+      <div className="w-full space-y-4 sm:space-y-5">
         {/* Header / Brand */}
         <div className="flex flex-col items-center text-center">
-          <VolleyLogo size="md" glow={false} className="mb-2 sm:mb-4 max-w-[200px]" />
-          <h2 className="text-xl sm:text-2xl font-black text-text-primary tracking-tight">
+          <VolleyLogo size="sm" glow={false} className="mb-2 max-w-[180px]" />
+          <h2 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tracking-tight">
             Crea Account
           </h2>
-          <p className="text-text-secondary text-xs sm:text-sm mt-0.5 sm:mt-1 max-w-sm">
+          <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-0.5 max-w-sm">
             Unisciti subito alla tua squadra su VolleyStack.
           </p>
         </div>
 
         {/* Auth Mode Switcher Tabs */}
-        <div className="flex items-center p-1 bg-surface/80 rounded-xl border border-white/5">
+        <div className="flex items-center p-1 bg-slate-100 dark:bg-surface/80 rounded-xl border border-slate-200 dark:border-white/10">
           <Link
             to="/login"
-            className="flex-1 py-2 text-xs font-bold text-center text-text-secondary hover:text-text-primary transition-all rounded-lg"
+            className="flex-1 py-2 text-xs font-bold text-center text-slate-600 hover:text-slate-950 dark:text-text-secondary dark:hover:text-text-primary transition-all rounded-lg"
           >
             Accedi
           </Link>
           <button
             type="button"
-            className="flex-1 py-2 text-xs font-bold rounded-lg bg-[#38BDF8]/15 text-[#38BDF8] border border-[#2A7EA2]/30 shadow-sm transition-all"
+            className="flex-1 py-2 text-xs font-bold rounded-lg bg-[#0A4059] text-white dark:bg-[#38BDF8]/15 dark:text-[#38BDF8] border border-transparent dark:border-[#2A7EA2]/30 shadow-sm transition-all"
           >
             Nuovo Account
           </button>
@@ -94,16 +94,16 @@ export default function Register({ inModal = false }: RegisterProps) {
         <form onSubmit={handleRegister} className="space-y-4">
           {/* Name Field */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-text-tertiary">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
               Nome Completo
             </label>
             <div className="relative flex items-center">
-              <User className="absolute left-3.5 w-4 h-4 text-text-tertiary pointer-events-none" />
+              <User className="absolute left-3.5 w-4 h-4 text-slate-400 pointer-events-none" />
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-4 py-2.5 sm:py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#2A7EA2] transition-all placeholder:text-text-tertiary text-sm"
+                className="w-full bg-slate-50 dark:bg-[#0B132B] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-slate-100 pl-10 pr-4 py-2.5 sm:py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2] transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
                 placeholder="Mario Rossi"
                 autoComplete="name"
                 required
@@ -113,16 +113,16 @@ export default function Register({ inModal = false }: RegisterProps) {
 
           {/* Email Field */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-text-tertiary">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
               Email
             </label>
             <div className="relative flex items-center">
-              <Mail className="absolute left-3.5 w-4 h-4 text-text-tertiary pointer-events-none" />
+              <Mail className="absolute left-3.5 w-4 h-4 text-slate-400 pointer-events-none" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-4 py-2.5 sm:py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#2A7EA2] transition-all placeholder:text-text-tertiary text-sm"
+                className="w-full bg-slate-50 dark:bg-[#0B132B] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-slate-100 pl-10 pr-4 py-2.5 sm:py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2] transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
                 placeholder="mario@esempio.com"
                 autoComplete="email"
                 required
@@ -132,16 +132,16 @@ export default function Register({ inModal = false }: RegisterProps) {
 
           {/* Password Field */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-text-tertiary">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
               Password
             </label>
             <div className="relative flex items-center">
-              <Lock className="absolute left-3.5 w-4 h-4 text-text-tertiary pointer-events-none" />
+              <Lock className="absolute left-3.5 w-4 h-4 text-slate-400 pointer-events-none" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-surface border border-white/10 text-text-primary pl-10 pr-11 py-2.5 sm:py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#2A7EA2] transition-all placeholder:text-text-tertiary text-sm font-mono tracking-wider"
+                className="w-full bg-slate-50 dark:bg-[#0B132B] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-slate-100 pl-10 pr-11 py-2.5 sm:py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2] transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm font-mono tracking-wider"
                 placeholder="Minimo 6 caratteri"
                 autoComplete="new-password"
                 required
@@ -149,7 +149,7 @@ export default function Register({ inModal = false }: RegisterProps) {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 p-1 text-text-tertiary hover:text-text-primary transition-colors cursor-pointer"
+                className="absolute right-3 p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer"
                 title={showPassword ? 'Nascondi password' : 'Mostra password'}
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -161,7 +161,7 @@ export default function Register({ inModal = false }: RegisterProps) {
           <button
             type="submit"
             disabled={isLoading || !name || !email || !password}
-            className="w-full bg-white hover:bg-slate-100 text-[#04060A] font-extrabold py-3 sm:py-3.5 rounded-xl transition-all shadow-[0_0_20px_rgba(56,189,248,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.32)] flex justify-center items-center text-sm tracking-wide mt-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.99]"
+            className="w-full bg-[#0A4059] hover:bg-[#072d3f] text-white dark:bg-white dark:text-[#04060A] dark:hover:bg-slate-100 font-extrabold py-3 sm:py-3.5 rounded-xl transition-all shadow-md dark:shadow-[0_0_20px_rgba(56,189,248,0.3)] flex justify-center items-center text-sm tracking-wide mt-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.99]"
           >
             {isLoading ? (
               <Loader2 className="animate-spin h-5 w-5" />
@@ -174,9 +174,9 @@ export default function Register({ inModal = false }: RegisterProps) {
         </form>
 
         {/* Footer info */}
-        <p className="text-center text-xs text-text-secondary pt-2">
+        <p className="text-center text-xs text-slate-600 dark:text-slate-400 pt-1">
           Hai già un account?{' '}
-          <Link to="/login" className="text-[#38BDF8] hover:text-[#7DD3FC] font-bold">
+          <Link to="/login" className="text-[#0284C7] dark:text-[#38BDF8] hover:underline font-bold">
             Accedi allo spogliatoio
           </Link>
         </p>
