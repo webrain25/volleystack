@@ -48,7 +48,8 @@ export default async function treasuryRoutes(fastify: FastifyInstance) {
     if (!parsedParams.success) return reply.status(400).send({ error: 'Invalid param' });
 
     const rules = await prisma.fineRule.findMany({
-      where: { teamId: parsedParams.data.teamId, isActive: true }
+      where: { teamId: parsedParams.data.teamId, isActive: true },
+      orderBy: { defaultAmountCents: 'asc' }
     });
 
     return reply.send(rules);
@@ -61,7 +62,7 @@ export default async function treasuryRoutes(fastify: FastifyInstance) {
 
     const ruleSchema = z.object({
       reason: z.string().min(1),
-      defaultAmountCents: z.number().positive(),
+      defaultAmountCents: z.number().int().positive(),
     });
 
     const parsed = ruleSchema.safeParse(request.body);
@@ -70,7 +71,7 @@ export default async function treasuryRoutes(fastify: FastifyInstance) {
     const rule = await prisma.fineRule.create({
       data: {
         teamId: parsedParams.data.teamId,
-        reason: parsed.data.reason,
+        reason: parsed.data.reason.trim(),
         defaultAmountCents: parsed.data.defaultAmountCents,
       }
     });
@@ -78,7 +79,100 @@ export default async function treasuryRoutes(fastify: FastifyInstance) {
     return reply.status(201).send(rule);
   });
 
-  // Assign Fine
+  // Seed standard preset volleyball fine rules into team
+  fastify.post('/fine-rules/seed-presets', { onRequest: [fastify.authorize('FINE_RULE_MANAGE')] }, async (request, reply) => {
+    const paramsSchema = z.object({ teamId: z.string() });
+    const parsedParams = paramsSchema.safeParse(request.params);
+    if (!parsedParams.success) return reply.status(400).send({ error: 'Invalid param' });
+
+    const { teamId } = parsedParams.data;
+
+    const PRESET_RULES = [
+      { reason: 'Ritardo Allenamento', defaultAmountCents: 100 },
+      { reason: 'Ritardo Ritrovo Gara (1h 15m prima)', defaultAmountCents: 200 },
+      { reason: 'Cartellino Giallo / Rosso', defaultAmountCents: 300 },
+      { reason: 'Battuta Sotto la Rete', defaultAmountCents: 100 },
+      { reason: 'Rigore Sbagliato (Slash non chiuso)', defaultAmountCents: 150 },
+      { reason: 'Uso del Telefono in Palestra', defaultAmountCents: 200 },
+      { reason: 'Indumento o Materiale Dimenticato', defaultAmountCents: 150 },
+      { reason: 'Documento Gara Assente', defaultAmountCents: 500 },
+      { reason: 'Cibo Non Autorizzato in Palestra', defaultAmountCents: 200 },
+      { reason: 'Fumo in Palestra / Impianto', defaultAmountCents: 500 },
+      { reason: 'Mancato Saldo Multe Entro 7gg', defaultAmountCents: 200 },
+    ];
+
+    const existing = await prisma.fineRule.findMany({ where: { teamId } });
+    const existingReasons = new Set(existing.map((r) => r.reason.trim().toLowerCase()));
+
+    const toCreate = PRESET_RULES.filter((p) => !existingReasons.has(p.reason.trim().toLowerCase()));
+
+    if (toCreate.length > 0) {
+      await prisma.fineRule.createMany({
+        data: toCreate.map((p) => ({
+          teamId,
+          reason: p.reason,
+          defaultAmountCents: p.defaultAmountCents,
+          isActive: true
+        }))
+      });
+    }
+
+    const allRules = await prisma.fineRule.findMany({
+      where: { teamId, isActive: true },
+      orderBy: { defaultAmountCents: 'asc' }
+    });
+
+    return reply.status(201).send(allRules);
+  });
+
+  // Update fine rule
+  fastify.patch('/fine-rules/:ruleId', { onRequest: [fastify.authorize('FINE_RULE_MANAGE')] }, async (request, reply) => {
+    const paramsSchema = z.object({ teamId: z.string(), ruleId: z.string() });
+    const parsedParams = paramsSchema.safeParse(request.params);
+    if (!parsedParams.success) return reply.status(400).send({ error: 'Invalid param' });
+
+    const updateSchema = z.object({
+      reason: z.string().min(1).optional(),
+      defaultAmountCents: z.number().int().positive().optional(),
+      isActive: z.boolean().optional(),
+    });
+
+    const parsed = updateSchema.safeParse(request.body);
+    if (!parsed.success) return reply.status(400).send({ error: 'Invalid input' });
+
+    const rule = await prisma.fineRule.findUnique({ where: { id: parsedParams.data.ruleId } });
+    if (!rule || rule.teamId !== parsedParams.data.teamId) {
+      return reply.status(404).send({ error: 'Regola non trovata' });
+    }
+
+    const updated = await prisma.fineRule.update({
+      where: { id: rule.id },
+      data: parsed.data
+    });
+
+    return reply.send(updated);
+  });
+
+  // Delete / deactivate fine rule
+  fastify.delete('/fine-rules/:ruleId', { onRequest: [fastify.authorize('FINE_RULE_MANAGE')] }, async (request, reply) => {
+    const paramsSchema = z.object({ teamId: z.string(), ruleId: z.string() });
+    const parsedParams = paramsSchema.safeParse(request.params);
+    if (!parsedParams.success) return reply.status(400).send({ error: 'Invalid param' });
+
+    const rule = await prisma.fineRule.findUnique({ where: { id: parsedParams.data.ruleId } });
+    if (!rule || rule.teamId !== parsedParams.data.teamId) {
+      return reply.status(404).send({ error: 'Regola non trovata' });
+    }
+
+    await prisma.fineRule.update({
+      where: { id: rule.id },
+      data: { isActive: false }
+    });
+
+    return reply.send({ success: true });
+  });
+
+  // Assign Fine (Customizable Reason, Amount, and Match 2x Multiplier)
   fastify.post('/fines', { onRequest: [fastify.authorize('FINE_ASSIGN')] }, async (request, reply) => {
     const paramsSchema = z.object({ teamId: z.string() });
     const parsedParams = paramsSchema.safeParse(request.params);
@@ -86,26 +180,126 @@ export default async function treasuryRoutes(fastify: FastifyInstance) {
 
     const fineSchema = z.object({
       teamMemberId: z.string(),
-      fineRuleId: z.string(),
+      fineRuleId: z.string().optional(),
+      reason: z.string().min(1).optional(),
+      amountCents: z.number().int().positive().optional(),
+      isMatchDouble: z.boolean().optional(),
     });
 
     const parsed = fineSchema.safeParse(request.body);
     if (!parsed.success) return reply.status(400).send({ error: 'Invalid input' });
 
-    const rule = await prisma.fineRule.findUnique({ where: { id: parsed.data.fineRuleId } });
-    if (!rule) return reply.status(404).send({ error: 'Rule not found' });
+    const { teamId } = parsedParams.data;
+    let ruleId = parsed.data.fineRuleId;
+    let finalReason = parsed.data.reason?.trim();
+    let finalAmount = parsed.data.amountCents;
+
+    if (ruleId) {
+      const rule = await prisma.fineRule.findUnique({ where: { id: ruleId } });
+      if (!rule || rule.teamId !== teamId) return reply.status(404).send({ error: 'Rule not found' });
+      if (!finalReason) finalReason = rule.reason;
+      if (!finalAmount) finalAmount = rule.defaultAmountCents;
+    } else {
+      // Find or create a generic custom rule for this team
+      let customRule = await prisma.fineRule.findFirst({
+        where: { teamId, reason: 'Sanzione Personalizzata' }
+      });
+      if (!customRule) {
+        customRule = await prisma.fineRule.create({
+          data: {
+            teamId,
+            reason: 'Sanzione Personalizzata',
+            defaultAmountCents: finalAmount || 100,
+            isActive: true
+          }
+        });
+      }
+      ruleId = customRule.id;
+      if (!finalReason) finalReason = 'Sanzione Spogliatoio';
+      if (!finalAmount) finalAmount = 100;
+    }
+
+    // Apply match double multiplier if requested
+    if (parsed.data.isMatchDouble) {
+      if (!finalReason.includes('[Gara ×2]')) {
+        finalReason = `${finalReason} [Gara ×2]`;
+      }
+    }
 
     const fine = await prisma.fine.create({
       data: {
         teamMemberId: parsed.data.teamMemberId,
-        fineRuleId: rule.id,
-        reasonSnapshot: rule.reason,
-        amountCents: rule.defaultAmountCents,
+        fineRuleId: ruleId,
+        reasonSnapshot: finalReason,
+        amountCents: finalAmount,
         issuedBy: request.user.id,
+      },
+      include: {
+        teamMember: { include: { user: { select: { id: true, name: true, email: true } } } },
+        fineRule: true
       }
     });
 
     return reply.status(201).send(fine);
+  });
+
+  // Update existing fine (e.g. edit reason, modify amount, or change status)
+  fastify.patch('/fines/:fineId', { onRequest: [fastify.authorize('FINE_ASSIGN')] }, async (request, reply) => {
+    const paramsSchema = z.object({ teamId: z.string(), fineId: z.string() });
+    const parsedParams = paramsSchema.safeParse(request.params);
+    if (!parsedParams.success) return reply.status(400).send({ error: 'Invalid param' });
+
+    const updateSchema = z.object({
+      reasonSnapshot: z.string().min(1).optional(),
+      amountCents: z.number().int().positive().optional(),
+      status: z.nativeEnum(FineStatus).optional(),
+    });
+
+    const parsed = updateSchema.safeParse(request.body);
+    if (!parsed.success) return reply.status(400).send({ error: 'Invalid input' });
+
+    const fine = await prisma.fine.findUnique({
+      where: { id: parsedParams.data.fineId },
+      include: { teamMember: true }
+    });
+
+    if (!fine || fine.teamMember.teamId !== parsedParams.data.teamId) {
+      return reply.status(404).send({ error: 'Multa non trovata' });
+    }
+
+    const updated = await prisma.fine.update({
+      where: { id: fine.id },
+      data: parsed.data,
+      include: {
+        teamMember: { include: { user: { select: { id: true, name: true, email: true } } } },
+        fineRule: true
+      }
+    });
+
+    return reply.send(updated);
+  });
+
+  // Delete / cancel existing fine
+  fastify.delete('/fines/:fineId', { onRequest: [fastify.authorize('FINE_ASSIGN')] }, async (request, reply) => {
+    const paramsSchema = z.object({ teamId: z.string(), fineId: z.string() });
+    const parsedParams = paramsSchema.safeParse(request.params);
+    if (!parsedParams.success) return reply.status(400).send({ error: 'Invalid param' });
+
+    const fine = await prisma.fine.findUnique({
+      where: { id: parsedParams.data.fineId },
+      include: { teamMember: true, allocations: true }
+    });
+
+    if (!fine || fine.teamMember.teamId !== parsedParams.data.teamId) {
+      return reply.status(404).send({ error: 'Multa non trovata' });
+    }
+
+    if (fine.allocations.length > 0) {
+      await prisma.paymentAllocation.deleteMany({ where: { fineId: fine.id } });
+    }
+
+    await prisma.fine.delete({ where: { id: fine.id } });
+    return reply.send({ success: true });
   });
 
   // Declare Payment
