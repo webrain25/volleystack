@@ -6,7 +6,7 @@ import {
   X,
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Footer from '../components/Footer';
 import Login from './Login';
 import Register from './Register';
@@ -58,6 +58,10 @@ export default function Landing() {
   const { theme, toggleTheme } = useThemeStore();
   const [flippedCards, setFlippedCards] = useState<Record<string, boolean>>({});
 
+  const { scrollYProgress } = useScroll();
+  const backgroundScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.38]);
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '-4%']);
+
   const toggleCardFlip = (id: string) => {
     setFlippedCards((prev) => ({
       ...prev,
@@ -91,19 +95,19 @@ export default function Landing() {
         {/* Soft Conic/Radial Glow from top center */}
         <div className="absolute -top-[120px] left-1/2 -translate-x-1/2 w-[90vw] max-w-[1100px] h-[550px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(56,189,248,0.18)_0%,rgba(10,64,89,0.05)_45%,transparent_75%)] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(42,126,162,0.22)_0%,rgba(10,64,89,0.08)_45%,transparent_75%)] pointer-events-none transition-colors duration-300" />
 
-        {/* Real Volleyball Action Video Background (Italvolley Maschile - Partita Nazionale Italiana in Palazzetto) */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/backgrounds/volleyball_italia_men_poster.jpg"
-          className="w-full h-full object-cover object-center opacity-45 dark:opacity-40 filter contrast-105 saturate-90 transition-opacity duration-700 pointer-events-none"
-        >
-          <source src="/volleyball_italia_men_bg.mp4" type="video/mp4" />
-        </video>
-        {/* Atmospheric gradient: high contrast & crystal clear readability in light mode while keeping video vibrant & clearly visible */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/65 via-[#F8FAFC]/45 to-[#F8FAFC]/80 dark:from-[#03060B]/90 dark:via-[#03060B]/70 dark:to-[#03060B] z-0 transition-colors duration-300 pointer-events-none" />
+        {/* Cinematic Locker Room Background with 3D Walk-in Perspective on Scroll */}
+        <motion.img
+          src="/backgrounds/locker_room.jpg"
+          alt="Spogliatoio VolleyStack"
+          style={{
+            scale: backgroundScale,
+            y: backgroundY,
+            transformOrigin: '60% 48%',
+          }}
+          className="w-full h-full object-cover object-center opacity-80 dark:opacity-60 filter brightness-95 contrast-105 dark:brightness-[0.72] dark:contrast-115 transition-opacity duration-700 pointer-events-none will-change-transform"
+        />
+        {/* Atmospheric gradient: high contrast & crystal clear readability in light mode while keeping locker room corridor vibrant & visible */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/75 via-[#F8FAFC]/55 to-[#F8FAFC]/88 dark:from-[#03060B]/85 dark:via-[#03060B]/68 dark:to-[#03060B]/95 z-0 transition-colors duration-300 pointer-events-none" />
       </div>
 
       {/* Main Page Layout */}
@@ -189,35 +193,6 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* Social Proof Metrics Bar */}
-        <section className="py-12 sm:py-14 border-y border-slate-200 dark:border-white/10 bg-white/80 dark:bg-[#060D18]/70 backdrop-blur-xl mb-16 sm:mb-24 w-full transition-colors duration-200 shadow-sm dark:shadow-none">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
-            <div>
-              <div className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-950 dark:text-white tracking-tight mb-1">0 €</div>
-              <div className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
-                Gratis per tutta la squadra
-              </div>
-            </div>
-            <div>
-              <div className="text-2xl sm:text-4xl md:text-5xl font-black text-[#0284C7] dark:text-[#38BDF8] tracking-tight mb-1">1 Click</div>
-              <div className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
-                Importa gare e calendari
-              </div>
-            </div>
-            <div>
-              <div className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-950 dark:text-white tracking-tight mb-1">100%</div>
-              <div className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
-                Trasparenza sulla Cassa
-              </div>
-            </div>
-            <div>
-              <div className="text-2xl sm:text-4xl md:text-5xl font-black text-[#0284C7] dark:text-[#38BDF8] tracking-tight mb-1">H24</div>
-              <div className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
-                Da smartphone, tablet e PC
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* Features Grid Section */}
         <section className="py-10 sm:py-16 md:py-20 max-w-6xl mx-auto px-4 sm:px-6 mb-16 sm:mb-24 w-full">
