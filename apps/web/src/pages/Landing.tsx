@@ -106,8 +106,16 @@ export default function Landing() {
           }}
           className="w-full h-full object-cover object-center opacity-80 dark:opacity-60 filter brightness-95 contrast-105 dark:brightness-[0.72] dark:contrast-115 transition-opacity duration-700 pointer-events-none will-change-transform"
         />
-        {/* Atmospheric gradient: high contrast & crystal clear readability in light mode while keeping locker room corridor vibrant & visible */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/75 via-[#F8FAFC]/55 to-[#F8FAFC]/88 dark:from-[#03060B]/85 dark:via-[#03060B]/68 dark:to-[#03060B]/95 z-0 transition-colors duration-300 pointer-events-none" />
+        {/* Atmospheric gradient overlay: guarantees crystal clear contrast & readability in both light & dark modes */}
+        <div
+          className="absolute inset-0 z-0 pointer-events-none transition-all duration-300"
+          style={{
+            background:
+              theme === 'dark'
+                ? 'linear-gradient(to bottom, rgba(3, 6, 11, 0.88) 0%, rgba(3, 6, 11, 0.68) 45%, rgba(3, 6, 11, 0.95) 100%)'
+                : 'linear-gradient(to bottom, rgba(248, 250, 252, 0.88) 0%, rgba(248, 250, 252, 0.65) 45%, rgba(248, 250, 252, 0.92) 100%)',
+          }}
+        />
       </div>
 
       {/* Main Page Layout */}
