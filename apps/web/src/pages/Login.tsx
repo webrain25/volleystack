@@ -4,6 +4,7 @@ import { api } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
 import { Loader2, AlertCircle, ArrowRight, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import VolleyLogo from '../components/VolleyLogo';
+import SocialAuthButtons from '../components/SocialAuthButtons';
 
 interface LoginProps {
   inModal?: boolean;
@@ -81,6 +82,9 @@ export default function Login({ inModal = false }: LoginProps) {
             Nuovo Account
           </Link>
         </div>
+
+        {/* Social Auth Providers (Google, Apple, Facebook) */}
+        <SocialAuthButtons mode="login" />
 
         {/* Error Alert */}
         {error && (

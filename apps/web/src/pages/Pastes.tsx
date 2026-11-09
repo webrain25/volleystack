@@ -9,6 +9,7 @@ import { api } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
 import { PageHeader } from '../components/PageHeader';
 import { DateTimePicker } from '../components/DateTimePicker';
+import BirthdayAlerts from '../components/BirthdayAlerts';
 
 const pasteSchema = z.object({
   teamMemberId: z.string().min(1, 'Seleziona un giocatore'),
@@ -83,6 +84,8 @@ export default function Pastes() {
           )
         }
       />
+
+      <BirthdayAlerts members={teamMembers} variant="banner" />
 
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-sm animate-in fade-in overflow-y-auto">

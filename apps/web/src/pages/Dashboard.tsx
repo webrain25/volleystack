@@ -21,6 +21,7 @@ import { api } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
 import { Link, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
+import BirthdayAlerts from '../components/BirthdayAlerts';
 
 export default function Dashboard() {
   const { user } = useAuthStore();
@@ -231,6 +232,11 @@ export default function Dashboard() {
           <span>Vedi Roster Squadra</span>
           <ChevronRight className="w-3 h-3 text-text-tertiary" />
         </Link>
+      </motion.div>
+
+      {/* Birthday Alert Banner (if upcoming within 14 days or today) */}
+      <motion.div variants={itemVariants}>
+        <BirthdayAlerts members={teamMembers} variant="banner" />
       </motion.div>
 
       {/* 2. Paste Reminder Banner (Se presente) */}

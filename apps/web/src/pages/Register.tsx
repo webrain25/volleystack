@@ -2,29 +2,62 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
-import { Loader2, AlertCircle, ArrowRight, User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Loader2, AlertCircle, ArrowRight, User, Mail, Lock, Eye, EyeOff, Calendar, CheckCircle2 } from 'lucide-react';
 import VolleyLogo from '../components/VolleyLogo';
+import SocialAuthButtons from '../components/SocialAuthButtons';
 
 interface RegisterProps {
   inModal?: boolean;
 }
 
 export default function Register({ inModal = false }: RegisterProps) {
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [birthDate, setBirthDate] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Check password match
+  const passwordsMatch = !confirmPassword || password === confirmPassword;
+  const canSubmit =
+    !isLoading &&
+    firstName.trim().length > 0 &&
+    email.trim().length > 0 &&
+    password.length >= 6 &&
+    confirmPassword.length >= 6 &&
+    password === confirmPassword;
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (password !== confirmPassword) {
+      setError('Le password non coincidono. Controlla e riprova.');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('La password deve avere almeno 6 caratteri.');
+      return;
+    }
+
     setIsLoading(true);
     try {
-      const response = await api.post('/auth/register', { name, email, password });
+      const response = await api.post('/auth/register', {
+        name: firstName.trim(),
+        lastName: lastName.trim() || undefined,
+        birthDate: birthDate || undefined,
+        email: email.trim(),
+        password,
+      });
+
       const token = response.data.token;
       let userObj = response.data.user;
 
@@ -42,7 +75,7 @@ export default function Register({ inModal = false }: RegisterProps) {
       setAuth(token, userObj);
       navigate('/team');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Errore durante la registrazione');
+      setError(err.response?.data?.error || 'Errore durante la registrazione. Riprova.');
     } finally {
       setIsLoading(false);
     }
@@ -82,6 +115,9 @@ export default function Register({ inModal = false }: RegisterProps) {
           </button>
         </div>
 
+        {/* Social Auth Providers (Google, Apple, Facebook) */}
+        <SocialAuthButtons mode="register" />
+
         {/* Error Alert */}
         {error && (
           <div className="p-3.5 bg-danger/10 text-danger border border-danger/20 text-xs sm:text-sm rounded-xl flex items-center font-medium animate-in fade-in duration-200">
@@ -91,38 +127,84 @@ export default function Register({ inModal = false }: RegisterProps) {
         )}
 
         {/* Form */}
-        <form onSubmit={handleRegister} className="space-y-4">
-          {/* Name Field */}
-          <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-              Nome Completo
-            </label>
-            <div className="relative flex items-center">
-              <User className="absolute left-3.5 w-4 h-4 text-slate-400 pointer-events-none" />
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-[#0B132B] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-slate-100 pl-10 pr-4 py-2.5 sm:py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2] transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
-                placeholder="Mario Rossi"
-                autoComplete="name"
-                required
-              />
+        <form onSubmit={handleRegister} className="space-y-3.5">
+          {/* Nome e Cognome Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Nome */}
+            <div className="space-y-1">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                Nome <span className="text-danger">*</span>
+              </label>
+              <div className="relative flex items-center">
+                <User className="absolute left-3 w-4 h-4 text-slate-400 pointer-events-none" />
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="w-full bg-slate-50 dark:bg-[#0B132B] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-slate-100 pl-9 pr-3 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2] transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
+                  placeholder="es. Mario"
+                  autoComplete="given-name"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Cognome */}
+            <div className="space-y-1">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                Cognome
+              </label>
+              <div className="relative flex items-center">
+                <User className="absolute left-3 w-4 h-4 text-slate-400 pointer-events-none" />
+                <input
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full bg-slate-50 dark:bg-[#0B132B] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-slate-100 pl-9 pr-3 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2] transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
+                  placeholder="es. Rossi"
+                  autoComplete="family-name"
+                />
+              </div>
             </div>
           </div>
 
+          {/* Data di Nascita */}
+          <div className="space-y-1">
+            <div className="flex items-center justify-between">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                Data di Nascita
+              </label>
+              <span className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1">
+                🎂 Compleanno & Paste
+              </span>
+            </div>
+            <div className="relative flex items-center">
+              <Calendar className="absolute left-3 w-4 h-4 text-slate-400 pointer-events-none" />
+              <input
+                type="date"
+                value={birthDate}
+                onChange={(e) => setBirthDate(e.target.value)}
+                max={new Date().toISOString().split('T')[0]}
+                className="w-full bg-slate-50 dark:bg-[#0B132B] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-slate-100 pl-9 pr-3 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2] transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm [color-scheme:light] dark:[color-scheme:dark]"
+              />
+            </div>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400">
+              Notificherà il tesoriere e la squadra per il tradizionale turno paste di compleanno.
+            </p>
+          </div>
+
           {/* Email Field */}
-          <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-              Email
+          <div className="space-y-1">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+              Email <span className="text-danger">*</span>
             </label>
             <div className="relative flex items-center">
-              <Mail className="absolute left-3.5 w-4 h-4 text-slate-400 pointer-events-none" />
+              <Mail className="absolute left-3 w-4 h-4 text-slate-400 pointer-events-none" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-[#0B132B] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-slate-100 pl-10 pr-4 py-2.5 sm:py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2] transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
+                className="w-full bg-slate-50 dark:bg-[#0B132B] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-slate-100 pl-9 pr-3 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2] transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
                 placeholder="mario@esempio.com"
                 autoComplete="email"
                 required
@@ -131,17 +213,17 @@ export default function Register({ inModal = false }: RegisterProps) {
           </div>
 
           {/* Password Field */}
-          <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-              Password
+          <div className="space-y-1">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+              Password <span className="text-danger">*</span>
             </label>
             <div className="relative flex items-center">
-              <Lock className="absolute left-3.5 w-4 h-4 text-slate-400 pointer-events-none" />
+              <Lock className="absolute left-3 w-4 h-4 text-slate-400 pointer-events-none" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-[#0B132B] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-slate-100 pl-10 pr-11 py-2.5 sm:py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2] transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm font-mono tracking-wider"
+                className="w-full bg-slate-50 dark:bg-[#0B132B] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-slate-100 pl-9 pr-10 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2] transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm font-mono tracking-wider"
                 placeholder="Minimo 6 caratteri"
                 autoComplete="new-password"
                 required
@@ -157,11 +239,61 @@ export default function Register({ inModal = false }: RegisterProps) {
             </div>
           </div>
 
+          {/* Conferma Password Field */}
+          <div className="space-y-1">
+            <div className="flex items-center justify-between">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                Conferma Password <span className="text-danger">*</span>
+              </label>
+              {confirmPassword.length > 0 && (
+                <span
+                  className={`text-[10px] font-bold flex items-center gap-1 ${
+                    passwordsMatch ? 'text-emerald-600 dark:text-emerald-400' : 'text-danger'
+                  }`}
+                >
+                  {passwordsMatch ? (
+                    <>
+                      <CheckCircle2 className="w-3 h-3" /> Coincidono
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="w-3 h-3" /> Non coincidono
+                    </>
+                  )}
+                </span>
+              )}
+            </div>
+            <div className="relative flex items-center">
+              <Lock className="absolute left-3 w-4 h-4 text-slate-400 pointer-events-none" />
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className={`w-full bg-slate-50 dark:bg-[#0B132B] border text-slate-900 dark:text-slate-100 pl-9 pr-10 py-2.5 rounded-xl focus:outline-none focus:ring-2 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm font-mono tracking-wider ${
+                  confirmPassword && !passwordsMatch
+                    ? 'border-danger focus:ring-danger/30'
+                    : 'border-slate-300 dark:border-white/15 focus:ring-[#38BDF8]/40 focus:border-[#0284C7] dark:focus:border-[#2A7EA2]'
+                }`}
+                placeholder="Ripeti la password"
+                autoComplete="new-password"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer"
+                title={showConfirmPassword ? 'Nascondi password' : 'Mostra password'}
+              >
+                {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+          </div>
+
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={isLoading || !name || !email || !password}
-            className="w-full bg-[#0A4059] hover:bg-[#072d3f] text-white dark:bg-white dark:text-[#04060A] dark:hover:bg-slate-100 font-extrabold py-3 sm:py-3.5 rounded-xl transition-all shadow-md dark:shadow-[0_0_20px_rgba(56,189,248,0.3)] flex justify-center items-center text-sm tracking-wide mt-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.99]"
+            disabled={!canSubmit}
+            className="w-full bg-[#0A4059] hover:bg-[#072d3f] text-white dark:bg-white dark:text-[#04060A] dark:hover:bg-slate-100 font-extrabold py-3 rounded-xl transition-all shadow-md dark:shadow-[0_0_20px_rgba(56,189,248,0.3)] flex justify-center items-center text-sm tracking-wide mt-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.99]"
           >
             {isLoading ? (
               <Loader2 className="animate-spin h-5 w-5" />

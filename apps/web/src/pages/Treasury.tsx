@@ -21,6 +21,7 @@ import { z } from 'zod';
 import { api } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
 import { PageHeader } from '../components/PageHeader';
+import BirthdayAlerts from '../components/BirthdayAlerts';
 
 // 11 Multe Predisposte Consigliate (Stile Paynalty per Volley)
 export const VOLLEY_PRESET_FINES = [
@@ -333,6 +334,9 @@ export default function Treasury() {
           </>
         }
       />
+
+      {/* Segnalazione Tesoriere: Compleanni & Turno Paste */}
+      <BirthdayAlerts members={members} variant="treasurer-widget" />
 
       {/* Tabs di Navigazione Tesoreria */}
       <div className="flex flex-nowrap sm:flex-wrap gap-1 p-1 bg-[#0F1726]/60 rounded-xl w-full sm:w-fit overflow-x-auto max-w-full border border-border scrollbar-none">

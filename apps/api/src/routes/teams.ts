@@ -109,11 +109,56 @@ export default async function teamRoutes(fastify: FastifyInstance) {
     const team = await prisma.team.findUnique({
       where: { id: teamId },
       include: {
-        members: { include: { user: { select: { id: true, name: true, email: true } }, roles: true } }
+        members: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                lastName: true,
+                birthDate: true,
+                email: true,
+                avatarUrl: true,
+                phone: true,
+              }
+            },
+            roles: true
+          }
+        }
       }
     });
 
     return reply.send(team);
+  });
+
+  // Get all members of a team
+  fastify.get('/:teamId/members', { onRequest: [fastify.authorize('TEAM_VIEW')] }, async (request, reply) => {
+    const paramsSchema = z.object({ teamId: z.string() });
+    const parsed = paramsSchema.safeParse(request.params);
+    if (!parsed.success) return reply.status(400).send({ error: 'Invalid param' });
+
+    const teamId = parsed.data.teamId;
+
+    const members = await prisma.teamMember.findMany({
+      where: { teamId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            lastName: true,
+            birthDate: true,
+            email: true,
+            avatarUrl: true,
+            phone: true,
+          }
+        },
+        roles: true,
+      },
+      orderBy: { joinedAt: 'asc' }
+    });
+
+    return reply.send(members);
   });
 
   // Update join code

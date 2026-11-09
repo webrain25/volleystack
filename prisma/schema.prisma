@@ -14,6 +14,8 @@ model User {
   email        String       @unique
   passwordHash String
   name         String?
+  lastName     String?
+  birthDate    DateTime?
   avatarUrl    String?
   phone        String?
   createdAt    DateTime     @default(now())

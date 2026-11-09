@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { api } from '../lib/api';
-import { User, Lock, Save, Camera, Phone, X, LogOut } from 'lucide-react';
+import { User, Lock, Save, Camera, Phone, X, LogOut, Calendar } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import Cropper from 'react-easy-crop';
 import { getCroppedImg } from '../lib/cropImage';
@@ -13,6 +13,7 @@ export default function Profile() {
   // Info Form
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [birthDate, setBirthDate] = useState('');
   const [avatarUrl, setAvatarUrl] = useState('');
   const [isSavingInfo, setIsSavingInfo] = useState(false);
   const [infoMessage, setInfoMessage] = useState({ text: '', type: '' });
@@ -72,6 +73,7 @@ export default function Profile() {
       const { data } = await api.get('/profile');
       setName(data.name || '');
       setPhone(data.phone || '');
+      setBirthDate(data.birthDate ? data.birthDate.split('T')[0] : '');
       setAvatarUrl(data.avatarUrl || '');
     } catch (err) {
       console.error(err);
@@ -86,11 +88,12 @@ export default function Profile() {
       const { data } = await api.patch('/profile', { 
         name, 
         phone: phone || null, 
+        birthDate: birthDate || null,
         avatarUrl: avatarUrl || null 
       });
       // Update local store user context
       if (token && user) {
-        setAuth(token, { ...user, name: data.name, email: data.email, avatarUrl: data.avatarUrl });
+        setAuth(token, { ...user, name: data.name, email: data.email, avatarUrl: data.avatarUrl, birthDate: data.birthDate });
       }
       setInfoMessage({ text: 'Profilo aggiornato con successo!', type: 'success' });
     } catch (err: any) {
@@ -200,6 +203,24 @@ export default function Profile() {
                   placeholder="+39 333 1234567"
                 />
               </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-bold text-text-secondary uppercase tracking-wider">Data di Nascita</label>
+                <span className="text-xs text-amber-500 font-semibold flex items-center gap-1">🎂 Compleanno & Paste</span>
+              </div>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-text-tertiary" />
+                <input
+                  type="date"
+                  value={birthDate}
+                  onChange={(e) => setBirthDate(e.target.value)}
+                  max={new Date().toISOString().split('T')[0]}
+                  className="w-full bg-surface border border-border text-text-primary pl-10 pr-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/50 focus:border-[#2A7EA2] transition-all [color-scheme:light] dark:[color-scheme:dark]"
+                />
+              </div>
+              <p className="text-[11px] text-text-tertiary mt-1">Usata per segnalare il tuo compleanno e il turno paste nello spogliatoio.</p>
             </div>
           </div>
 

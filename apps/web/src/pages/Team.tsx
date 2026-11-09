@@ -328,7 +328,17 @@ export default function Team() {
                   </div>
                   <div>
                     <p className="text-sm md:text-base font-semibold text-text-primary">{member.user?.name || 'Utente Senza Nome'}</p>
-                    <p className="text-xs text-text-tertiary mt-0.5">{member.user?.email || ''}</p>
+                    <p className="text-xs text-text-tertiary mt-0.5 flex items-center gap-1.5 flex-wrap">
+                      <span>{member.user?.email || ''}</span>
+                      {member.user?.birthDate && (
+                        <>
+                          <span>·</span>
+                          <span className="text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1">
+                            🎂 {new Date(member.user.birthDate).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' })}
+                          </span>
+                        </>
+                      )}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2 md:space-x-4">

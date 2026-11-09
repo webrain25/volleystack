@@ -12,6 +12,8 @@ export default async function profileRoutes(fastify: FastifyInstance) {
         id: true,
         email: true,
         name: true,
+        lastName: true,
+        birthDate: true,
         avatarUrl: true,
         phone: true,
         createdAt: true,
@@ -29,6 +31,8 @@ export default async function profileRoutes(fastify: FastifyInstance) {
   fastify.patch('/', { onRequest: [fastify.authenticate] }, async (request, reply) => {
     const updateSchema = z.object({
       name: z.string().min(1).optional(),
+      lastName: z.string().nullable().optional(),
+      birthDate: z.string().nullable().optional(),
       avatarUrl: z.string().nullable().optional(),
       phone: z.string().nullable().optional(),
     });
@@ -38,13 +42,21 @@ export default async function profileRoutes(fastify: FastifyInstance) {
       return reply.status(400).send({ error: 'Invalid input' });
     }
 
+    const { birthDate, ...rest } = parsed.data;
+    const parsedBirthDate = birthDate ? new Date(birthDate) : birthDate === null ? null : undefined;
+
     const updatedUser = await prisma.user.update({
       where: { id: request.user.id },
-      data: parsed.data,
+      data: {
+        ...rest,
+        ...(parsedBirthDate !== undefined ? { birthDate: parsedBirthDate } : {}),
+      },
       select: {
         id: true,
         email: true,
         name: true,
+        lastName: true,
+        birthDate: true,
         avatarUrl: true,
         phone: true,
         createdAt: true,

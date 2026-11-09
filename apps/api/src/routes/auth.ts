@@ -6,17 +6,23 @@ import { prisma } from '../lib/prisma';
 export default async function authRoutes(fastify: FastifyInstance) {
   fastify.post('/register', async (request, reply) => {
     const registerSchema = z.object({
-      email: z.string().email(),
-      password: z.string().min(6),
-      name: z.string().optional(),
+      email: z.string().email('Inserisci un indirizzo email valido'),
+      password: z.string().min(6, 'La password deve contenere almeno 6 caratteri'),
+      name: z.string().min(1, 'Il nome è obbligatorio'),
+      lastName: z.string().optional().nullable(),
+      birthDate: z.string().optional().nullable(),
     });
 
     const parsed = registerSchema.safeParse(request.body);
     if (!parsed.success) {
-      return reply.status(400).send({ error: 'Invalid input', details: parsed.error.format() });
+      const firstError = Object.values(parsed.error.format())[0];
+      const message = typeof firstError === 'object' && '_errors' in firstError && firstError._errors[0]
+        ? firstError._errors[0]
+        : 'Dati inseriti non validi';
+      return reply.status(400).send({ error: message, details: parsed.error.format() });
     }
 
-    const { email, password, name } = parsed.data;
+    const { email, password, name, lastName, birthDate } = parsed.data;
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -24,12 +30,16 @@ export default async function authRoutes(fastify: FastifyInstance) {
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
+    const fullName = [name.trim(), lastName?.trim()].filter(Boolean).join(' ');
+    const parsedBirthDate = birthDate ? new Date(birthDate) : null;
 
     const user = await prisma.user.create({
       data: {
         email,
         passwordHash,
-        name,
+        name: fullName || name.trim(),
+        lastName: lastName?.trim() || null,
+        birthDate: parsedBirthDate && !isNaN(parsedBirthDate.getTime()) ? parsedBirthDate : null,
       },
       include: {
         memberships: {
@@ -48,6 +58,10 @@ export default async function authRoutes(fastify: FastifyInstance) {
         id: user.id,
         email: user.email,
         name: user.name,
+        lastName: user.lastName,
+        birthDate: user.birthDate,
+        avatarUrl: user.avatarUrl,
+        phone: user.phone,
         memberships: user.memberships || [],
       },
     });
@@ -93,6 +107,10 @@ export default async function authRoutes(fastify: FastifyInstance) {
         id: user.id,
         email: user.email,
         name: user.name,
+        lastName: user.lastName,
+        birthDate: user.birthDate,
+        avatarUrl: user.avatarUrl,
+        phone: user.phone,
         memberships: user.memberships || [],
       },
     });
@@ -110,6 +128,10 @@ export default async function authRoutes(fastify: FastifyInstance) {
       id: user.id, 
       email: user.email, 
       name: user.name,
+      lastName: user.lastName,
+      birthDate: user.birthDate,
+      avatarUrl: user.avatarUrl,
+      phone: user.phone,
       memberships: user.memberships
     });
   });
